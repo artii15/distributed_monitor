@@ -17,7 +17,6 @@ class monitor {
 		void call(action*);
 		void wait();
 		void signal();
-		void register_process(process_id);
 
 	private:
 		process_id id;
@@ -28,6 +27,7 @@ class monitor {
 
 		void lock();
 		void unlock();		
+		void register_process(process_id);
 };
 
 #endif

@@ -5,8 +5,6 @@ int main() {
 	monitor m(1);
 	action_stub a;
 
-	m.register_process(1);
-
 	m.call(&a);
 
 	return 0;	

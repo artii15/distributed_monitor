@@ -4,8 +4,9 @@
 using namespace std;
 
 monitor::monitor(process_id id) {
-	this->id = id;
 	time = 0;
+	this->id = id;
+	register_process(id);
 }
 
 void monitor::call(action *action) {
