@@ -4,7 +4,7 @@
 #include <queue>
 #include <set>
 #include "action.h"
-#include "synchronization_request.h"
+#include "synchronization.h"
 #include "communicator.h"
 
 class action;

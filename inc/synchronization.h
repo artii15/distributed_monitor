@@ -1,5 +1,5 @@
-#ifndef SYNCHRONIZATION_REQUEST_H
-#define SYNCHRONIZATION_REQUEST_H
+#ifndef SYNCHRONIZATION_H
+#define SYNCHRONIZATION_H
 
 typedef unsigned int process_id;
 typedef unsigned long long timestamp;
