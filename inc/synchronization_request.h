@@ -7,7 +7,15 @@ struct synchronization_request {
 		this->process_id = process_id;
 	}
 
+	bool operator>(const synchronization_request& request) const {
+		return time > request.time || (time == request.time && process_id > request.process_id);
+	}
+
+	bool operator==(const synchronization_request& request) const {
+		return time == request.time && process_id == request.process_id;
+	}
+
 	bool operator<(const synchronization_request& request) const {
-		return time < request.time || (time == request.time && process_id < request.process_id);
+		return !(*this == request || *this > request);
 	}
 };

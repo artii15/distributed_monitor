@@ -21,7 +21,7 @@ class monitor {
 		std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > waiting_processes;
 		std::list<process_id> processes_ids;
 
-		void lock();	
+		void lock();
 		void unlock();		
 };
 
