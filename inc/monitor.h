@@ -11,7 +11,7 @@ class action;
 
 class monitor {
 	public:
-		monitor(process_id id);
+		monitor(process_id, communicator*);
 		void call(action*);
 		void wait();
 		void signal();

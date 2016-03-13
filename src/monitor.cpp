@@ -3,10 +3,11 @@
 
 using namespace std;
 
-monitor::monitor(process_id id) {
-	time = 0;
+monitor::monitor(process_id id, communicator* comm) {
+	this->comm = comm;
 	this->id = id;
 	register_process(id);
+	time = 0;
 }
 
 void monitor::call(action *action) {
