@@ -2,7 +2,7 @@
 #define MONITOR_H
 
 #include <queue>
-#include <list>
+#include <set>
 #include "action.h"
 #include "synchronization_request.h"
 
@@ -20,7 +20,7 @@ class monitor {
 	private:
 		std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > lock_requests;
 		std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > waiting_processes;
-		std::list<process_id> processes_ids;
+		std::set<process_id> processes_ids;
 
 		void lock();
 		void unlock();		
