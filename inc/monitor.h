@@ -15,6 +15,7 @@ class monitor {
 		void call(action*);
 		void wait();
 		void signal();
+		void register_process(process_id);
 
 	private:
 		std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > lock_requests;
