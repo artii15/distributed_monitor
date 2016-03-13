@@ -8,6 +8,8 @@
 
 class action;
 
+typedef unsigned int process_id;
+
 class monitor {
 	public:
 		void call(action*);
@@ -17,7 +19,7 @@ class monitor {
 	private:
 		std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > lock_requests;
 		std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > waiting_processes;
-		std::list<unsigned int> processes_ids;
+		std::list<process_id> processes_ids;
 
 		void lock();	
 		void unlock();		

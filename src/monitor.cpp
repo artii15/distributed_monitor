@@ -1,4 +1,7 @@
 #include "../inc/monitor.h"
+#include <iostream>
+
+using namespace std;
 
 void monitor::call(action *action) {
 	lock();
@@ -8,7 +11,9 @@ void monitor::call(action *action) {
 
 
 void monitor::lock() {
-	
+	for(list<process_id>::iterator it = processes_ids.begin(); it != processes_ids.end(); ++it) {
+		cout << ' ' << *it;
+	}
 }
 
 void monitor::unlock() {
