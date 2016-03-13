@@ -18,9 +18,7 @@ void monitor::call(action *action) {
 
 void monitor::lock() {
 	synchronization_request lock_request(time, id);
-	for(set<process_id>::iterator it = processes_ids.begin(); it != processes_ids.end(); ++it) {
-		comm->send(&lock_request, *it);
-	}
+	comm->send(&lock_request, &processes_ids);
 }
 
 void monitor::unlock() {
