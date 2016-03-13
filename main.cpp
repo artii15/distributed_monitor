@@ -2,7 +2,7 @@
 #include "inc/action_stub.h"
 
 int main() {
-	monitor m;
+	monitor m(1);
 	action_stub a;
 
 	m.register_process(1);

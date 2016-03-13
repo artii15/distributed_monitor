@@ -9,18 +9,22 @@
 class action;
 
 typedef unsigned int process_id;
+typedef unsigned long long timestamp;
 
 class monitor {
 	public:
+		monitor(process_id id);
 		void call(action*);
 		void wait();
 		void signal();
 		void register_process(process_id);
 
 	private:
+		process_id id;
+		timestamp time;
+		std::set<process_id> processes_ids;
 		std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > lock_requests;
 		std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > waiting_processes;
-		std::set<process_id> processes_ids;
 
 		void lock();
 		void unlock();		
