@@ -5,7 +5,6 @@
 #include <list>
 #include "action.h"
 #include "synchronization_request.h"
-#include <boost/container/map.hpp>
 
 class action;
 
