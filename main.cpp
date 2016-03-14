@@ -1,4 +1,5 @@
 #include "inc/monitor.h"
+#include "inc/synchronization.h"
 #include <mpi.h>
 #include <iostream>
 

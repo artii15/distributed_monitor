@@ -7,10 +7,12 @@ typedef unsigned long long timestamp;
 struct synchronization_request {
 	timestamp time;
 	process_id pid;
+	int tag;
 
-	synchronization_request(timestamp time, process_id pid) {
+	synchronization_request(timestamp time, process_id pid, int tag) {
 		this->time = time;
 		this->pid = pid;
+		this->tag = tag;
 	}
 
 	bool operator>(const synchronization_request& request) const {
