@@ -2,6 +2,7 @@
 #define MONITOR_H
 
 #include <queue>
+#include <string>
 #include <set>
 #include <map>
 #include "action.h"
@@ -20,8 +21,8 @@ class monitor {
 	private:
 		communicator* comm;
 		
-		std::map<char*, std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > > lock_requests;
-		std::map<char*, std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > > waiting_processes;
+		std::map<std::string, std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > > lock_requests;
+		std::map<std::string, std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > > waiting_processes;
 
 		void lock();
 		void unlock();		
