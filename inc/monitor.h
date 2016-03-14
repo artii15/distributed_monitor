@@ -5,11 +5,12 @@
 #include <string>
 #include <set>
 #include <map>
+#include "communicator.h"
 #include "action.h"
 #include "synchronization.h"
-#include "communicator.h"
 
 class action;
+class communicator;
 
 class monitor {
 	public:

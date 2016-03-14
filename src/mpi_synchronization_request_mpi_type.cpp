@@ -1,5 +1,7 @@
 #include "../inc/synchronization_request_mpi_type.h"
-#include "synchronization.h"
+#include "../inc/synchronization.h"
+
+synchronization_request_mpi_type* synchronization_request_mpi_type::instance = NULL;
 
 synchronization_request_mpi_type::synchronization_request_mpi_type() {
     const int nitems = 3;
@@ -15,10 +17,12 @@ synchronization_request_mpi_type::synchronization_request_mpi_type() {
     MPI_Type_commit(&type);
 }
 
-synchronization_request_mpi_type::~synchronization_request() {
+synchronization_request_mpi_type::~synchronization_request_mpi_type() {
 	MPI_Type_free(&type);
 }
 
-synchronization_request_mpi_type* synchronization_request_mpi_type::getType() {
-	return &type;
+/*
+MPI_Datatype& synchronization_request_mpi_type::getType() {
+	return type;
 }
+*/
