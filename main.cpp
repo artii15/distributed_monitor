@@ -1,6 +1,4 @@
 #include "inc/monitor.h"
-#include "inc/communicator_stub.h"
-#include "inc/action_stub.h"
 #include <mpi.h>
 #include <iostream>
 
