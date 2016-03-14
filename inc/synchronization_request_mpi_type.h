@@ -7,7 +7,8 @@ class synchronization_request_mpi_type {
 	public:
 		synchronization_request_mpi_type();
 		~synchronization_request_mpi_type();
-		MPI_Datatype* get();
+		MPI_Datatype* getType();
+		static synchronization_request_mpi_type* instance;
 
 	private:
 		MPI_Datatype type;
