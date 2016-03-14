@@ -8,6 +8,10 @@ class communicator_stub: public communicator {
 		virtual void broadcast(synchronization_request* request) {
 
 		}
+
+		virtual void listen() {
+
+		}
 };
 
 #endif
