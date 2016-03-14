@@ -4,7 +4,7 @@
 
 int main() {
 	communicator_stub comm;
-	monitor m(1, &comm);
+	monitor m(&comm);
 	action_stub a;
 	m.call(&a);
 

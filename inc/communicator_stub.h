@@ -5,11 +5,7 @@
 
 class communicator_stub: public communicator {
 	public:
-		virtual void send(synchronization_request*, process_id) {
-
-		}
-
-		virtual void send(synchronization_request*, std::set<process_id>*) {
+		virtual void broadcast(synchronization_request* request) {
 
 		}
 };

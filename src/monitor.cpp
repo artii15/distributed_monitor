@@ -3,11 +3,8 @@
 
 using namespace std;
 
-monitor::monitor(process_id id, communicator* comm) {
+monitor::monitor(communicator* comm) {
 	this->comm = comm;
-	this->id = id;
-	register_process(id);
-	time = 0;
 }
 
 void monitor::call(action *action) {
@@ -18,8 +15,9 @@ void monitor::call(action *action) {
 
 
 void monitor::lock() {
-	synchronization_request lock_request(time, id);
-	comm->send(&lock_request, &processes_ids);
+	// Here id and rime should be readed from external object
+	// synchronization_request lock_request(time, id);
+	//comm->broadcast(&lock_request);
 }
 
 void monitor::unlock() {
@@ -32,8 +30,4 @@ void monitor::wait() {
 
 void monitor::signal() {
 
-}
-
-void monitor::register_process(process_id id) {
-	processes_ids.insert(id);
 }

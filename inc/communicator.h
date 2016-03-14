@@ -6,8 +6,7 @@
 
 class communicator {
 	public:
-		virtual void send(synchronization_request*, process_id) = 0;
-		virtual void send(synchronization_request*, std::set<process_id>*) = 0;
+		virtual void broadcast(synchronization_request*) = 0;
 };
 
 #endif
