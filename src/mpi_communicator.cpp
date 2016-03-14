@@ -15,10 +15,6 @@ void mpi_communicator::broadcast(synchronization_request* request) {
 	}
 }
 
-void mpi_communicator::Ibroadcast(synchronization_request* request) {
-}
-
-
 void mpi_communicator::listen() {
 	synchronization_request request;
 	MPI_Status status;
