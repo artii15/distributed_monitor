@@ -5,9 +5,16 @@
 
 using namespace std;
 
-int main(int argc, char** argv) {
-	MPI_Init(NULL, NULL);
+void initialize();
+void clean();
 
+int main(int argc, char** argv) {
+	initialize();
+	clean();
+}
+
+void initialize() {
+	MPI_Init(NULL, NULL);
 	synchronization_request_mpi_type::instance = new synchronization_request_mpi_type();
 
 	int world_size;
@@ -18,7 +25,9 @@ int main(int argc, char** argv) {
 
 	cout << "Hello world from " << world_rank << endl
 		<< "Number of processes: " << world_size << endl;
+}
 
+void clean() {
 	delete synchronization_request_mpi_type::instance;
 	MPI_Finalize();
 }

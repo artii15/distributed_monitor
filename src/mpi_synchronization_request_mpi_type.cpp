@@ -21,8 +21,6 @@ synchronization_request_mpi_type::~synchronization_request_mpi_type() {
 	MPI_Type_free(&type);
 }
 
-/*
-MPI_Datatype& synchronization_request_mpi_type::getType() {
+const MPI_Datatype& synchronization_request_mpi_type::getType() {
 	return type;
 }
-*/
