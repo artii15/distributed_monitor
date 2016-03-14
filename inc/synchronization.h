@@ -9,6 +9,12 @@ struct synchronization_request {
 	process_id pid;
 	int tag;
 
+	synchronization_request() {
+		this->time = 0;
+		this->pid = 0;
+		this->tag = 0;
+	}
+
 	synchronization_request(timestamp time, process_id pid, int tag) {
 		this->time = time;
 		this->pid = pid;

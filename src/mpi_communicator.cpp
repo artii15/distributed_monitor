@@ -20,4 +20,8 @@ void mpi_communicator::Ibroadcast(synchronization_request* request) {
 
 
 void mpi_communicator::listen() {
+	synchronization_request request;
+	MPI_Status status;
+
+	MPI_Recv(&request, 1, synchronization_request_mpi_type::instance->getType(), MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 }
