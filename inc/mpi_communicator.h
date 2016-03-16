@@ -6,13 +6,13 @@
 
 class mpi_communicator: public communicator {
 	public:
-		mpi_communicator(int rank, int number_of_processes);
+		mpi_communicator(uint32_t rank, unsigned int number_of_processes);
 		virtual void broadcast(synchronization_request*);
 		virtual void listen();
 	private:
-		int rank;
-		int number_of_processes;
 		uint32_t time;
+		uint32_t rank;
+		unsigned int number_of_processes;
 };
 
 #endif
