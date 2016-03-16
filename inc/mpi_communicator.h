@@ -13,6 +13,8 @@ class mpi_communicator: public communicator {
 		uint32_t time;
 		uint32_t process_id;
 		unsigned int number_of_processes;
+
+		void handle_request(synchronization_request*);
 };
 
 #endif
