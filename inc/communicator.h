@@ -1,7 +1,7 @@
 #ifndef COMMUNICATOR_H
 #define COMMUNICATOR_H
 
-#include "synchronization.h"
+#include "synchronization_request.h"
 #include "monitor.h"
 
 class communicator {

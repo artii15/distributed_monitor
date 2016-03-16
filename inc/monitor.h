@@ -7,7 +7,7 @@
 #include <map>
 #include "communicator.h"
 #include "action.h"
-#include "synchronization.h"
+#include "synchronization_request.h"
 
 class action;
 class communicator;

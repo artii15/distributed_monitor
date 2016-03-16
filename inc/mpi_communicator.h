@@ -2,7 +2,7 @@
 #define MPI_COMMUNICATOR_H
 
 #include "communicator.h"
-#include "synchronization.h"
+#include "synchronization_request.h"
 
 class mpi_communicator: public communicator {
 	public:

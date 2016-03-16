@@ -1,5 +1,5 @@
-#ifndef SYNCHRONIZATION_H
-#define SYNCHRONIZATION_H
+#ifndef SYNCHRONIZATION_REQUEST_H
+#define SYNCHRONIZATION_REQUEST_H
 
 #include <stdint.h>
 
