@@ -8,6 +8,18 @@ synchronization_request::synchronization_request() {
 	this->tag = 0;
 }
 
+synchronization_request::synchronization_request(char* serialized) {
+	char* seek = serialized;
+
+	memcpy(&time, seek, sizeof(time));
+	seek += sizeof(time);
+
+	memcpy(&pid, seek, sizeof(pid));
+	seek += sizeof(pid);
+
+	memcpy(&tag, seek, sizeof(tag));
+}
+
 synchronization_request::synchronization_request(uint32_t time, uint32_t pid, uint32_t tag) {
 	this->time = time;
 	this->pid = pid;
@@ -39,26 +51,4 @@ char* synchronization_request::serialize() {
 	memcpy(seek, &tag, sizeof(tag));
 
 	return buf;
-}
-
-synchronization_request* synchronization_request::deserialize(char* buf) {
-	char* seek = buf;
-	synchronization_request* request = new synchronization_request();	
-
-	memcpy(&request->time, seek, sizeof(request->time));
-	seek += sizeof(request->time);
-
-	memcpy(&request->pid, seek, sizeof(request->pid));
-	seek += sizeof(request->pid);
-
-	memcpy(&request->tag, seek, sizeof(request->tag));
-
-	return request;
-}
-
-synchronization_request* synchronization_request::deserialize_and_clear(char* buf) {
-	synchronization_request* request = synchronization_request::deserialize(buf);
-	free(buf);
-
-	return request;
 }
