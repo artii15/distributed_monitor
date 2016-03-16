@@ -20,7 +20,10 @@ void mpi_communicator::broadcast(synchronization_request* request) {
 }
 
 void mpi_communicator::listen() {
-	//MPI_Status status;
+	char* serialized_request = (char*)malloc(synchronization_request::size);
 
-	//MPI_Recv(&request, 1, MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+	MPI_Status status;
+	MPI_Recv(serialized_request, synchronization_request::size, MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+
+	free(serialized_request);
 }

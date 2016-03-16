@@ -48,7 +48,7 @@ bool synchronization_request::operator<(const synchronization_request& request) 
 }
 
 char* synchronization_request::serialize() {
-	char* buf = (char*)malloc(sizeof(time) + sizeof(pid) + sizeof(tag));
+	char* buf = (char*)malloc(synchronization_request::size);
 	char* seek = buf;
 	
 	uint32_t time = htonl(this->time);
