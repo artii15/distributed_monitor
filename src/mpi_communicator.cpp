@@ -1,17 +1,22 @@
 #include "../inc/mpi_communicator.h"
 #include <mpi.h>
+#include <stdlib.h>
 
-mpi_communicator::mpi_communicator(uint32_t rank, unsigned int number_of_processes) {
-	this->rank = rank;
+mpi_communicator::mpi_communicator(uint32_t process_id, unsigned int number_of_processes) {
+	this->process_id = process_id;
 	this->number_of_processes = number_of_processes;
 	time = 0;
 
 }
 
 void mpi_communicator::broadcast(synchronization_request* request) {
-	for(int process_rank = 0; process_rank < number_of_processes; ++process_rank) {
-		MPI_Send(request, 1, MPI_BYTE, process_rank, request->tag, MPI_COMM_WORLD);
+	char* serialized_request = request->serialize();
+	for(unsigned int process_id = 0; process_id < number_of_processes; ++process_id) {
+		if(process_id != this->process_id) {
+			MPI_Send(serialized_request, synchronization_request::size, MPI_BYTE, process_id, request->tag, MPI_COMM_WORLD);
+		}
 	}
+	free(serialized_request);
 }
 
 void mpi_communicator::listen() {

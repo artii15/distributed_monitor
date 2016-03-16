@@ -20,6 +20,8 @@ class synchronization_request {
 		bool operator<(const synchronization_request& request) const;
 
 		char* serialize();
+
+		static unsigned int size;
 };
 
 #endif

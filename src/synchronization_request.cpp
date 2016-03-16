@@ -3,6 +3,8 @@
 #include <string.h>
 #include <arpa/inet.h>
 
+unsigned int synchronization_request::size = sizeof(time) + sizeof(pid) + sizeof(tag);
+
 synchronization_request::synchronization_request() {
 	this->time = 0;
 	this->pid = 0;
