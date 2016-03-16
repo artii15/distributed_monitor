@@ -1,5 +1,4 @@
 #include "inc/monitor.h"
-#include "inc/synchronization_request_mpi_type.h"
 #include "inc/mpi_communicator.h"
 #include <mpi.h>
 #include <iostream>
@@ -25,10 +24,8 @@ int main(int argc, char** argv) {
 
 void initialize() {
 	MPI_Init(NULL, NULL);
-	synchronization_request_mpi_type::instance = new synchronization_request_mpi_type();
 }
 
 void clean() {
-	delete synchronization_request_mpi_type::instance;
 	MPI_Finalize();
 }

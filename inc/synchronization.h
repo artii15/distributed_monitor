@@ -1,13 +1,12 @@
 #ifndef SYNCHRONIZATION_H
 #define SYNCHRONIZATION_H
 
-typedef int process_id;
-typedef unsigned long long timestamp;
+#include <stdint.h>
 
 struct synchronization_request {
-	timestamp time;
-	process_id pid;
-	int tag;
+	uint32_t time;
+	uint32_t pid;
+	uint8_t tag;
 
 	synchronization_request() {
 		this->time = 0;
@@ -15,7 +14,7 @@ struct synchronization_request {
 		this->tag = 0;
 	}
 
-	synchronization_request(timestamp time, process_id pid, int tag) {
+	synchronization_request(uint32_t time, uint32_t pid, uint32_t tag) {
 		this->time = time;
 		this->pid = pid;
 		this->tag = tag;

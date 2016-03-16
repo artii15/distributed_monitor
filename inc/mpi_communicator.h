@@ -12,7 +12,7 @@ class mpi_communicator: public communicator {
 	private:
 		int rank;
 		int number_of_processes;
-		timestamp time;
+		uint32_t time;
 };
 
 #endif
