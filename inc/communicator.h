@@ -14,6 +14,7 @@ typedef struct REQUEST_TAG {
 
 class communicator {
 	public:
+		bool enabled;
 		communicator(uint32_t process_id, unsigned int number_of_processes);
 		void send_lock_request(guarded_section_descriptor);
 		virtual void listen();
@@ -31,6 +32,7 @@ class communicator {
 		std::map<uint16_t, std::priority_queue<pending_request, std::vector<pending_request>, std::greater<pending_request> > > waiting_processes;
 
 		void handle_message(synchronization_request* message);
+		void handle_lock_request(synchronization_request* request);
 };
 
 #endif

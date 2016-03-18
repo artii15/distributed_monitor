@@ -4,6 +4,7 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 	this->process_id = process_id;
 	this->number_of_processes = number_of_processes;
 	time = 0;
+	enabled = true;
 }
 
 void communicator::send_lock_request(guarded_section_descriptor section_descriptor) {
@@ -15,13 +16,18 @@ void communicator::send_lock_request(guarded_section_descriptor section_descript
 }
 
 void communicator::listen() {
-	synchronization_request* message = receive_message();
-
-	handle_message(message);
-
-	delete message;
+	while(enabled) {
+		synchronization_request* message = receive_message();
+		handle_message(message);
+	}
 }
 
 void communicator::handle_message(synchronization_request* message) {
+	switch(message->tag) {
+		case REQUEST_TAG::LOCK_REQUEST: handle_lock_request(message); break;
+	}
+}
+
+void communicator::handle_lock_request(synchronization_request* request) {
 
 }
