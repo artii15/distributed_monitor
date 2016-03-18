@@ -11,7 +11,7 @@ mpi_communicator::mpi_communicator(uint32_t process_id, unsigned int number_of_p
 	time = 0;
 }
 
-void mpi_communicator::broadcastSyncRequest(request_tag tag) {
+void mpi_communicator::broadcastSyncRequest(uint16_t guarded_section_id, request_tag tag) {
 	synchronization_request request(process_id, time, tag);
 
 	char* serialized_request = request.serialize();
@@ -46,5 +46,5 @@ void mpi_communicator::handle_request(synchronization_request* request) {
 }
 
 void mpi_communicator::handle_lock_request(synchronization_request* request) {
-	
+		
 }
