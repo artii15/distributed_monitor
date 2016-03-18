@@ -24,8 +24,6 @@ class communicator {
 		uint32_t process_id;
 
 	private:
-		void put_into_lock_requests(synchronization_request*);
-
 		std::map<uint16_t, std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > > lock_requests;
 		std::map<uint16_t, std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > > waiting_processes;
 };
