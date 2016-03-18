@@ -9,7 +9,7 @@
 
 class communicator {
 	public:
-		virtual void broadcast(synchronization_request*) = 0;
+		void sendLockRequest(pthread_mutex_t*);
 		virtual void listen() = 0;
 	protected:
 		std::map<std::string, std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > > lock_requests;

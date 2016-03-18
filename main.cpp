@@ -19,16 +19,6 @@ int main(int argc, char** argv) {
 
 	mpi_communicator comm(world_rank, world_size);
 
-	if(world_rank == 0) {
-		synchronization_request r;
-		r.pid = 0;
-		r.tag = 1;
-		comm.broadcast(&r);
-	}
-	else {
-		comm.listen();
-	}
-
 	clean();
 }
 
