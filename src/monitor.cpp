@@ -1,4 +1,5 @@
 #include "../inc/monitor.h"
+#include <pthread.h>
 #include <iostream>
 
 using namespace std;
@@ -16,9 +17,15 @@ void monitor::call(action *action) {
 
 
 void monitor::lock() {
-	// Here id and rime should be readed from external object
-	// synchronization_request lock_request(time, id);
-	//comm->broadcast(&lock_request);
+	pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
+	pthread_mutex_lock(&mutex);
+	
+	comm->sendLockRequest(&mutex);
+
+	pthread_mutex_lock(&mutex);
+	pthread_mutex_unlock(&mutex);
+
+	pthread_mutex_destroy(&mutex);
 }
 
 void monitor::unlock() {
@@ -26,7 +33,7 @@ void monitor::unlock() {
 }
 
 void monitor::wait() {
-		
+	
 }
 
 void monitor::signal() {
