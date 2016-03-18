@@ -37,7 +37,7 @@ void mpi_communicator::listen() {
 
 void mpi_communicator::handle_request(synchronization_request* request) {
 	switch(request->tag) {
-		case LOCK_REQUEST: this->handle_lock_request(request); break;
+		case REQUEST_TAG::LOCK_REQUEST: this->handle_lock_request(request); break;
 	}
 }
 
