@@ -1,10 +1,6 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
-#include <queue>
-#include <string>
-#include <set>
-#include <map>
 #include "communicator.h"
 #include "action.h"
 #include "synchronization_request.h"
@@ -14,13 +10,14 @@ class communicator;
 
 class monitor {
 	public:
-		monitor(communicator*);
+		monitor(communicator*, int guarded_section_id);
 		void call(action*);
 		void wait();
 		void signal();
 
 	private:
 		communicator* comm;
+		int guarded_section_id;
 
 		void lock();
 		void unlock();		

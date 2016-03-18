@@ -3,6 +3,9 @@
 
 #include "synchronization_request.h"
 #include "monitor.h"
+#include <string>
+#include <map>
+#include <queue>
 
 class communicator {
 	public:

@@ -3,8 +3,9 @@
 
 using namespace std;
 
-monitor::monitor(communicator* comm) {
+monitor::monitor(communicator* comm, int guarded_section_id) {
 	this->comm = comm;
+	this->guarded_section_id = guarded_section_id;
 }
 
 void monitor::call(action *action) {
