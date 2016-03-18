@@ -5,13 +5,12 @@
 
 using namespace std;
 
-mpi_communicator::mpi_communicator(uint32_t process_id, unsigned int number_of_processes) {
-	this->process_id = process_id;
+mpi_communicator::mpi_communicator(uint32_t process_id, unsigned int number_of_processes)
+	: communicator(process_id) {
 	this->number_of_processes = number_of_processes;
-	time = 0;
 }
 
-void mpi_communicator::broadcastSyncRequest(uint16_t guarded_section_id, request_tag tag) {
+void mpi_communicator::broadcast_sync_request(uint16_t guarded_section_id, request_tag tag) {
 	synchronization_request request(process_id, time, tag, time, guarded_section_id);
 
 	char* serialized_request = request.serialize();

@@ -21,7 +21,7 @@ void monitor::lock() {
 	pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
 	pthread_mutex_lock(&mutex);
 	
-	comm->sendLockRequest(guarded_section_descriptor(guarded_section_id, &mutex));
+	comm->send_lock_request(guarded_section_descriptor(guarded_section_id, &mutex));
 
 	pthread_mutex_lock(&mutex);
 	pthread_mutex_unlock(&mutex);
