@@ -13,5 +13,5 @@ void communicator::send_lock_request(guarded_section_descriptor section_descript
 }
 
 void communicator::put_into_lock_requests(synchronization_request* request) {
-	//lock_requests[LOCK_REQUEST].push(*request);
+	lock_requests[request->guarded_section_id].push(*request);
 }
