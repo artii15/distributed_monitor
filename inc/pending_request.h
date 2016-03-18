@@ -8,6 +8,12 @@ struct pending_request {
 	synchronization_request* request;
 	pthread_mutex_t* mutex;
 	unsigned int number_of_confirmations;
+
+	pending_request(synchronization_request* request, pthread_mutex_t* mutex) {
+		this->request = request;
+		this->mutex = mutex;
+		number_of_confirmations = 0;
+	}
 };
 
 #endif

@@ -6,7 +6,6 @@
 
 class mpi_communicator: public communicator {
 	public:
-		mpi_communicator(uint32_t process_id, unsigned int number_of_processes);
 		virtual void listen();
 
 	protected:
