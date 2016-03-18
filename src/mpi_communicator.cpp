@@ -30,9 +30,10 @@ void mpi_communicator::listen() {
 
 	MPI_Status status;
 	MPI_Recv(serialized_request, synchronization_request::size, MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-	++time;
 
 	synchronization_request request(serialized_request);
+	time = ((request.time > time) ? request.time : time) + 1;
+
 	free(serialized_request);
 
 	handle_request(&request);
@@ -45,5 +46,5 @@ void mpi_communicator::handle_request(synchronization_request* request) {
 }
 
 void mpi_communicator::handle_lock_request(synchronization_request* request) {
-
+	
 }
