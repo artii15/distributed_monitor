@@ -10,14 +10,14 @@ class communicator;
 
 class monitor {
 	public:
-		monitor(communicator*, int guarded_section_id);
+		monitor(communicator*, uint16_t guarded_section_id);
 		void call(action*);
 		void wait();
 		void signal();
 
 	private:
 		communicator* comm;
-		int guarded_section_id;
+		uint16_t guarded_section_id;
 
 		void lock();
 		void unlock();		

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-monitor::monitor(communicator* comm, int guarded_section_id) {
+monitor::monitor(communicator* comm, uint16_t guarded_section_id) {
 	this->comm = comm;
 	this->guarded_section_id = guarded_section_id;
 }
