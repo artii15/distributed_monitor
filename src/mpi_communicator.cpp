@@ -12,7 +12,8 @@ mpi_communicator::mpi_communicator(uint32_t process_id, unsigned int number_of_p
 	listening = false;
 }
 
-void mpi_communicator::broadcast(synchronization_request* request) {
+void mpi_communicator::broadcastSyncRequest(uint16_t tag) {
+/*
 	request->time = time;
 
 	char* serialized_request = request->serialize();
@@ -24,6 +25,7 @@ void mpi_communicator::broadcast(synchronization_request* request) {
 
 	++time;
 	free(serialized_request);
+	*/
 }
 
 void mpi_communicator::listen() {

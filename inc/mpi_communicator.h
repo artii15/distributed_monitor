@@ -7,8 +7,9 @@
 class mpi_communicator: public communicator {
 	public:
 		mpi_communicator(uint32_t process_id, unsigned int number_of_processes);
-		virtual void broadcast(synchronization_request*);
 		virtual void listen();
+	protected:
+		virtual void broadcastSyncRequest(uint16_t tag);
 	private:
 		uint32_t time;
 		uint32_t process_id;

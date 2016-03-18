@@ -12,6 +12,8 @@ class communicator {
 		void sendLockRequest(pthread_mutex_t*);
 		virtual void listen() = 0;
 	protected:
+		virtual void broadcastSyncRequest(uint16_t tag) = 0;
+
 		std::map<std::string, std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > > lock_requests;
 		std::map<std::string, std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > > waiting_processes;
 };
