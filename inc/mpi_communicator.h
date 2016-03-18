@@ -16,6 +16,7 @@ class mpi_communicator: public communicator {
 		unsigned int number_of_processes;
 
 		void handle_request(synchronization_request*);
+		void handle_lock_request(synchronization_request*);
 };
 
 #endif
