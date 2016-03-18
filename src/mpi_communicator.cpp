@@ -10,16 +10,13 @@ mpi_communicator::mpi_communicator(uint32_t process_id, unsigned int number_of_p
 	this->number_of_processes = number_of_processes;
 }
 
-void mpi_communicator::broadcast_sync_request(uint16_t guarded_section_id, request_tag tag) {
-	synchronization_request request(process_id, time, tag, time, guarded_section_id);
-
-	char* serialized_request = request.serialize();
+void mpi_communicator::broadcast_sync_request(synchronization_request* request) {
+	char* serialized_request = request->serialize();
 	for(unsigned int process_id = 0; process_id < number_of_processes; ++process_id) {
 		if(process_id != this->process_id) {
-			MPI_Send(serialized_request, synchronization_request::size, MPI_BYTE, process_id, tag, MPI_COMM_WORLD);
+			MPI_Send(serialized_request, request->size, MPI_BYTE, process_id, request->tag, MPI_COMM_WORLD);
 		}
 	}
-
 	++time;
 	free(serialized_request);
 }
