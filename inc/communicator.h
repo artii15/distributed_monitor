@@ -16,10 +16,11 @@ class communicator {
 	public:
 		communicator(uint32_t process_id, unsigned int number_of_processes);
 		void send_lock_request(guarded_section_descriptor);
-		virtual void listen() = 0;
+		virtual void listen();
 
 	protected:
 		virtual void broadcast_sync_request(synchronization_request* request) = 0;
+		virtual synchronization_request* receive_message() = 0;
 
 		uint32_t time;
 		uint32_t process_id;

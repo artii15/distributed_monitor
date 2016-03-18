@@ -18,26 +18,15 @@ void mpi_communicator::broadcast_sync_request(synchronization_request* request) 
 	free(serialized_request);
 }
 
-void mpi_communicator::listen() {
+synchronization_request* mpi_communicator::receive_message() {
 	char* serialized_request = (char*)malloc(synchronization_request::size);
 
 	MPI_Status status;
 	MPI_Recv(serialized_request, synchronization_request::size, MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 
-	synchronization_request request(serialized_request);
-	time = ((request.time > time) ? request.time : time) + 1;
+	synchronization_request* request = new synchronization_request(serialized_request);
+	time = ((request->time > time) ? request->time : time) + 1;
 
 	free(serialized_request);
-
-	handle_request(&request);
-}
-
-void mpi_communicator::handle_request(synchronization_request* request) {
-	switch(request->tag) {
-		case REQUEST_TAG::LOCK_REQUEST: this->handle_lock_request(request); break;
-	}
-}
-
-void mpi_communicator::handle_lock_request(synchronization_request* request) {
-		
+	return request;
 }

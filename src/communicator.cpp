@@ -13,3 +13,7 @@ void communicator::send_lock_request(guarded_section_descriptor section_descript
 
 	broadcast_sync_request(request);
 }
+
+void communicator::listen() {
+	synchronization_request* message = receive_message();
+}
