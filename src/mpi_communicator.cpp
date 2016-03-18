@@ -12,7 +12,7 @@ mpi_communicator::mpi_communicator(uint32_t process_id, unsigned int number_of_p
 }
 
 void mpi_communicator::broadcastSyncRequest(uint16_t guarded_section_id, request_tag tag) {
-	synchronization_request request(process_id, time, tag);
+	synchronization_request request(process_id, time, tag, time, guarded_section_id);
 
 	char* serialized_request = request.serialize();
 	for(unsigned int process_id = 0; process_id < number_of_processes; ++process_id) {
