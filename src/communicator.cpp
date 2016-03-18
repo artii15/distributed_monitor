@@ -17,5 +17,11 @@ void communicator::send_lock_request(guarded_section_descriptor section_descript
 void communicator::listen() {
 	synchronization_request* message = receive_message();
 
+	handle_message(message);
+
 	delete message;
+}
+
+void communicator::handle_message(synchronization_request* message) {
+
 }
