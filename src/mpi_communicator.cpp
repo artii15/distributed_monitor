@@ -5,6 +5,8 @@
 
 using namespace std;
 
+mpi_communicator::mpi_communicator(uint32_t process_id, unsigned int number_of_processes): communicator(process_id, number_of_processes) {}
+
 void mpi_communicator::broadcast_sync_request(synchronization_request* request) {
 	char* serialized_request = request->serialize();
 	for(unsigned int process_id = 0; process_id < number_of_processes; ++process_id) {

@@ -4,6 +4,7 @@
 #include "synchronization_request.h"
 #include "monitor.h"
 #include "guarded_section_descriptor.h"
+#include "pending_request.h"
 #include <map>
 #include <queue>
 
@@ -25,8 +26,8 @@ class communicator {
 		unsigned int number_of_processes;
 
 	private:
-		std::map<uint16_t, std::priority_queue<pending_request*, std::vector<synchronization_request>, std::greater<synchronization_request> > > lock_requests;
-		std::map<uint16_t, std::priority_queue<pending_request*, std::vector<synchronization_request>, std::greater<synchronization_request> > > waiting_processes;
+		std::map<uint16_t, std::priority_queue<pending_request, std::vector<pending_request>, std::greater<pending_request> > > lock_requests;
+		std::map<uint16_t, std::priority_queue<pending_request, std::vector<pending_request>, std::greater<pending_request> > > waiting_processes;
 };
 
 #endif
