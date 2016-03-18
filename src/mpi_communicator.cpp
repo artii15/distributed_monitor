@@ -9,7 +9,6 @@ mpi_communicator::mpi_communicator(uint32_t process_id, unsigned int number_of_p
 	this->process_id = process_id;
 	this->number_of_processes = number_of_processes;
 	time = 0;
-	listening = false;
 }
 
 void mpi_communicator::broadcastSyncRequest(uint16_t tag) {
@@ -27,14 +26,6 @@ void mpi_communicator::broadcastSyncRequest(uint16_t tag) {
 }
 
 void mpi_communicator::listen() {
-	listening = true;
-
-	while(listening) {
-		wait_for_message();
-	}
-}
-
-void mpi_communicator::wait_for_message() {
 	char* serialized_request = (char*)malloc(synchronization_request::size);
 
 	MPI_Status status;

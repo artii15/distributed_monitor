@@ -14,9 +14,7 @@ class mpi_communicator: public communicator {
 		uint32_t time;
 		uint32_t process_id;
 		unsigned int number_of_processes;
-		bool listening;
 
-		void wait_for_message();
 		void handle_request(synchronization_request*);
 };
 
