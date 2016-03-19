@@ -11,6 +11,7 @@ void communicator::send_lock_request(uint16_t guarded_section_id, pthread_mutex_
 	synchronization_request request(time, process_id, REQUEST_TAG::LOCK_REQUEST, time, guarded_section_id);
 
 	lock_requests[request.guarded_section_id].push(request);
+	requests_descriptors[request] = request_descriptor(mutex, 1);
 
 	broadcast_sync_request(&request);
 	++time;
