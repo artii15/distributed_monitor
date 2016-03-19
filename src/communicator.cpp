@@ -10,7 +10,7 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 void communicator::send_lock_request(uint16_t guarded_section_id, pthread_mutex_t* mutex) {
 	synchronization_request request(time, process_id, REQUEST_TAG::LOCK_REQUEST, time, guarded_section_id);
 
-	lock_requests[request.guarded_section_id].push(pending_request(&request, mutex, 1));
+	lock_requests[request.guarded_section_id].push(request_descriptor(&request, mutex, 1));
 
 	broadcast_sync_request(&request);
 	++time;
@@ -21,6 +21,7 @@ void communicator::listen() {
 		synchronization_request message; 
 		receive_message(&message);
 		time = ((message.time > time) ? message.time : time) + 1;
+
 		handle_message(&message);
 	}
 }

@@ -2,8 +2,8 @@
 #define COMMUNICATOR_H
 
 #include "synchronization_request.h"
+#include "request_descriptor.h"
 #include "monitor.h"
-#include "pending_request.h"
 #include <pthread.h>
 #include <map>
 #include <queue>
@@ -28,8 +28,8 @@ class communicator {
 		unsigned int number_of_processes;
 
 	private:
-		std::map<uint16_t, std::priority_queue<pending_request, std::vector<pending_request>, std::greater<pending_request> > > lock_requests;
-		std::map<uint16_t, std::priority_queue<pending_request, std::vector<pending_request>, std::greater<pending_request> > > pending_requests;
+		std::map<uint16_t, std::priority_queue<request_descriptor, std::vector<request_descriptor>, std::greater<request_descriptor> > > lock_requests;
+		std::map<uint16_t, std::priority_queue<request_descriptor, std::vector<request_descriptor>, std::greater<request_descriptor> > > pending_requests;
 
 		void handle_message(synchronization_request* message);
 		void handle_lock_request(synchronization_request* request);
