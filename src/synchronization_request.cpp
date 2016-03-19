@@ -13,34 +13,6 @@ synchronization_request::synchronization_request() {
 	this->guarded_section_id = 0;
 }
 
-synchronization_request::synchronization_request(uint8_t* serialized) {
-	uint8_t* seek = serialized;
-
-	uint32_t time;
-	memcpy(&time, seek, sizeof(time));
-	this->time = ntohl(time);
-	seek += sizeof(time);
-
-	uint32_t pid;
-	memcpy(&pid, seek, sizeof(pid));
-	this->pid = ntohl(pid);
-	seek += sizeof(pid);
-
-	uint16_t tag;
-	memcpy(&tag, seek, sizeof(tag));
-	this->tag = ntohs(tag);
-	seek += sizeof(tag);
-
-	uint32_t creation_time;
-	memcpy(&creation_time, seek, sizeof(creation_time));
-	this->creation_time = ntohl(creation_time);
-	seek += sizeof(creation_time);
-
-	uint16_t guarded_section_id;
-	memcpy(&guarded_section_id, seek, sizeof(guarded_section_id));
-	this->guarded_section_id = ntohs(guarded_section_id);
-}
-
 synchronization_request::synchronization_request(uint32_t time, uint32_t pid, uint16_t tag, uint32_t creation_time, uint16_t guarded_section_id) {
 	this->time = time;
 	this->pid = pid;
@@ -83,3 +55,32 @@ void synchronization_request::serialize(uint8_t* buf) {
 	uint16_t guarded_section_id = htons(this->guarded_section_id);
 	memcpy(seek, &guarded_section_id, sizeof(guarded_section_id));
 }
+
+void synchronization_request::deserialize(uint8_t* serialized) {
+	uint8_t* seek = serialized;
+
+	uint32_t time;
+	memcpy(&time, seek, sizeof(time));
+	this->time = ntohl(time);
+	seek += sizeof(time);
+
+	uint32_t pid;
+	memcpy(&pid, seek, sizeof(pid));
+	this->pid = ntohl(pid);
+	seek += sizeof(pid);
+
+	uint16_t tag;
+	memcpy(&tag, seek, sizeof(tag));
+	this->tag = ntohs(tag);
+	seek += sizeof(tag);
+
+	uint32_t creation_time;
+	memcpy(&creation_time, seek, sizeof(creation_time));
+	this->creation_time = ntohl(creation_time);
+	seek += sizeof(creation_time);
+
+	uint16_t guarded_section_id;
+	memcpy(&guarded_section_id, seek, sizeof(guarded_section_id));
+	this->guarded_section_id = ntohs(guarded_section_id);
+}
+

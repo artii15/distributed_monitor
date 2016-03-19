@@ -13,12 +13,15 @@ void communicator::send_lock_request(guarded_section_descriptor section_descript
 	lock_requests[request->guarded_section_id].push(pending_request(request, section_descriptor.mutex, 1));
 
 	broadcast_sync_request(request);
+	++time;
 }
 
 void communicator::listen() {
 	while(enabled) {
-		synchronization_request* message = receive_message();
-		handle_message(message);
+		synchronization_request message; 
+		receive_message(&message);
+		time = ((message.time > time) ? message.time : time) + 1;
+		handle_message(&message);
 	}
 }
 

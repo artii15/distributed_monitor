@@ -10,7 +10,7 @@ class mpi_communicator: public communicator {
 
 	protected:
 		virtual void broadcast_sync_request(synchronization_request*);
-		virtual synchronization_request* receive_message();
+		virtual void receive_message(synchronization_request* message);
 };
 
 #endif

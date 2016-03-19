@@ -16,17 +16,13 @@ void mpi_communicator::broadcast_sync_request(synchronization_request* request) 
 			MPI_Send(serialized_request, request->size, MPI_BYTE, process_id, request->tag, MPI_COMM_WORLD);
 		}
 	}
-	++time;
 }
 
-synchronization_request* mpi_communicator::receive_message() {
-	uint8_t serialized_request[synchronization_request::size];
+void mpi_communicator::receive_message(synchronization_request* message) {
+	uint8_t serialized_message[synchronization_request::size];
 
 	MPI_Status status;
-	MPI_Recv(serialized_request, synchronization_request::size, MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+	MPI_Recv(serialized_message, synchronization_request::size, MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 
-	synchronization_request* request = new synchronization_request(serialized_request);
-	time = ((request->time > time) ? request->time : time) + 1;
-
-	return request;
+	message->deserialize(serialized_message);
 }

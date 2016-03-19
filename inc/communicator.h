@@ -21,7 +21,7 @@ class communicator {
 
 	protected:
 		virtual void broadcast_sync_request(synchronization_request* request) = 0;
-		virtual synchronization_request* receive_message() = 0;
+		virtual void receive_message(synchronization_request* message) = 0;
 
 		uint32_t time;
 		uint32_t process_id;
