@@ -3,8 +3,8 @@
 
 #include "synchronization_request.h"
 #include "monitor.h"
-#include "guarded_section_descriptor.h"
 #include "pending_request.h"
+#include <pthread.h>
 #include <map>
 #include <queue>
 
@@ -16,7 +16,7 @@ class communicator {
 	public:
 		bool enabled;
 		communicator(uint32_t process_id, unsigned int number_of_processes);
-		void send_lock_request(guarded_section_descriptor);
+		void send_lock_request(uint16_t guarded_section_id, pthread_mutex_t* mutex);
 		virtual void listen();
 
 	protected:

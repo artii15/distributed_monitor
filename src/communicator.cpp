@@ -7,10 +7,10 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 	enabled = true;
 }
 
-void communicator::send_lock_request(guarded_section_descriptor section_descriptor) {
-	synchronization_request* request = new synchronization_request(time, process_id, REQUEST_TAG::LOCK_REQUEST, time, section_descriptor.guarded_section_id);
+void communicator::send_lock_request(uint16_t guarded_section_id, pthread_mutex_t* mutex) {
+	synchronization_request* request = new synchronization_request(time, process_id, REQUEST_TAG::LOCK_REQUEST, time, guarded_section_id);
 
-	lock_requests[request->guarded_section_id].push(pending_request(request, section_descriptor.mutex, 1));
+	lock_requests[request->guarded_section_id].push(pending_request(request, mutex, 1));
 
 	broadcast_sync_request(request);
 	++time;
