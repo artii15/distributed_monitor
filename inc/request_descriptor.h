@@ -1,7 +1,6 @@
 #ifndef REQUEST_DESCRIPTOR_H
 #define REQUEST_DESCRIPTOR_H
 
-#include "synchronization_request.h"
 #include <pthread.h>
 
 class request_descriptor {
