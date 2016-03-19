@@ -28,8 +28,8 @@ class communicator {
 		unsigned int number_of_processes;
 
 	private:
-		std::map<uint16_t, std::priority_queue<request_descriptor, std::vector<request_descriptor>, std::greater<request_descriptor> > > lock_requests;
-		std::map<uint16_t, std::priority_queue<request_descriptor, std::vector<request_descriptor>, std::greater<request_descriptor> > > pending_requests;
+		std::map<uint16_t, std::priority_queue<synchronization_request, std::vector<synchronization_request>, std::greater<synchronization_request> > > lock_requests;
+		std::map<synchronization_request, request_descriptor> requests_descriptors;
 
 		void handle_message(synchronization_request* message);
 		void handle_lock_request(synchronization_request* request);
