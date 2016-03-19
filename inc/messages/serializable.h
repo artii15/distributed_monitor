@@ -2,6 +2,7 @@
 #define SERIALIZABLE_H
 
 #include <stdint.h>
+#include <arpa/inet.h>
 
 class serializable {
 	public:
