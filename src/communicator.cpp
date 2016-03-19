@@ -7,19 +7,21 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 	enabled = true;
 }
 
-void communicator::send_lock_request(uint16_t guarded_section_id, pthread_mutex_t* mutex) {
-	synchronization_request request(time, process_id, REQUEST_TAG::LOCK_REQUEST, time, guarded_section_id);
+void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex_t* mutex) {
+	sync_request request(process_id, time, critical_section_id);
 
-	lock_requests[request.guarded_section_id].push(request);
+	lock_requests[request.critical_section_id].push(request);
 	requests_descriptors[request] = request_descriptor(mutex, 1);
 
-	broadcast_sync_request(&request);
+	frame message(time, REQUEST_TAG::LOCK_REQUEST, &request);
+	broadcast_message(&message);
+
 	++time;
 }
 
 void communicator::listen() {
 	while(enabled) {
-		synchronization_request message; 
+		frame message; 
 		receive_message(&message);
 		time = ((message.time > time) ? message.time : time) + 1;
 
@@ -27,11 +29,11 @@ void communicator::listen() {
 	}
 }
 
-void communicator::handle_message(synchronization_request* message) {
+void communicator::handle_message(frame* message) {
 	switch(message->tag) {
-		case REQUEST_TAG::LOCK_REQUEST: handle_lock_request(message); break;
+		case REQUEST_TAG::LOCK_REQUEST: handle_lock_request(dynamic_cast<sync_request*>(message->payload)); break;
 	}
 }
 
-void communicator::handle_lock_request(synchronization_request* request) {
+void communicator::handle_lock_request(sync_request* request) {
 }

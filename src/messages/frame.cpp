@@ -1,11 +1,17 @@
 #include "../../inc/messages/frame.h"
 #include <string.h>
 
-frame::frame(uint32_t time, uint8_t tag) {
-	this->time = time;
-	this->tag = tag;
+frame::frame() {
+	time = 0;
+	tag = 0;
+	payload = NULL;
 }
 
+frame::frame(uint32_t time, uint8_t tag, serializable* payload) {
+	this->time = time;
+	this->tag = tag;
+	this->payload = payload;
+}
 
 void frame::serialize(uint8_t* buf) {
 	uint8_t* seek = buf;
