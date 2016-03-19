@@ -1,4 +1,5 @@
-#include "../../serializable.h"
+#include "../../inc/messages/sync_request.h"
+#include <string.h>
 
 sync_request::sync_request() {
 	process_id = 0;
@@ -12,15 +13,15 @@ sync_request::sync_request(uint32_t process_id, uint32_t creation_time, uint16_t
 	this->critical_section_id = critical_section_id;
 }
 
-bool synchronization_request::operator>(const sync_request& request) const {
+bool sync_request::operator>(const sync_request& request) const {
 	return creation_time > request.creation_time || (creation_time == request.creation_time && process_id > request.process_id);
 }
 
-bool synchronization_request::operator==(const sync_request& request) const {
+bool sync_request::operator==(const sync_request& request) const {
 	return creation_time == request.creation_time && process_id == request.process_id;
 }
 
-bool synchronization_request::operator<(const sync_request& request) const {
+bool sync_request::operator<(const sync_request& request) const {
 	return !(*this == request || *this > request);
 }
 
