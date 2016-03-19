@@ -37,6 +37,7 @@ void synchronization_request::serialize(uint8_t* buf) {
 	uint8_t* seek = buf;
 	
 	uint32_t time = htonl(this->time);
+
 	memcpy(seek, &time, sizeof(time));
 	seek += sizeof(time);
 
