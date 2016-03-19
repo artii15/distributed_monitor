@@ -13,8 +13,8 @@ synchronization_request::synchronization_request() {
 	this->guarded_section_id = 0;
 }
 
-synchronization_request::synchronization_request(char* serialized) {
-	char* seek = serialized;
+synchronization_request::synchronization_request(uint8_t* serialized) {
+	uint8_t* seek = serialized;
 
 	uint32_t time;
 	memcpy(&time, seek, sizeof(time));
@@ -61,9 +61,8 @@ bool synchronization_request::operator<(const synchronization_request& request) 
 	return !(*this == request || *this > request);
 }
 
-char* synchronization_request::serialize() {
-	char* buf = (char*)malloc(synchronization_request::size);
-	char* seek = buf;
+void synchronization_request::serialize(uint8_t* buf) {
+	uint8_t* seek = buf;
 	
 	uint32_t time = htonl(this->time);
 	memcpy(seek, &time, sizeof(time));
@@ -83,6 +82,4 @@ char* synchronization_request::serialize() {
 
 	uint16_t guarded_section_id = htons(this->guarded_section_id);
 	memcpy(seek, &guarded_section_id, sizeof(guarded_section_id));
-
-	return buf;
 }

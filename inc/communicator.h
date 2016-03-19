@@ -29,7 +29,7 @@ class communicator {
 
 	private:
 		std::map<uint16_t, std::priority_queue<pending_request, std::vector<pending_request>, std::greater<pending_request> > > lock_requests;
-		std::map<uint16_t, std::priority_queue<pending_request, std::vector<pending_request>, std::greater<pending_request> > > waiting_processes;
+		std::map<uint16_t, std::priority_queue<pending_request, std::vector<pending_request>, std::greater<pending_request> > > pending_requests;
 
 		void handle_message(synchronization_request* message);
 		void handle_lock_request(synchronization_request* request);

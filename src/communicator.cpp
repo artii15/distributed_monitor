@@ -29,5 +29,4 @@ void communicator::handle_message(synchronization_request* message) {
 }
 
 void communicator::handle_lock_request(synchronization_request* request) {
-
 }
