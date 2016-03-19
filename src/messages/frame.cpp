@@ -7,7 +7,7 @@ frame::frame() {
 	payload = NULL;
 }
 
-frame::frame(uint32_t time, uint8_t tag, serializable* payload) {
+frame::frame(uint32_t time, uint16_t tag, serializable* payload) {
 	this->time = time;
 	this->tag = tag;
 	this->payload = payload;
@@ -20,7 +20,7 @@ void frame::serialize(uint8_t* buf) {
 	memcpy(seek, &time, sizeof(time));
 	seek += sizeof(time);
 
-	uint8_t tag = htonl(this->tag);
+	uint16_t tag = htons(this->tag);
 	memcpy(seek, &tag, sizeof(tag));
 	seek += sizeof(tag);
 
@@ -35,9 +35,9 @@ void frame::deserialize(uint8_t* serialized) {
 	this->time = ntohl(time);
 	seek += sizeof(time);
 
-	uint8_t tag;
+	uint16_t tag;
 	memcpy(&tag, seek, sizeof(tag));
-	this->tag = ntohl(tag);
+	this->tag = ntohs(tag);
 	seek += sizeof(tag);
 
 	payload->deserialize(seek);
