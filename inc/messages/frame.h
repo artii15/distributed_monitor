@@ -15,6 +15,8 @@ class frame: public serializable {
 		virtual void serialize(uint8_t* buf);
 		virtual void deserialize(uint8_t* serialized);
 		virtual size_t get_size();
+
+		virtual ~frame();
 };
 
 #endif

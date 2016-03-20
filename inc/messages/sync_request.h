@@ -21,6 +21,8 @@ class sync_request: public packet {
 		size_t get_size();
 
 		virtual void be_handled_by(communicator*);
+
+		virtual ~sync_request();
 };
 
 #endif

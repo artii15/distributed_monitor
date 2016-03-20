@@ -46,3 +46,5 @@ void frame::deserialize(uint8_t* serialized) {
 size_t frame::get_size() {
 	return sizeof(time) + sizeof(tag) + payload->get_size();
 }
+
+frame::~frame() {}

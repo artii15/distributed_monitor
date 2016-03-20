@@ -67,3 +67,5 @@ size_t sync_request::get_size() {
 void sync_request::be_handled_by(communicator* comm) {
 	comm->handle(this);
 }
+
+sync_request::~sync_request() {}
