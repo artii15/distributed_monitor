@@ -21,11 +21,13 @@ void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex
 
 void communicator::listen() {
 	while(enabled) {
-		frame message; 
-		receive_message(&message);
-		time = ((message.time > time) ? message.time : time) + 1;
+		frame* message = receive_message();
 
-		handle_message(&message);
+		time = ((message->time > time) ? message->time : time) + 1;
+
+		message->payload->be_handled_by(this);
+
+		delete message;
 	}
 }
 

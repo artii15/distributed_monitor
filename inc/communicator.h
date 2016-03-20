@@ -22,7 +22,8 @@ class communicator {
 
 	protected:
 		virtual void broadcast_message(frame* message) = 0;
-		virtual void receive_message(frame* message) = 0;
+		virtual frame* receive_message() = 0;
+		void handle(sync_request* request);
 
 		uint32_t time;
 		uint32_t process_id;
@@ -31,9 +32,6 @@ class communicator {
 	private:
 		std::map<uint16_t, std::priority_queue<sync_request, std::vector<sync_request>, std::greater<sync_request> > > lock_requests;
 		std::map<sync_request, request_descriptor> requests_descriptors;
-
-		void handle_message(frame* message);
-		void handle_lock_request(sync_request* request);
 };
 
 #endif
