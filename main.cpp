@@ -3,12 +3,21 @@
 #include "inc/messages/lock_request.h"
 #include "inc/messages/frame.h"
 #include <mpi.h>
-#include <iostream>
+#include <pthread.h>
+#include <stdio.h>
 
 using namespace std;
 
 void initialize();
 void clean();
+
+communicator* comm;
+
+void* listening_task(void* arg) {
+	comm->listen();	
+
+	pthread_exit(NULL);
+}
 
 int main(int argc, char** argv) {
 	initialize();
@@ -19,7 +28,13 @@ int main(int argc, char** argv) {
 	int world_size;
 	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
-	mpi_communicator comm(world_rank, world_size);
+	mpi_communicator mpi_comm(world_rank, world_size);
+	comm = &mpi_comm;
+
+	pthread_t listening_thread;
+	pthread_create(&listening_thread, NULL, listening_task, NULL);
+
+	getchar();
 
 	clean();
 }
