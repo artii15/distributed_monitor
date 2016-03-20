@@ -1,6 +1,6 @@
 #include "inc/monitor.h"
 #include "inc/mpi_communicator.h"
-#include "inc/messages/sync_request.h"
+#include "inc/messages/lock_request.h"
 #include "inc/messages/frame.h"
 #include <mpi.h>
 #include <iostream>

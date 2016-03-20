@@ -34,7 +34,7 @@ frame* mpi_communicator::receive_message() {
 frame* mpi_communicator::unpack(uint8_t* serialized_message, int tag) {
 	frame* message = new frame();
 	switch(tag) {
-		case REQUEST_TAG::LOCK_REQUEST: message->payload = new sync_request(); break;
+		case REQUEST_TAG::LOCK_REQUEST: message->payload = new lock_request(); break;
 			
 	}
 	message->deserialize(serialized_message);

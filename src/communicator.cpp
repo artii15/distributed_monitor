@@ -8,7 +8,7 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 }
 
 void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex_t* mutex) {
-	sync_request request(process_id, time, critical_section_id);
+	lock_request request(process_id, time, critical_section_id);
 
 	lock_requests[request.critical_section_id].push(request);
 	requests_descriptors[request] = request_descriptor(mutex, 1);
@@ -31,9 +31,9 @@ void communicator::listen() {
 	}
 }
 
-void communicator::handle(sync_request* request) {
+void communicator::handle(lock_request* request) {
 	lock_requests[request->critical_section_id].push(*request);
-	const sync_request* top_priority_request = &lock_requests[request->critical_section_id].top();
+	const lock_request* top_priority_request = &lock_requests[request->critical_section_id].top();
 
 	delete request;
 }
