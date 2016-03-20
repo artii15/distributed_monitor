@@ -30,7 +30,6 @@ class communicator {
 		virtual void send_message(frame* message, uint32_t recipient_id) = 0;
 		virtual frame* receive_message() = 0;
 
-		uint32_t time;
 		uint32_t process_id;
 		unsigned int number_of_processes;
 
@@ -39,7 +38,7 @@ class communicator {
 		std::map<lock_request, request_descriptor> requests_descriptors;
 
 		pthread_mutex_t time_mutex = PTHREAD_MUTEX_INITIALIZER;
-		void synchronize_time(uint32_t proposed_time);
+		uint32_t time;
 };
 
 #endif
