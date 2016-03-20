@@ -8,9 +8,6 @@
 
 using namespace std;
 
-void initialize();
-void clean();
-
 communicator* comm;
 
 void* listening_task(void* arg) {
@@ -20,7 +17,7 @@ void* listening_task(void* arg) {
 }
 
 int main(int argc, char** argv) {
-	initialize();
+	MPI_Init(NULL, NULL);
 
 	int world_rank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
@@ -36,13 +33,5 @@ int main(int argc, char** argv) {
 
 	getchar();
 
-	clean();
-}
-
-void initialize() {
-	MPI_Init(NULL, NULL);
-}
-
-void clean() {
 	MPI_Finalize();
 }
