@@ -21,6 +21,7 @@ class communicator {
 		void send_lock_request(uint16_t critical_section_id, pthread_mutex_t* mutex);
 		virtual void listen();
 		void handle(lock_request* request);
+		void handle(lock_response* response);
 
 	protected:
 		virtual void broadcast_message(frame* message) = 0;

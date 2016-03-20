@@ -37,3 +37,7 @@ void communicator::handle(lock_request* request) {
 
 	delete request;
 }
+
+void communicator::handle(lock_response* response) {
+	delete response;
+}
