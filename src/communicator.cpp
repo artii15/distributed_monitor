@@ -26,12 +26,14 @@ void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex
 void communicator::listen() {
 	while(enabled) {
 		frame* message = receive_message();
+		
+		pthread_mutex_lock(&internal_state_mutex);
 
 		time = ((message->time > time) ? message->time : time) + 1;
-
 		message->payload->be_handled_by(this);
-
 		delete message;
+
+		pthread_mutex_unlock(&internal_state_mutex);
 	}
 }
 
@@ -53,5 +55,5 @@ void communicator::handle(lock_response* response) {
 }
 
 communicator::~communicator() {
-	pthread_mutex_destroy(&time_mutex);	
+	pthread_mutex_destroy(&internal_state_mutex);	
 }
