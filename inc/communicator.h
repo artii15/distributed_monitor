@@ -2,6 +2,7 @@
 #define COMMUNICATOR_H
 
 #include "messages/lock_request.h"
+#include "messages/lock_response.h"
 #include "messages/frame.h"
 #include "request_descriptor.h"
 #include "monitor.h"
