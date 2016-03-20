@@ -8,7 +8,7 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 }
 
 void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
-	pthread_mutex_lock(&time_mutex);
+	pthread_mutex_lock(&internal_state_mutex);
 
 	lock_request request(process_id, time, critical_section_id);
 
@@ -20,7 +20,7 @@ void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex
 
 	++time;
 
-	pthread_mutex_unlock(&time_mutex);
+	pthread_mutex_unlock(&internal_state_mutex);
 }
 
 void communicator::listen() {

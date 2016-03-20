@@ -37,7 +37,7 @@ class communicator {
 		std::map<uint16_t, std::priority_queue<lock_request, std::vector<lock_request>, std::greater<lock_request> > > lock_requests;
 		std::map<lock_request, request_descriptor> requests_descriptors;
 
-		pthread_mutex_t time_mutex = PTHREAD_MUTEX_INITIALIZER;
+		pthread_mutex_t internal_state_mutex = PTHREAD_MUTEX_INITIALIZER;
 		uint32_t time;
 };
 
