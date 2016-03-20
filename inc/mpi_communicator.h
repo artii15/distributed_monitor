@@ -10,6 +10,7 @@ class mpi_communicator: public communicator {
 
 	protected:
 		virtual void broadcast_message(frame* message);
+		virtual void send_message(frame* message, uint32_t recipient_id);
 		virtual frame* receive_message();
 
 	private:

@@ -33,7 +33,13 @@ void communicator::listen() {
 
 void communicator::handle(lock_request* request) {
 	lock_requests[request->critical_section_id].push(*request);
-	const lock_request* top_priority_request = &lock_requests[request->critical_section_id].top();
+	const lock_request* top_request = &lock_requests[request->critical_section_id].top();
+	
+	lock_response response(request, top_request);
+	frame message(time, REQUEST_TAG::LOCK_RESPONSE, &response);
+
+	send_message(&message, request->process_id);
+	++time;
 
 	delete request;
 }

@@ -3,7 +3,7 @@
 
 lock_response::lock_response() {}
 
-lock_response::lock_response(lock_request* confirmed_request, lock_request* top_request) {
+lock_response::lock_response(const lock_request* confirmed_request, const lock_request* top_request) {
 	this->confirmed_request = *confirmed_request;
 	this->top_request = *top_request;
 }

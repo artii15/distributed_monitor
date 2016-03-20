@@ -18,6 +18,14 @@ void mpi_communicator::broadcast_message(frame* message) {
 	}
 }
 
+void mpi_communicator::send_message(frame* message, uint32_t recipient_id) {
+	size_t message_size = message->get_size();
+	uint8_t serialized_message[message_size];
+	message->serialize(serialized_message);
+
+	MPI_Send(serialized_message, message_size, MPI_BYTE, recipient_id, message->tag, MPI_COMM_WORLD);
+}
+
 frame* mpi_communicator::receive_message() {
 	MPI_Status status;
 	MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);

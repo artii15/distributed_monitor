@@ -10,7 +10,7 @@ class lock_response: public packet {
 		lock_request top_request;
 
 		lock_response();
-		lock_response(lock_request* confirmed_request, lock_request* top_request);
+		lock_response(const lock_request* confirmed_request, const lock_request* top_request);
 
 		void serialize(uint8_t* buf);
 		void deserialize(uint8_t* serialized);
