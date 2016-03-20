@@ -6,18 +6,25 @@
 #include <pthread.h>
 #include <stdio.h>
 
+#define THREADING_NOT_SUPPORTED 1
+
 using namespace std;
 
 communicator* comm;
 
-void* listening_task(void* arg) {
+void* listening_task(void* args) {
 	comm->listen();	
 
 	pthread_exit(NULL);
 }
 
 int main(int argc, char** argv) {
-	MPI_Init(NULL, NULL);
+	int provided_thread_support;
+	MPI_Init_thread(NULL, NULL, MPI_THREAD_MULTIPLE, &provided_thread_support);
+	printf("Provided: %d, Requested: %d\n", provided_thread_support, MPI_THREAD_MULTIPLE);
+	if(provided_thread_support != MPI_THREAD_MULTIPLE) {
+		MPI_Abort(MPI_COMM_WORLD, THREADING_NOT_SUPPORTED);
+	}
 
 	int world_rank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
@@ -25,7 +32,9 @@ int main(int argc, char** argv) {
 	int world_size;
 	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
-	mpi_communicator mpi_comm(world_rank, world_size);
+	MPI_Comm duplicated_world_comm;
+	MPI_Comm_dup(MPI_COMM_WORLD, &duplicated_world_comm);
+	mpi_communicator mpi_comm(world_rank, world_size, &duplicated_world_comm);
 	comm = &mpi_comm;
 
 	pthread_t listening_thread;
