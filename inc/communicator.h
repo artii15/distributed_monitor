@@ -39,7 +39,7 @@ class communicator {
 		std::map<lock_request, request_descriptor> requests_descriptors;
 
 		pthread_mutex_t time_mutex = PTHREAD_MUTEX_INITIALIZER;
-		void synchronize_time();
+		void synchronize_time(uint32_t proposed_time);
 };
 
 #endif

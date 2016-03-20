@@ -7,6 +7,12 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 	enabled = true;
 }
 
+void communicator::synchronize_time(uint32_t proposed_time = 0) {
+	pthread_mutex_lock(&time_mutex);
+	time = ((time > proposed_time) ? time : proposed_time) + 1;
+	pthread_mutex_unlock(&time_mutex);
+}
+
 void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex_t* mutex) {
 	lock_request request(process_id, time, critical_section_id);
 
