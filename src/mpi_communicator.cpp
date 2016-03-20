@@ -22,8 +22,8 @@ frame* mpi_communicator::receive_message() {
 	MPI_Status status;
 	MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 
-	size_t message_size;
-	MPI_Get_count(status, MPI_BYTE, &message_size);
+	int message_size;
+	MPI_Get_count(&status, MPI_BYTE, &message_size);
 	uint8_t serialized_message[message_size];
 
 	MPI_Recv(serialized_message, message_size, MPI_BYTE, status.MPI_SOURCE, status.MPI_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);

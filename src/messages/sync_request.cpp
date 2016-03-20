@@ -1,4 +1,5 @@
 #include "../../inc/messages/sync_request.h"
+#include "../../inc/communicator.h"
 #include <string.h>
 
 sync_request::sync_request() {
@@ -60,4 +61,9 @@ void sync_request::deserialize(uint8_t* serialized) {
 
 size_t sync_request::get_size() {
 	return sizeof(process_id) + sizeof(creation_time) + sizeof(critical_section_id);
+}
+
+
+void sync_request::be_handled_by(communicator* comm) {
+	comm->handle(this);
 }

@@ -31,11 +31,6 @@ void communicator::listen() {
 	}
 }
 
-void communicator::handle_message(frame* message) {
-	switch(message->tag) {
-		case REQUEST_TAG::LOCK_REQUEST: handle_lock_request(dynamic_cast<sync_request*>(message->payload)); break;
-	}
-}
-
-void communicator::handle_lock_request(sync_request* request) {
+void communicator::handle(sync_request* request) {
+	delete request;
 }

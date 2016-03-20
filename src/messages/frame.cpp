@@ -7,7 +7,7 @@ frame::frame() {
 	payload = NULL;
 }
 
-frame::frame(uint32_t time, uint16_t tag, serializable* payload) {
+frame::frame(uint32_t time, uint16_t tag, packet* payload) {
 	this->time = time;
 	this->tag = tag;
 	this->payload = payload;

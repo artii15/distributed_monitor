@@ -19,11 +19,11 @@ class communicator {
 		communicator(uint32_t process_id, unsigned int number_of_processes);
 		void send_lock_request(uint16_t critical_section_id, pthread_mutex_t* mutex);
 		virtual void listen();
+		void handle(sync_request* request);
 
 	protected:
 		virtual void broadcast_message(frame* message) = 0;
 		virtual frame* receive_message() = 0;
-		void handle(sync_request* request);
 
 		uint32_t time;
 		uint32_t process_id;

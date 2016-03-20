@@ -7,7 +7,7 @@ class communicator;
 
 class packet: public serializable {
 	public:
-		void be_handled_by(communicator*);
-}
+		virtual void be_handled_by(communicator*) = 0;
+};
 
 #endif

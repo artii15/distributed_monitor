@@ -1,9 +1,9 @@
 #ifndef SYNC_REQUEST_H
 #define SYNC_REQUEST_H
 
-#include "serializable.h"
+#include "packet.h"
 
-class sync_request: public serializable {
+class sync_request: public packet {
 	public:
 		uint32_t process_id;
 		uint32_t creation_time;
@@ -19,6 +19,8 @@ class sync_request: public serializable {
 		void serialize(uint8_t* buf);
 		void deserialize(uint8_t* serialized);
 		size_t get_size();
+
+		virtual void be_handled_by(communicator*);
 };
 
 #endif
