@@ -11,6 +11,7 @@
 
 typedef struct REQUEST_TAG {
 	const static uint16_t LOCK_REQUEST = 1;
+	const static uint16_t LOCK_RESPONSE = 2;
 } REQUEST_TAG;
 
 class communicator {

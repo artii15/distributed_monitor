@@ -32,5 +32,8 @@ void communicator::listen() {
 }
 
 void communicator::handle(sync_request* request) {
+	lock_requests[request->critical_section_id].push(*request);
+	const sync_request* top_priority_request = &lock_requests[request->critical_section_id].top();
+
 	delete request;
 }
