@@ -23,6 +23,7 @@ class communicator {
 		virtual void listen();
 		void handle(lock_request* request);
 		void handle(lock_response* response);
+		virtual ~communicator();
 
 	protected:
 		virtual void broadcast_message(frame* message) = 0;
@@ -36,6 +37,9 @@ class communicator {
 	private:
 		std::map<uint16_t, std::priority_queue<lock_request, std::vector<lock_request>, std::greater<lock_request> > > lock_requests;
 		std::map<lock_request, request_descriptor> requests_descriptors;
+
+		pthread_mutex_t time_mutex = PTHREAD_MUTEX_INITIALIZER;
+		void synchronize_time();
 };
 
 #endif

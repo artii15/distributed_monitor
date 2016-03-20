@@ -47,3 +47,7 @@ void communicator::handle(lock_request* request) {
 void communicator::handle(lock_response* response) {
 	delete response;
 }
+
+communicator::~communicator() {
+	pthread_mutex_destroy(&time_mutex);	
+}
