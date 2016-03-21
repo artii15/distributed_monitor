@@ -45,6 +45,7 @@ frame* mpi_communicator::unpack(uint8_t* serialized_message, int tag) {
 	frame* message = new frame();
 	switch(tag) {
 		case REQUEST_TAG::LOCK_REQUEST: message->payload = new lock_request(); break;
+		default: throw "Not recognized message arrived";
 			
 	}
 	message->deserialize(serialized_message);

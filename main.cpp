@@ -5,6 +5,8 @@
 #include <mpi.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
 
 #define THREADING_NOT_SUPPORTED 1
 
@@ -21,7 +23,6 @@ void* listening_task(void* args) {
 int main(int argc, char** argv) {
 	int provided_thread_support;
 	MPI_Init_thread(NULL, NULL, MPI_THREAD_MULTIPLE, &provided_thread_support);
-	printf("Provided: %d, Requested: %d\n", provided_thread_support, MPI_THREAD_MULTIPLE);
 	if(provided_thread_support != MPI_THREAD_MULTIPLE) {
 		MPI_Abort(MPI_COMM_WORLD, THREADING_NOT_SUPPORTED);
 	}
@@ -40,7 +41,15 @@ int main(int argc, char** argv) {
 	pthread_t listening_thread;
 	pthread_create(&listening_thread, NULL, listening_task, NULL);
 
-	getchar();
+	pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
+
+	comm->send_lock_request(1, &m);
+	pthread_join(listening_thread, NULL);
+
+
+
+	pthread_mutex_destroy(&m);
+
 
 	MPI_Finalize();
 }

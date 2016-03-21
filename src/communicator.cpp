@@ -9,7 +9,6 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 
 void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
 	pthread_mutex_lock(&internal_state_mutex);
-
 	lock_request request(process_id, time, critical_section_id);
 
 	lock_requests[request.critical_section_id].push(request);
@@ -40,7 +39,7 @@ void communicator::listen() {
 void communicator::handle(lock_request* request) {
 	lock_requests[request->critical_section_id].push(*request);
 	const lock_request* top_request = &lock_requests[request->critical_section_id].top();
-	
+
 	lock_response response(request, top_request);
 	frame message(time, REQUEST_TAG::LOCK_RESPONSE, &response);
 
