@@ -47,7 +47,7 @@ frame* mpi_communicator::unpack(uint8_t* serialized_message, int tag) {
 	switch(tag) {
 		case MESSAGE_TAG::LOCK_REQUEST: message->payload = new lock_request(); break;
 		case MESSAGE_TAG::LOCK_RESPONSE: message->payload = new lock_response(); break;
-		case MESSAGE_TAG::RELEASE_SIGNAL: message->payload = new lock_request(); break;
+		case MESSAGE_TAG::RELEASE_SIGNAL: message->payload = new release_signal(); break;
 		default: throw invalid_message_exception("Not recognized message arrived");
 			
 	}

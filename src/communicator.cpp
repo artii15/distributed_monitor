@@ -66,10 +66,15 @@ void communicator::handle(lock_response* response) {
 	delete response;
 }
 
+void communicator::handle(release_signal* request_relase_signal) {
+	delete request_relase_signal;
+}
+
 void communicator::send_release_signal(lock_request* request_to_release) {
 	pthread_mutex_lock(&internal_state_mutex);
 
-	frame message(time, MESSAGE_TAG::RELEASE_SIGNAL, request_to_release);
+	release_signal request_release_signal(request_to_release);
+	frame message(time, MESSAGE_TAG::RELEASE_SIGNAL, &request_release_signal);
 
 	broadcast_message(&message);
 	++time;
