@@ -3,6 +3,7 @@
 
 #include "communicator.h"
 #include "action.h"
+#include "messages/lock_request.h"
 
 class action;
 class communicator;
@@ -18,8 +19,8 @@ class monitor {
 		communicator* comm;
 		uint16_t critical_section_id;
 
-		void lock();
-		void unlock();		
+		lock_request lock();
+		void unlock(lock_request*);		
 };
 
 #endif

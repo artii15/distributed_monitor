@@ -13,16 +13,21 @@
 typedef struct MESSAGE_TAG {
 	const static uint16_t LOCK_REQUEST = 1;
 	const static uint16_t LOCK_RESPONSE = 2;
+	const static uint16_t RELEASE_SIGNAL = 3;
 } MESSAGE_TAG;
 
 class communicator {
 	public:
 		bool enabled;
 		communicator(uint32_t process_id, unsigned int number_of_processes);
-		void send_lock_request(uint16_t critical_section_id, pthread_mutex_t* mutex);
+
+		lock_request send_lock_request(uint16_t critical_section_id, pthread_mutex_t* mutex);
+		void send_release_signal(lock_request*);
+
 		virtual void listen();
 		void handle(lock_request* request);
 		void handle(lock_response* response);
+
 		virtual ~communicator();
 
 	protected:

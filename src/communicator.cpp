@@ -9,7 +9,7 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 	enabled = true;
 }
 
-void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
+lock_request communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
 	pthread_mutex_lock(&internal_state_mutex);
 	lock_request request(process_id, time, critical_section_id);
 
@@ -22,6 +22,8 @@ void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex
 	++time;
 
 	pthread_mutex_unlock(&internal_state_mutex);
+
+	return request;
 }
 
 void communicator::listen() {
@@ -62,6 +64,20 @@ void communicator::handle(lock_response* response) {
 	}
 
 	delete response;
+}
+
+void communicator::send_release_signal(lock_request* request_to_release) {
+	pthread_mutex_lock(&internal_state_mutex);
+
+	frame message(time, MESSAGE_TAG::RELEASE_SIGNAL, request_to_release);
+
+	broadcast_message(&message);
+	++time;
+
+	requests_descriptors.erase(*request_to_release);
+	lock_requests[request_to_release->critical_section_id].erase(*request_to_release);
+
+	pthread_mutex_unlock(&internal_state_mutex);
 }
 
 bool communicator::can_process_enter(lock_request* request, request_descriptor* descriptor) {
