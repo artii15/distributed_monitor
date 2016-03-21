@@ -8,7 +8,7 @@
 #include "monitor.h"
 #include <pthread.h>
 #include <map>
-#include <queue>
+#include <set>
 
 typedef struct MESSAGE_TAG {
 	const static uint16_t LOCK_REQUEST = 1;
@@ -34,7 +34,7 @@ class communicator {
 		unsigned int number_of_processes;
 
 	private:
-		std::map<uint16_t, std::priority_queue<lock_request, std::vector<lock_request>, std::greater<lock_request> > > lock_requests;
+		std::map<uint16_t, std::set<lock_request> > lock_requests;
 		std::map<lock_request, request_descriptor> requests_descriptors;
 
 		pthread_mutex_t internal_state_mutex = PTHREAD_MUTEX_INITIALIZER;

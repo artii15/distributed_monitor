@@ -1,5 +1,7 @@
 #include "../inc/communicator.h"
 
+using namespace std;
+
 communicator::communicator(uint32_t process_id, unsigned int number_of_processes) {
 	this->process_id = process_id;
 	this->number_of_processes = number_of_processes;
@@ -11,7 +13,7 @@ void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex
 	pthread_mutex_lock(&internal_state_mutex);
 	lock_request request(process_id, time, critical_section_id);
 
-	lock_requests[request.critical_section_id].push(request);
+	lock_requests[request.critical_section_id].insert(request);
 	requests_descriptors[request] = request_descriptor(waiting_process_mutex, 1);
 
 	frame message(time, MESSAGE_TAG::LOCK_REQUEST, &request);
@@ -37,8 +39,8 @@ void communicator::listen() {
 }
 
 void communicator::handle(lock_request* request) {
-	lock_requests[request->critical_section_id].push(*request);
-	const lock_request* top_request = &lock_requests[request->critical_section_id].top();
+	lock_requests[request->critical_section_id].insert(*request);
+	const lock_request* top_request = &*lock_requests[request->critical_section_id].begin();
 
 	lock_response response(request, top_request);
 	frame message(time, MESSAGE_TAG::LOCK_RESPONSE, &response);
@@ -50,6 +52,9 @@ void communicator::handle(lock_request* request) {
 }
 
 void communicator::handle(lock_response* response) {
+	request_descriptor* confirmed_request_descriptor = &requests_descriptors[response->confirmed_request];
+	++confirmed_request_descriptor->number_of_confirmations;
+
 	delete response;
 }
 
