@@ -20,6 +20,10 @@ void* listening_task(void* args) {
 	pthread_exit(NULL);
 }
 
+void test(monitor* m) {
+	
+}
+
 int main(int argc, char** argv) {
 	int provided_thread_support;
 	MPI_Init_thread(NULL, NULL, MPI_THREAD_MULTIPLE, &provided_thread_support);
@@ -41,15 +45,10 @@ int main(int argc, char** argv) {
 	pthread_t listening_thread;
 	pthread_create(&listening_thread, NULL, listening_task, NULL);
 
-	pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
+	monitor m(comm, 1);
+	m.call(test);
 
-	comm->send_lock_request(1, &m);
 	pthread_join(listening_thread, NULL);
-
-
-
-	pthread_mutex_destroy(&m);
-
 
 	MPI_Finalize();
 }

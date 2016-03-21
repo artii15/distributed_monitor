@@ -15,6 +15,11 @@ void monitor::call(action *action) {
 	unlock(&sent_request);
 }
 
+void monitor::call(void (*callback)(monitor*)) {
+	lock_request sent_request = lock();
+	callback(this);
+	unlock(&sent_request);
+}
 
 lock_request monitor::lock() {
 	pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;

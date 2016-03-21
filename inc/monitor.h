@@ -12,6 +12,7 @@ class monitor {
 	public:
 		monitor(communicator*, uint16_t critical_section_id);
 		void call(action*);
+		void call(void (*)(monitor*));
 		void wait();
 		void signal();
 
