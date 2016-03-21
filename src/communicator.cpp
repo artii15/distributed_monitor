@@ -14,7 +14,7 @@ void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex
 	lock_requests[request.critical_section_id].push(request);
 	requests_descriptors[request] = request_descriptor(waiting_process_mutex, 1);
 
-	frame message(time, REQUEST_TAG::LOCK_REQUEST, &request);
+	frame message(time, MESSAGE_TAG::LOCK_REQUEST, &request);
 	broadcast_message(&message);
 
 	++time;
@@ -41,7 +41,7 @@ void communicator::handle(lock_request* request) {
 	const lock_request* top_request = &lock_requests[request->critical_section_id].top();
 
 	lock_response response(request, top_request);
-	frame message(time, REQUEST_TAG::LOCK_RESPONSE, &response);
+	frame message(time, MESSAGE_TAG::LOCK_RESPONSE, &response);
 
 	send_message(&message, request->process_id);
 	++time;

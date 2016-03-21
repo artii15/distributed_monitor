@@ -1,4 +1,5 @@
 #include "../inc/mpi_communicator.h"
+#include "../inc/exceptions/invalid_message_exception.h"
 #include <mpi.h>
 #include <stdlib.h>
 
@@ -44,8 +45,9 @@ frame* mpi_communicator::receive_message() {
 frame* mpi_communicator::unpack(uint8_t* serialized_message, int tag) {
 	frame* message = new frame();
 	switch(tag) {
-		case REQUEST_TAG::LOCK_REQUEST: message->payload = new lock_request(); break;
-		default: throw "Not recognized message arrived";
+		case MESSAGE_TAG::LOCK_REQUEST: message->payload = new lock_request(); break;
+		case MESSAGE_TAG::LOCK_RESPONSE: message->payload = new lock_response(); break;
+		default: throw invalid_message_exception("Not recognized message arrived");
 			
 	}
 	message->deserialize(serialized_message);
