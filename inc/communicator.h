@@ -39,6 +39,8 @@ class communicator {
 
 		pthread_mutex_t internal_state_mutex = PTHREAD_MUTEX_INITIALIZER;
 		uint32_t time;
+
+		bool can_process_enter(lock_request*, request_descriptor*);
 };
 
 #endif

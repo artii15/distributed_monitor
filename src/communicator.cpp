@@ -55,11 +55,15 @@ void communicator::handle(lock_response* response) {
 	request_descriptor* confirmed_request_descriptor = &requests_descriptors[response->confirmed_request];
 	++confirmed_request_descriptor->number_of_confirmations;
 
-	if(confirmed_request_descriptor->number_of_confirmations == number_of_processes && *lock_requests[response->confirmed_request.critical_section_id].begin() == response->confirmed_request) {
+	if(can_process_enter(&response->confirmed_request, confirmed_request_descriptor)) {
 		pthread_mutex_unlock(confirmed_request_descriptor->mutex);
 	}
 
 	delete response;
+}
+
+bool communicator::can_process_enter(lock_request* request, request_descriptor* descriptor) {
+	return descriptor->number_of_confirmations == number_of_processes && *lock_requests[request->critical_section_id].begin() == *request;
 }
 
 communicator::~communicator() {
