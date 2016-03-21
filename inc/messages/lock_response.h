@@ -12,9 +12,9 @@ class lock_response: public packet {
 		lock_response();
 		lock_response(const lock_request* confirmed_request, const lock_request* top_request);
 
-		void serialize(uint8_t* buf);
-		void deserialize(uint8_t* serialized);
-		size_t get_size();
+		virtual void serialize(uint8_t* buf);
+		virtual void deserialize(uint8_t* serialized);
+		virtual size_t get_size();
 
 		virtual void be_handled_by(communicator*);
 

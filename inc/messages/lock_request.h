@@ -16,9 +16,9 @@ class lock_request: public packet {
 		bool operator==(const lock_request& request) const;
 		bool operator<(const lock_request& request) const;
 
-		void serialize(uint8_t* buf);
-		void deserialize(uint8_t* serialized);
-		size_t get_size();
+		virtual void serialize(uint8_t* buf);
+		virtual void deserialize(uint8_t* serialized);
+		virtual size_t get_size();
 
 		virtual void be_handled_by(communicator*);
 
