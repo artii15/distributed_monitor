@@ -55,6 +55,8 @@ void communicator::handle(lock_response* response) {
 	request_descriptor* confirmed_request_descriptor = &requests_descriptors[response->confirmed_request];
 	++confirmed_request_descriptor->number_of_confirmations;
 
+	lock_requests[response->top_request.critical_section_id].insert(response->top_request);
+
 	if(can_process_enter(&response->confirmed_request, confirmed_request_descriptor)) {
 		pthread_mutex_unlock(confirmed_request_descriptor->mutex);
 	}
