@@ -37,20 +37,10 @@ int main(int argc, char** argv) {
 	int world_size;
 	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
-	if(world_rank == 0) {
-		char mes[2] = "x";
-		MPI_Send(mes, sizeof(char), MPI_BYTE, 1, 1, MPI_COMM_WORLD);
-	}
-	else {
-		char mes[2] = "";
-		MPI_Recv(mes, 1, MPI_BYTE, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		printf("%s\n", mes);
-	}
-
-	/*
-
 	MPI_Comm duplicated_world_comm;
 	MPI_Comm_dup(MPI_COMM_WORLD, &duplicated_world_comm);
+
+	/*
 	mpi_communicator mpi_comm(world_rank, world_size, &duplicated_world_comm);
 	comm = &mpi_comm;
 
