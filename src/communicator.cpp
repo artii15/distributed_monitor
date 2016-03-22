@@ -1,4 +1,5 @@
 #include "../inc/communicator.h"
+#include <stdio.h>
 
 using namespace std;
 
@@ -29,6 +30,7 @@ lock_request communicator::send_lock_request(uint16_t critical_section_id, pthre
 void communicator::listen() {
 	while(enabled) {
 		frame* message = receive_message();
+		printf("%d, %d\n", message->time, message->tag);
 		
 		pthread_mutex_lock(&internal_state_mutex);
 
