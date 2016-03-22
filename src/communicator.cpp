@@ -73,7 +73,8 @@ void communicator::handle(lock_response* response) {
 
 	lock_requests[response->answer.critical_section_id].insert(response->answer);
 
-	if(can_process_enter(&response->confirmed_request, confirmed_request_descriptor)) {
+	if(confirmed_request_descriptor->number_of_confirmations == number_of_processes 
+			&& *lock_requests[response->confirmed_request.critical_section_id].begin() == response->confirmed_request) {
 		printf("Process: %d, time: %d, entering section %d\n", process_id, time, response->confirmed_request.critical_section_id);
 		pthread_mutex_unlock(confirmed_request_descriptor->mutex);
 	}
@@ -122,10 +123,6 @@ void communicator::send_release_signal(lock_request* request_to_release) {
 	lock_requests[request_to_release->critical_section_id].erase(*request_to_release);
 
 	pthread_mutex_unlock(&internal_state_mutex);
-}
-
-bool communicator::can_process_enter(lock_request* request, request_descriptor* descriptor) {
-	return descriptor->number_of_confirmations == number_of_processes && *lock_requests[request->critical_section_id].begin() == *request;
 }
 
 communicator::~communicator() {
