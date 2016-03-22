@@ -19,6 +19,7 @@ lock_request communicator::send_lock_request(uint16_t critical_section_id, pthre
 
 	lock_requests[request.critical_section_id].insert(request);
 	requests_descriptors[request] = request_descriptor(waiting_process_mutex, 1);
+	own_requests[request.critical_section_id] = &*lock_requests[request.critical_section_id].find(request);
 
 	frame message(time, MESSAGE_TAG::LOCK_REQUEST, &request);
 	broadcast_message(&message);
@@ -48,9 +49,13 @@ void communicator::handle(lock_request* request) {
 	printf("Process: %d, Time: %d, Lock request arrived: (from: %d, created at:%d, for section:%d)\n", process_id, time, request->process_id, request->creation_time, request->critical_section_id);
 
 	lock_requests[request->critical_section_id].insert(*request);
-	const lock_request* top_request = &*lock_requests[request->critical_section_id].begin();
 
-	lock_response response(request, top_request);
+	const lock_request* request_to_send = request;
+	if(own_requests.find(request->critical_section_id) != own_requests.end()) {
+		request_to_send = own_requests[request->critical_section_id];
+	}
+
+	lock_response response(request, request_to_send);
 	frame message(time, MESSAGE_TAG::LOCK_RESPONSE, &response);
 
 	send_message(&message, request->process_id);
@@ -113,6 +118,7 @@ void communicator::send_release_signal(lock_request* request_to_release) {
 	++time;
 
 	requests_descriptors.erase(*request_to_release);
+	own_requests.erase(request_to_release->critical_section_id);
 	lock_requests[request_to_release->critical_section_id].erase(*request_to_release);
 
 	pthread_mutex_unlock(&internal_state_mutex);

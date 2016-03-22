@@ -43,6 +43,7 @@ class communicator {
 	private:
 		std::map<uint16_t, std::set<lock_request> > lock_requests;
 		std::map<lock_request, request_descriptor> requests_descriptors;
+		std::map<uint16_t, const lock_request*> own_requests;
 
 		pthread_mutex_t internal_state_mutex = PTHREAD_MUTEX_INITIALIZER;
 		uint32_t time;
