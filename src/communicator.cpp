@@ -46,7 +46,6 @@ void communicator::listen() {
 
 void communicator::handle(lock_request* request) {
 	printf("Process: %d, Time: %d, Lock request arrived: (from: %d, created at:%d, for section:%d)\n", process_id, time, request->process_id, request->creation_time, request->critical_section_id);
-	sleep(1);
 
 	lock_requests[request->critical_section_id].insert(*request);
 	const lock_request* top_request = &*lock_requests[request->critical_section_id].begin();
@@ -63,7 +62,6 @@ void communicator::handle(lock_request* request) {
 void communicator::handle(lock_response* response) {
 	printf("Process: %d, Time: %d, Lock response arrived, answer(top_process: %d, created_at: %d, for section: %d)\n", process_id, time, response->top_request.process_id,
 		response->top_request.creation_time, response->top_request.critical_section_id);
-	sleep(1);
 
 	request_descriptor* confirmed_request_descriptor = &requests_descriptors[response->confirmed_request];
 	++confirmed_request_descriptor->number_of_confirmations;
