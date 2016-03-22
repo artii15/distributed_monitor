@@ -31,13 +31,21 @@ int main(int argc, char** argv) {
 		MPI_Abort(MPI_COMM_WORLD, THREADING_NOT_SUPPORTED);
 	}
 
-	/*
-
 	int world_rank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
 	int world_size;
 	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+
+	if(world_rank == 0) {
+		MPI_Send(0, sizeof(char), MPI_BYTE, 1, 1, MPI_COMM_WORLD);
+	}
+	else {
+		char mes[0];
+		MPI_Recv(mes, 1, MPI_BYTE, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+	}
+
+	/*
 
 	MPI_Comm duplicated_world_comm;
 	MPI_Comm_dup(MPI_COMM_WORLD, &duplicated_world_comm);
