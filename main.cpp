@@ -21,7 +21,7 @@ void* listening_task(void* args) {
 }
 
 void test(monitor* m) {
-	
+	printf("Entered section\n");
 }
 
 int main(int argc, char** argv) {
@@ -30,6 +30,8 @@ int main(int argc, char** argv) {
 	if(provided_thread_support != MPI_THREAD_MULTIPLE) {
 		MPI_Abort(MPI_COMM_WORLD, THREADING_NOT_SUPPORTED);
 	}
+
+	/*
 
 	int world_rank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
@@ -49,6 +51,8 @@ int main(int argc, char** argv) {
 	m.call(test);
 
 	pthread_join(listening_thread, NULL);
+
+	*/
 
 	MPI_Finalize();
 }
