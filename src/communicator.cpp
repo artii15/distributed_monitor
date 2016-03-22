@@ -67,6 +67,24 @@ void communicator::handle(lock_response* response) {
 }
 
 void communicator::handle(release_signal* request_relase_signal) {
+	lock_request* released_request = &request_relase_signal->released_request;
+
+	set<lock_request>* lock_requests_in_section = &lock_requests[released_request->critical_section_id];
+	lock_requests_in_section->erase(*released_request);
+
+	if(!lock_requests_in_section->empty()) {
+		const lock_request* top_request = &*lock_requests_in_section->begin();
+
+		map<lock_request, request_descriptor>::iterator top_request_descriptor_iterator = requests_descriptors.find(*top_request);
+		if(top_request_descriptor_iterator != requests_descriptors.end()) {
+			request_descriptor* descriptor = &top_request_descriptor_iterator->second;
+
+			if(descriptor->number_of_confirmations == number_of_processes) {
+				pthread_mutex_unlock(descriptor->mutex);
+			}
+		}
+	}
+
 	delete request_relase_signal;
 }
 
