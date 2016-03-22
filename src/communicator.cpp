@@ -50,9 +50,9 @@ void communicator::handle(lock_request* request) {
 	const lock_request* answer = (own_requests.find(request->critical_section_id) == own_requests.end()) ? request : own_requests[request->critical_section_id];
 
 	lock_response response(request, answer);
-	frame message(time, MESSAGE_TAG::LOCK_RESPONSE, &response);
 
 	++time;
+	frame message(time, MESSAGE_TAG::LOCK_RESPONSE, &response);
 	send_message(&message, request->process_id);
 
 	delete request;
@@ -62,18 +62,24 @@ void communicator::handle(lock_response* response) {
 	printf("Process: %d, Time: %d, Lock response arrived, answer(process: %d, created_at: %d, for section: %d)\n", process_id, time, response->answer.process_id,
 		response->answer.creation_time, response->answer.critical_section_id);
 
-	request_descriptor* confirmed_request_descriptor = &requests_descriptors[response->confirmed_request];
-	++confirmed_request_descriptor->number_of_confirmations;
-
+	++((&requests_descriptors[response->confirmed_request])->number_of_confirmations);
 	lock_requests[response->answer.critical_section_id].insert(response->answer);
 
-	if(confirmed_request_descriptor->number_of_confirmations == number_of_processes 
-			&& *lock_requests[response->confirmed_request.critical_section_id].begin() == response->confirmed_request) {
-		printf("Process: %d, time: %d, entering section %d\n", process_id, time, response->confirmed_request.critical_section_id);
-		pthread_mutex_unlock(confirmed_request_descriptor->mutex);
-	}
+	try_to_enter(response->answer.critical_section_id);
 
 	delete response;
+}
+
+void communicator::try_to_enter(uint16_t critical_section_id) {
+	if(own_requests.find(critical_section_id) != own_requests.end()) {
+		const lock_request* own_request = own_requests[critical_section_id];
+		request_descriptor* descriptor = &requests_descriptors[*own_request];
+
+		if(descriptor->number_of_confirmations == number_of_processes && *lock_requests[critical_section_id].begin() == *own_request) {
+			printf("Process: %d, time: %d, entering section %d\n", process_id, time, critical_section_id);
+			pthread_mutex_unlock(descriptor->mutex);
+		}
+	}
 }
 
 void communicator::handle(release_signal* request_relase_signal) {
