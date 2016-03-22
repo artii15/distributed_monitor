@@ -40,7 +40,6 @@ int main(int argc, char** argv) {
 	MPI_Comm duplicated_world_comm;
 	MPI_Comm_dup(MPI_COMM_WORLD, &duplicated_world_comm);
 
-	/*
 	mpi_communicator mpi_comm(world_rank, world_size, &duplicated_world_comm);
 	comm = &mpi_comm;
 
@@ -52,7 +51,7 @@ int main(int argc, char** argv) {
 
 	pthread_join(listening_thread, NULL);
 
-	*/
+	MPI_Comm_free(&duplicated_world_comm);
 
 	MPI_Finalize();
 }
