@@ -7,10 +7,10 @@
 class lock_response: public packet {
 	public:
 		lock_request confirmed_request;
-		lock_request top_request;
+		lock_request answer;
 
 		lock_response();
-		lock_response(const lock_request* confirmed_request, const lock_request* top_request);
+		lock_response(const lock_request* confirmed_request, const lock_request* answer);
 
 		virtual void serialize(uint8_t* buf);
 		virtual void deserialize(uint8_t* serialized);

@@ -65,13 +65,13 @@ void communicator::handle(lock_request* request) {
 }
 
 void communicator::handle(lock_response* response) {
-	printf("Process: %d, Time: %d, Lock response arrived, answer(top_process: %d, created_at: %d, for section: %d)\n", process_id, time, response->top_request.process_id,
-		response->top_request.creation_time, response->top_request.critical_section_id);
+	printf("Process: %d, Time: %d, Lock response arrived, answer(process: %d, created_at: %d, for section: %d)\n", process_id, time, response->answer.process_id,
+		response->answer.creation_time, response->answer.critical_section_id);
 
 	request_descriptor* confirmed_request_descriptor = &requests_descriptors[response->confirmed_request];
 	++confirmed_request_descriptor->number_of_confirmations;
 
-	lock_requests[response->top_request.critical_section_id].insert(response->top_request);
+	lock_requests[response->answer.critical_section_id].insert(response->answer);
 
 	if(can_process_enter(&response->confirmed_request, confirmed_request_descriptor)) {
 		printf("Process: %d, time: %d, entering section %d\n", process_id, time, response->confirmed_request.critical_section_id);
