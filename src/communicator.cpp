@@ -80,6 +80,8 @@ void communicator::handle(lock_response* response) {
 void communicator::handle(release_signal* request_relase_signal) {
 	lock_request* released_request = &request_relase_signal->released_request;
 
+	printf("Process: %d, Time: %d, Somebody released section %d)\n", process_id, time, released_request->critical_section_id);
+
 	set<lock_request>* lock_requests_in_section = &lock_requests[released_request->critical_section_id];
 	lock_requests_in_section->erase(*released_request);
 
@@ -91,6 +93,7 @@ void communicator::handle(release_signal* request_relase_signal) {
 			request_descriptor* descriptor = &top_request_descriptor_iterator->second;
 
 			if(descriptor->number_of_confirmations == number_of_processes) {
+				printf("Process: %d, time: %d, entering section %d", process_id, time, top_request->critical_section_id);
 				pthread_mutex_unlock(descriptor->mutex);
 			}
 		}
@@ -101,6 +104,8 @@ void communicator::handle(release_signal* request_relase_signal) {
 
 void communicator::send_release_signal(lock_request* request_to_release) {
 	pthread_mutex_lock(&internal_state_mutex);
+
+	printf("Process: %d, Time: %d, Leaving section %d)\n", process_id, time, request_to_release->critical_section_id);
 
 	release_signal request_release_signal(request_to_release);
 	frame message(time, MESSAGE_TAG::RELEASE_SIGNAL, &request_release_signal);
