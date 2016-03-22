@@ -13,16 +13,15 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 
 void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
 	printf("Process: %d, Time: %d, Trying to enter section %d\n", process_id, time, critical_section_id);
-	
 	pthread_mutex_lock(&internal_state_mutex);
 
-	++time;
 	lock_request request(process_id, time, critical_section_id);
-
-	lock_requests[request.critical_section_id].insert(request);
 	requests_descriptors[request] = request_descriptor(waiting_process_mutex, 1);
-	own_requests[request.critical_section_id] = &*lock_requests[request.critical_section_id].find(request);
 
+	lock_requests[critical_section_id].insert(request);
+	own_requests[critical_section_id] = &*lock_requests[critical_section_id].find(request);
+
+	++time;
 	frame message(time, MESSAGE_TAG::LOCK_REQUEST, &request);
 	broadcast_message(&message);
 
@@ -48,12 +47,9 @@ void communicator::handle(lock_request* request) {
 
 	lock_requests[request->critical_section_id].insert(*request);
 
-	const lock_request* request_to_send = request;
-	if(own_requests.find(request->critical_section_id) != own_requests.end()) {
-		request_to_send = own_requests[request->critical_section_id];
-	}
+	const lock_request* answer = (own_requests.find(request->critical_section_id) == own_requests.end()) ? request : own_requests[request->critical_section_id];
 
-	lock_response response(request, request_to_send);
+	lock_response response(request, answer);
 	frame message(time, MESSAGE_TAG::LOCK_RESPONSE, &response);
 
 	++time;
