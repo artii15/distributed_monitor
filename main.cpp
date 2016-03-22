@@ -38,11 +38,13 @@ int main(int argc, char** argv) {
 	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
 	if(world_rank == 0) {
-		MPI_Send(0, sizeof(char), MPI_BYTE, 1, 1, MPI_COMM_WORLD);
+		char mes[2] = "x";
+		MPI_Send(mes, sizeof(char), MPI_BYTE, 1, 1, MPI_COMM_WORLD);
 	}
 	else {
-		char mes[0];
+		char mes[2] = "";
 		MPI_Recv(mes, 1, MPI_BYTE, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+		printf("%s\n", mes);
 	}
 
 	/*
