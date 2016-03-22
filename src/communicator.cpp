@@ -15,6 +15,8 @@ void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex
 	printf("Process: %d, Time: %d, Trying to enter section %d\n", process_id, time, critical_section_id);
 	
 	pthread_mutex_lock(&internal_state_mutex);
+
+	++time;
 	lock_request request(process_id, time, critical_section_id);
 
 	lock_requests[request.critical_section_id].insert(request);
@@ -23,8 +25,6 @@ void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex
 
 	frame message(time, MESSAGE_TAG::LOCK_REQUEST, &request);
 	broadcast_message(&message);
-
-	++time;
 
 	pthread_mutex_unlock(&internal_state_mutex);
 }
@@ -56,8 +56,8 @@ void communicator::handle(lock_request* request) {
 	lock_response response(request, request_to_send);
 	frame message(time, MESSAGE_TAG::LOCK_RESPONSE, &response);
 
-	send_message(&message, request->process_id);
 	++time;
+	send_message(&message, request->process_id);
 
 	delete request;
 }
@@ -114,8 +114,8 @@ void communicator::send_release_signal(uint16_t critical_section_id) {
 	release_signal request_release_signal(request_to_release);
 	frame message(time, MESSAGE_TAG::RELEASE_SIGNAL, &request_release_signal);
 
-	broadcast_message(&message);
 	++time;
+	broadcast_message(&message);
 
 	requests_descriptors.erase(*request_to_release);
 	own_requests.erase(request_to_release->critical_section_id);
