@@ -30,8 +30,7 @@ lock_request communicator::send_lock_request(uint16_t critical_section_id, pthre
 void communicator::listen() {
 	while(enabled) {
 		frame* message = receive_message();
-		printf("%d, %d\n", message->time, message->tag);
-		
+
 		pthread_mutex_lock(&internal_state_mutex);
 
 		time = ((message->time > time) ? message->time : time) + 1;
@@ -43,6 +42,8 @@ void communicator::listen() {
 }
 
 void communicator::handle(lock_request* request) {
+	printf("Process: %d, Time: %d, Lock request arrived: %d, %d %d\n", process_id, time, request->process_id, request->creation_time, request->critical_section_id);
+
 	lock_requests[request->critical_section_id].insert(*request);
 	const lock_request* top_request = &*lock_requests[request->critical_section_id].begin();
 
