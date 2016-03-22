@@ -21,7 +21,7 @@ void* listening_task(void* args) {
 }
 
 void test(monitor* m) {
-	printf("Entered section2\n");
+	printf("Entered section1\n");
 }
 
 int main(int argc, char** argv) {
