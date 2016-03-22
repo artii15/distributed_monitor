@@ -22,8 +22,8 @@ class communicator {
 		bool enabled;
 		communicator(uint32_t process_id, unsigned int number_of_processes);
 
-		lock_request send_lock_request(uint16_t critical_section_id, pthread_mutex_t* mutex);
-		void send_release_signal(lock_request*);
+		void send_lock_request(uint16_t critical_section_id, pthread_mutex_t* mutex);
+		void send_release_signal(uint16_t critical_section_id);
 
 		virtual void listen();
 		void handle(lock_request* request);

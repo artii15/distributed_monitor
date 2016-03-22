@@ -10,33 +10,31 @@ monitor::monitor(communicator* comm, uint16_t critical_section_id) {
 }
 
 void monitor::call(action *action) {
-	lock_request sent_request = lock();
+	lock();
 	action->perform(this);
-	unlock(&sent_request);
+	unlock();
 }
 
 void monitor::call(void (*callback)(monitor*)) {
-	lock_request sent_request = lock();
+	lock();
 	callback(this);
-	unlock(&sent_request);
+	unlock();
 }
 
-lock_request monitor::lock() {
+void monitor::lock() {
 	pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
 	pthread_mutex_lock(&mutex);
 	
-	lock_request sent_request = comm->send_lock_request(critical_section_id, &mutex);
+	comm->send_lock_request(critical_section_id, &mutex);
 
 	pthread_mutex_lock(&mutex);
 	pthread_mutex_unlock(&mutex);
 
 	pthread_mutex_destroy(&mutex);
-
-	return sent_request;
 }
 
-void monitor::unlock(lock_request* sent_request) {
-	comm->send_release_signal(sent_request);
+void monitor::unlock() {
+	comm->send_release_signal(critical_section_id);
 }
 
 void monitor::wait() {

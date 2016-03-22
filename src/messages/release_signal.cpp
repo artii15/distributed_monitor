@@ -3,7 +3,7 @@
 
 release_signal::release_signal() {}
 
-release_signal::release_signal(lock_request* released_request) {
+release_signal::release_signal(const lock_request* released_request) {
 	this->released_request = *released_request;
 }
 

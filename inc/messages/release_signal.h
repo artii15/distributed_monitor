@@ -8,7 +8,7 @@ class release_signal: public packet {
 		lock_request released_request;
 
 		release_signal();
-		release_signal(lock_request*);
+		release_signal(const lock_request*);
 
 		virtual void serialize(uint8_t* buf);
 		virtual void deserialize(uint8_t* serialized);
