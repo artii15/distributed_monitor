@@ -110,6 +110,10 @@ void communicator::handle(wait_signal* signal) {
 	delete signal;
 }
 
+void communicator::handle(wake_signal* signal) {
+	delete signal;
+}
+
 void communicator::send_release_signal(uint16_t critical_section_id) {
 	pthread_mutex_lock(&internal_state_mutex);
 	const lock_request* request_to_release = own_requests[critical_section_id];
@@ -149,7 +153,11 @@ void communicator::send_wait_signal(uint16_t critical_section_id, pthread_mutex_
 
 void communicator::send_wake_signal(uint16_t critical_section_id) {
 	pthread_mutex_lock(&internal_state_mutex);
+
 	++time;
+
+	
+
 	pthread_mutex_unlock(&internal_state_mutex);
 }
 

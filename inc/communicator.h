@@ -6,6 +6,7 @@
 #include "messages/lock_response.h"
 #include "messages/release_signal.h"
 #include "messages/wait_signal.h"
+#include "messages/wake_signal.h"
 #include "request_descriptor.h"
 #include "monitor.h"
 #include <pthread.h>
@@ -36,6 +37,7 @@ class communicator {
 		void handle(lock_response* response);
 		void handle(release_signal* signal);
 		void handle(wait_signal* signal);
+		void handle(wake_signal* signal);
 
 		virtual ~communicator();
 
