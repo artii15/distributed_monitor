@@ -114,11 +114,13 @@ void communicator::send_release_signal(uint16_t critical_section_id) {
 }
 
 void communicator::send_wait_signal(uint16_t critical_section_id, pthread_mutex_t* mutex) {
-
+	pthread_mutex_lock(&internal_state_mutex);
+	pthread_mutex_unlock(&internal_state_mutex);
 }
 
 void communicator::send_wake_signal(uint16_t critical_section_id) {
-
+	pthread_mutex_lock(&internal_state_mutex);
+	pthread_mutex_unlock(&internal_state_mutex);
 }
 
 communicator::~communicator() {
