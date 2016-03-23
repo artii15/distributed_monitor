@@ -131,12 +131,14 @@ void communicator::send_wait_signal(uint16_t critical_section_id, pthread_mutex_
 	printf("Process: %d, Time: %d, Waiting in section %d\n", process_id, time, critical_section_id);
 
 	const lock_request* request_to_remove = own_requests[critical_section_id];
+
 	wait_signal signal(request_to_remove);
 	wait_signals[critical_section_id].insert(signal);
 
 	frame message(time, MESSAGE_TAG::WAIT_SIGNAL, &signal);
 	broadcast_message(&message);
 
+	lock_requests[critical_section_id].erase(*request_to_remove);
 	own_requests.erase(critical_section_id);
 
 	pthread_mutex_unlock(&internal_state_mutex);
