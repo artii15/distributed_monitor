@@ -14,6 +14,10 @@ class wait_signal: public packet {
 		virtual void deserialize(uint8_t* serialized);
 		virtual size_t get_size();
 
+		bool operator>(const wait_signal& signal) const;
+		bool operator==(const wait_signal& signal) const;
+		bool operator<(const wait_signal& signal) const;
+
 		virtual void be_handled_by(communicator*);
 
 		virtual ~wait_signal();

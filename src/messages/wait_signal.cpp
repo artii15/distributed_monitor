@@ -23,4 +23,16 @@ void wait_signal::be_handled_by(communicator* comm) {
 	comm->handle(this);
 }
 
+bool wait_signal::operator>(const wait_signal& signal) const {
+	return request_to_remove > signal.request_to_remove;
+}
+
+bool wait_signal::operator==(const wait_signal& signal) const {
+	return request_to_remove == signal.request_to_remove;
+}
+
+bool wait_signal::operator<(const wait_signal& signal) const {
+	return request_to_remove < signal.request_to_remove;
+}
+
 wait_signal::~wait_signal() {}

@@ -96,6 +96,13 @@ void communicator::handle(release_signal* signal) {
 }
 
 void communicator::handle(wait_signal* signal) {
+/*
+	lock_request* request_to_remove = &signal->request_to_remove;
+
+	printf("Process: %d, Time: %d, Received wait signal from %d\n", process_id, time, request_to_remove->process_id);
+
+	lock_requests
+*/
 	delete signal;
 }
 
@@ -120,10 +127,13 @@ void communicator::send_release_signal(uint16_t critical_section_id) {
 void communicator::send_wait_signal(uint16_t critical_section_id, pthread_mutex_t* mutex) {
 	pthread_mutex_lock(&internal_state_mutex);
 
-	printf("Process: %d, Time: %d, Waiting in section %d\n", process_id, time, critical_section_id);
 	++time;
-	
+	printf("Process: %d, Time: %d, Waiting in section %d\n", process_id, time, critical_section_id);
 
+	const lock_request* request_to_remove = own_requests[critical_section_id];
+	wait_signal signal(request_to_remove);
+		
+	wait_signals[critical_section_id].insert(signal);
 
 	pthread_mutex_unlock(&internal_state_mutex);
 }
