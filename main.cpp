@@ -21,7 +21,19 @@ void* listening_task(void* args) {
 }
 
 void test(monitor* m) {
-	printf("Entered section1\n");
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+	if(rank == 0) {
+		printf("I'll be waiting in a moment\n");
+		m->wait();	
+		printf("Just awaken\n");
+	}
+	else {
+		printf("I'm going to wake one of processes\n");
+		m->signal();
+		printf("Just woken one of processes\n");
+	}
 }
 
 int main(int argc, char** argv) {
