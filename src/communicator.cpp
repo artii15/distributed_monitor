@@ -117,20 +117,16 @@ void communicator::handle(wake_signal* signal) {
 	map<uint16_t, const wait_signal*>::iterator own_wait_signal_iterator = own_wait_signals.find(critical_section_id);
 
 	if(own_wait_signal_iterator != own_wait_signals.end() && *signal_to_release == *own_wait_signal_iterator->second) {
-		wait_signals[critical_section_id].erase(*signal_to_release);
 		own_wait_signals.erase(critical_section_id);
 		
 		pthread_mutex_t* wait_signal_mutex = wait_signals_mutexes[*signal_to_release];
 		wait_signals_mutexes.erase(*signal_to_release);
 
-		delete signal;
-
 		send_lock_request(critical_section_id, wait_signal_mutex);
 	}
-	else {
-		wait_signals[critical_section_id].erase(*signal_to_release);
-		delete signal;
-	}
+
+	wait_signals[critical_section_id].erase(*signal_to_release);
+	delete signal;
 }
 
 void communicator::send_release_signal(uint16_t critical_section_id) {
