@@ -62,7 +62,7 @@ void communicator::handle(lock_response* response) {
 	printf("Process: %d, Time: %d, Lock response arrived, answer(process: %d, created_at: %d, for section: %d)\n", process_id, time, response->answer.process_id,
 		response->answer.creation_time, response->answer.critical_section_id);
 
-	++((&requests_descriptors[response->confirmed_request])->number_of_confirmations);
+	++(&requests_descriptors[response->confirmed_request])->number_of_confirmations;
 	lock_requests[response->answer.critical_section_id].insert(response->answer);
 
 	try_to_enter(response->answer.critical_section_id);
@@ -71,8 +71,9 @@ void communicator::handle(lock_response* response) {
 }
 
 void communicator::try_to_enter(uint16_t critical_section_id) {
-	if(own_requests.find(critical_section_id) != own_requests.end()) {
-		const lock_request* own_request = own_requests[critical_section_id];
+	map<uint16_t, const lock_request*>::iterator own_requests_iterator = own_requests.find(critical_section_id);
+	if(own_requests_iterator != own_requests.end()) {
+		const lock_request* own_request = own_requests_iterator->second;
 		request_descriptor* descriptor = &requests_descriptors[*own_request];
 
 		if(descriptor->number_of_confirmations == number_of_processes && *lock_requests[critical_section_id].begin() == *own_request) {
@@ -87,22 +88,9 @@ void communicator::handle(release_signal* request_relase_signal) {
 
 	printf("Process: %d, Time: %d, Somebody released section %d\n", process_id, time, released_request->critical_section_id);
 
-	set<lock_request>* lock_requests_in_section = &lock_requests[released_request->critical_section_id];
-	lock_requests_in_section->erase(*released_request);
+	lock_requests[released_request->critical_section_id].erase(*released_request);
 
-	if(!lock_requests_in_section->empty()) {
-		const lock_request* top_request = &*lock_requests_in_section->begin();
-
-		map<lock_request, request_descriptor>::iterator top_request_descriptor_iterator = requests_descriptors.find(*top_request);
-		if(top_request_descriptor_iterator != requests_descriptors.end()) {
-			request_descriptor* descriptor = &top_request_descriptor_iterator->second;
-
-			if(descriptor->number_of_confirmations == number_of_processes) {
-				printf("Process: %d, time: %d, entering section %d\n", process_id, time, top_request->critical_section_id);
-				pthread_mutex_unlock(descriptor->mutex);
-			}
-		}
-	}
+	try_to_enter(released_request->critical_section_id);
 
 	delete request_relase_signal;
 }
@@ -113,15 +101,14 @@ void communicator::send_release_signal(uint16_t critical_section_id) {
 
 	printf("Process: %d, Time: %d, Leaving section %d\n", process_id, time, request_to_release->critical_section_id);
 
+	++time;
 	release_signal request_release_signal(request_to_release);
 	frame message(time, MESSAGE_TAG::RELEASE_SIGNAL, &request_release_signal);
-
-	++time;
 	broadcast_message(&message);
 
 	requests_descriptors.erase(*request_to_release);
-	own_requests.erase(request_to_release->critical_section_id);
-	lock_requests[request_to_release->critical_section_id].erase(*request_to_release);
+	own_requests.erase(critical_section_id);
+	lock_requests[critical_section_id].erase(*request_to_release);
 
 	pthread_mutex_unlock(&internal_state_mutex);
 }
