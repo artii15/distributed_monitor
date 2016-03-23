@@ -61,6 +61,7 @@ class communicator {
 		pthread_mutex_t internal_state_mutex = PTHREAD_MUTEX_INITIALIZER;
 		uint32_t time;
 
+		void request_critical_section_access(uint16_t critical_section_id, pthread_mutex_t* mutex);
 		void try_to_enter(uint16_t critical_section_id);
 };
 

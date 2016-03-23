@@ -12,8 +12,15 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 }
 
 void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
-	printf("Process: %d, Time: %d, Trying to enter section %d\n", process_id, time, critical_section_id);
 	pthread_mutex_lock(&internal_state_mutex);
+
+	request_critical_section_access(critical_section_id, waiting_process_mutex);
+
+	pthread_mutex_unlock(&internal_state_mutex);
+}
+
+void communicator::request_critical_section_access(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
+	printf("Process: %d, Time: %d, Trying to enter section %d\n", process_id, time, critical_section_id);
 
 	lock_request request(process_id, time, critical_section_id);
 	requests_descriptors[request] = request_descriptor(waiting_process_mutex, 1);
@@ -24,8 +31,6 @@ void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex
 	++time;
 	frame message(time, MESSAGE_TAG::LOCK_REQUEST, &request);
 	broadcast_message(&message);
-
-	pthread_mutex_unlock(&internal_state_mutex);
 }
 
 void communicator::listen() {
@@ -122,7 +127,7 @@ void communicator::handle(wake_signal* signal) {
 		pthread_mutex_t* wait_signal_mutex = wait_signals_mutexes[*signal_to_release];
 		wait_signals_mutexes.erase(*signal_to_release);
 
-		send_lock_request(critical_section_id, wait_signal_mutex);
+		request_critical_section_access(critical_section_id, wait_signal_mutex);
 	}
 
 	wait_signals[critical_section_id].erase(*signal_to_release);
