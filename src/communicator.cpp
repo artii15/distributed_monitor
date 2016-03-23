@@ -142,6 +142,7 @@ void communicator::send_wait_signal(uint16_t critical_section_id, pthread_mutex_
 	wait_signal signal(request_to_remove);
 	wait_signals[critical_section_id].insert(signal);
 	wait_signals_mutexes[signal] = mutex;
+	own_wait_signals[critical_section_id] = &*wait_signals[critical_section_id].find(signal);
 
 	frame message(time, MESSAGE_TAG::WAIT_SIGNAL, &signal);
 	broadcast_message(&message);
@@ -156,7 +157,7 @@ void communicator::send_wake_signal(uint16_t critical_section_id) {
 	pthread_mutex_lock(&internal_state_mutex);
 
 	++time;
-
+	//wake_signal	
 	
 
 	pthread_mutex_unlock(&internal_state_mutex);

@@ -56,6 +56,7 @@ class communicator {
 
 		std::map<uint16_t, std::set<wait_signal> > wait_signals;
 		std::map<wait_signal, pthread_mutex_t*> wait_signals_mutexes;
+		std::map<uint16_t, const wait_signal*> own_wait_signals;
 
 		pthread_mutex_t internal_state_mutex = PTHREAD_MUTEX_INITIALIZER;
 		uint32_t time;
