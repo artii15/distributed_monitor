@@ -97,13 +97,16 @@ void communicator::handle(release_signal* signal) {
 }
 
 void communicator::handle(wait_signal* signal) {
-/*
 	lock_request* request_to_remove = &signal->request_to_remove;
+	uint16_t critical_section_id = request_to_remove->critical_section_id;
 
 	printf("Process: %d, Time: %d, Received wait signal from %d\n", process_id, time, request_to_remove->process_id);
 
-	lock_requests
-*/
+	lock_requests[critical_section_id].erase(*request_to_remove);
+	wait_signals[critical_section_id].insert(*signal);
+
+	try_to_enter(critical_section_id);
+
 	delete signal;
 }
 
