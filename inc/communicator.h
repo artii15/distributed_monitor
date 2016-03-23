@@ -25,6 +25,9 @@ class communicator {
 		void send_lock_request(uint16_t critical_section_id, pthread_mutex_t* mutex);
 		void send_release_signal(uint16_t critical_section_id);
 
+		void send_wait_signal(uint16_t critical_section_id, pthread_mutex_t* mutex);
+		void send_wake_signal(uint16_t critical_section_id);
+
 		virtual void listen();
 		void handle(lock_request* request);
 		void handle(lock_response* response);

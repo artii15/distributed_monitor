@@ -38,9 +38,17 @@ void monitor::unlock() {
 }
 
 void monitor::wait() {
-	
+	pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+	pthread_mutex_lock(&mutex);
+
+	comm->send_wait_signal(critical_section_id, &mutex);
+
+	pthread_mutex_lock(&mutex);
+	pthread_mutex_unlock(&mutex);
+
+	pthread_mutex_destroy(&mutex);
 }
 
 void monitor::signal() {
-
+	comm->send_wake_signal(critical_section_id);
 }
