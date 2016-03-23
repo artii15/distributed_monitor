@@ -83,8 +83,8 @@ void communicator::try_to_enter(uint16_t critical_section_id) {
 	}
 }
 
-void communicator::handle(release_signal* request_relase_signal) {
-	lock_request* released_request = &request_relase_signal->released_request;
+void communicator::handle(release_signal* signal) {
+	lock_request* released_request = &signal->released_request;
 
 	printf("Process: %d, Time: %d, Somebody released section %d\n", process_id, time, released_request->critical_section_id);
 
@@ -92,7 +92,11 @@ void communicator::handle(release_signal* request_relase_signal) {
 
 	try_to_enter(released_request->critical_section_id);
 
-	delete request_relase_signal;
+	delete signal;
+}
+
+void communicator::handle(wait_signal* signal) {
+	delete signal;
 }
 
 void communicator::send_release_signal(uint16_t critical_section_id) {
@@ -115,11 +119,18 @@ void communicator::send_release_signal(uint16_t critical_section_id) {
 
 void communicator::send_wait_signal(uint16_t critical_section_id, pthread_mutex_t* mutex) {
 	pthread_mutex_lock(&internal_state_mutex);
+
+	printf("Process: %d, Time: %d, Waiting in section %d\n", process_id, time, critical_section_id);
+	++time;
+	
+
+
 	pthread_mutex_unlock(&internal_state_mutex);
 }
 
 void communicator::send_wake_signal(uint16_t critical_section_id) {
 	pthread_mutex_lock(&internal_state_mutex);
+	++time;
 	pthread_mutex_unlock(&internal_state_mutex);
 }
 
