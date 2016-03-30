@@ -31,6 +31,7 @@ class communicator {
 
 		void send_wait_signal(uint16_t critical_section_id, pthread_mutex_t* mutex);
 		void send_wake_signal(uint16_t critical_section_id);
+		void send_wake_all_signal(uint16_t critical_section_id);
 
 		virtual void listen();
 		void handle(lock_request* request);
@@ -63,6 +64,7 @@ class communicator {
 
 		void request_critical_section_access(uint16_t critical_section_id, pthread_mutex_t* mutex);
 		void try_to_enter(uint16_t critical_section_id);
+		void wake_one_in_section(uint16_t critical_section_id);
 };
 
 #endif
