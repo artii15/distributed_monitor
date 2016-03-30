@@ -40,11 +40,12 @@ class communicator {
 		void handle(wait_signal* signal);
 		void handle(wake_signal* signal);
 
+		virtual void broadcast_message(frame* message) = 0;
+		virtual void send_message(frame* message, uint32_t recipient_id) = 0;
+
 		virtual ~communicator();
 
 	protected:
-		virtual void broadcast_message(frame* message) = 0;
-		virtual void send_message(frame* message, uint32_t recipient_id) = 0;
 		virtual frame* receive_message() = 0;
 
 		uint32_t process_id;
