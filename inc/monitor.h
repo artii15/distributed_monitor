@@ -14,7 +14,7 @@ class monitor {
 		void call(void (*)(monitor*));
 		void wait();
 		void notify();
-		void notifyAll();
+		void notify_all();
 
 	private:
 		communicator* comm;

@@ -53,6 +53,6 @@ void monitor::notify() {
 	comm->send_wake_signal(critical_section_id);
 }
 
-void monitor::notifyAll() {
+void monitor::notify_all() {
 	comm->send_wake_all_signal(critical_section_id);
 }
