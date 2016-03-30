@@ -31,7 +31,7 @@ void test(monitor* m) {
 	}
 	else {
 		printf("I'm going to wake one of processes\n");
-		m->signal();
+		m->notify();
 		printf("Just woken one of processes\n");
 	}
 }

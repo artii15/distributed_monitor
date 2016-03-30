@@ -49,6 +49,10 @@ void monitor::wait() {
 	pthread_mutex_destroy(&mutex);
 }
 
-void monitor::signal() {
+void monitor::notify() {
+	comm->send_wake_signal(critical_section_id);
+}
+
+void monitor::notifyAll() {
 	comm->send_wake_signal(critical_section_id);
 }
