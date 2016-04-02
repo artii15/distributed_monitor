@@ -40,19 +40,3 @@ void mpi_communicator::receive_message(uint8_t** raw_message, uint16_t* tag) {
 	*raw_message = (uint8_t*)malloc(message_size*sizeof(uint8_t));
 	MPI_Recv(*raw_message, message_size, MPI_BYTE, status.MPI_SOURCE, status.MPI_TAG, mpi_comm, MPI_STATUS_IGNORE);
 }
-
-frame* mpi_communicator::unpack(uint8_t* serialized_message, int tag) {
-	frame* message = new frame();
-	switch(tag) {
-		case MESSAGE_TAG::LOCK_REQUEST: message->payload = new lock_request(); break;
-		case MESSAGE_TAG::LOCK_RESPONSE: message->payload = new lock_response(); break;
-		case MESSAGE_TAG::RELEASE_SIGNAL: message->payload = new release_signal(); break;
-		case MESSAGE_TAG::WAIT_SIGNAL: message->payload = new wait_signal(); break;
-		case MESSAGE_TAG::WAKE_SIGNAL: message->payload = new wake_signal(); break;
-		default: throw invalid_message_exception("Not recognized message arrived");
-			
-	}
-	message->deserialize(serialized_message);
-
-	return message;
-}
