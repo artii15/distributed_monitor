@@ -12,15 +12,16 @@
 #include "messages/wait_signal.h"
 #include "messages/wake_signal.h"
 #include "communicator.h"
+#include "process_descriptor.h"
 
 class synchronizer: public message_listener {
 	public:
-		synchronizer(communicator* comm);
+		synchronizer(communicator*, process_descriptor*);
 		virtual void on_message(frame*);
 	
 	private:
-		uint32_t time;
 		communicator* comm;
+		process_descriptor* process;
 
 		std::map<uint16_t, std::set<lock_request> > lock_requests;
 		std::map<lock_request, request_descriptor> requests_descriptors;

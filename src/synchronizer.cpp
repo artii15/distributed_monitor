@@ -1,8 +1,9 @@
 #include "../inc/synchronizer.h"
 #include <stdio.h>
 
-synchronizer::synchronizer(communicator* comm) {
+synchronizer::synchronizer(communicator* comm, process_descriptor* process) {
 	this->comm = comm;
+	this->process = process;
 }
 
 void synchronizer::on_message(frame* message) {
