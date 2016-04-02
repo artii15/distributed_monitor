@@ -1,7 +1,7 @@
 #ifndef PROCESS_DESCRIPTOR_H
 #define PROCESS_DESCRIPTOR_H
 
-#include <cstdint.h>
+#include <stdint.h>
 #include <pthread.h>
 
 class process_descriptor {

@@ -11,6 +11,7 @@
 #include "messages/release_signal.h"
 #include "messages/wait_signal.h"
 #include "messages/wake_signal.h"
+#include "communicator.h"
 
 class synchronizer: public message_listener {
 	public:
@@ -29,11 +30,13 @@ class synchronizer: public message_listener {
 		std::map<wait_signal, pthread_mutex_t*> wait_signals_mutexes;
 		std::map<uint16_t, const wait_signal*> own_wait_signals;
 
+/*
 		void handle(lock_request* request);
 		void handle(lock_response* response);
 		void handle(release_signal* signal);
 		void handle(wait_signal* signal);
 		void handle(wake_signal* signal);
+*/
 };
 
 #endif

@@ -15,6 +15,7 @@ void synchronizer::on_message(frame* message) {
 	}
 }
 
+/*
 void synchronizer::handle(lock_request* request) {
 	lock_requests[request->critical_section_id].insert(*request);
 
@@ -78,3 +79,4 @@ void synchronizer::handle(wake_signal* signal) {
 	wait_signals[critical_section_id].erase(*signal_to_release);
 	delete signal;
 }
+*/
