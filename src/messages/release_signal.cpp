@@ -1,5 +1,4 @@
 #include "../../inc/messages/release_signal.h"
-#include "../../inc/communicator.h"
 
 release_signal::release_signal() {}
 
@@ -7,20 +6,16 @@ release_signal::release_signal(const lock_request* released_request) {
 	this->released_request = *released_request;
 }
 
-void release_signal::serialize(uint8_t* buf) {
-	released_request.serialize(buf);
+void release_signal::pack_into_buffer(uint8_t* buf) {
+	released_request.pack_into_buffer(buf);
 }
 
-void release_signal::deserialize(uint8_t* serialized) {
-	released_request.deserialize(serialized);
+void release_signal::unpack_from_buffer(uint8_t* serialized) {
+	released_request.unpack_from_buffer(serialized);
 }
 
-size_t release_signal::get_size() {
-	return released_request.get_size();
-}
-
-void release_signal::be_handled_by(communicator* comm) {
-	comm->handle(this);
+size_t release_signal::calculate_size() {
+	return released_request.calculate_size();
 }
 
 release_signal::~release_signal() {}

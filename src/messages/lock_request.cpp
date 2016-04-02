@@ -1,5 +1,4 @@
 #include "../../inc/messages/lock_request.h"
-#include "../../inc/communicator.h"
 #include <string.h>
 
 lock_request::lock_request() {
@@ -26,7 +25,7 @@ bool lock_request::operator<(const lock_request& request) const {
 	return !(*this == request || *this > request);
 }
 
-void lock_request::serialize(uint8_t* buf) {
+void lock_request::pack_into_buffer(uint8_t* buf) {
 	uint8_t* seek = buf;
 	
 	uint32_t process_id = htonl(this->process_id);
@@ -41,7 +40,7 @@ void lock_request::serialize(uint8_t* buf) {
 	memcpy(seek, &critical_section_id, sizeof(critical_section_id));
 }
 
-void lock_request::deserialize(uint8_t* serialized) {
+void lock_request::unpack_from_buffer(uint8_t* serialized) {
 	uint8_t* seek = serialized;
 
 	uint32_t process_id;
@@ -59,13 +58,8 @@ void lock_request::deserialize(uint8_t* serialized) {
 	this->critical_section_id = ntohs(critical_section_id);
 }
 
-size_t lock_request::get_size() {
+size_t lock_request::calculate_size() {
 	return sizeof(process_id) + sizeof(creation_time) + sizeof(critical_section_id);
-}
-
-
-void lock_request::be_handled_by(communicator* comm) {
-	comm->handle(this);
 }
 
 lock_request::~lock_request() {}

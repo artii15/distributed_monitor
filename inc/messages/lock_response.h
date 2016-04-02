@@ -12,13 +12,11 @@ class lock_response: public packet {
 		lock_response();
 		lock_response(const lock_request* confirmed_request, const lock_request* answer);
 
-		virtual void serialize(uint8_t* buf);
-		virtual void deserialize(uint8_t* serialized);
-		virtual size_t get_size();
-
-		virtual void be_handled_by(communicator*);
-
 		virtual ~lock_response();
+	protected:
+		virtual size_t calculate_size();
+		virtual void pack_into_buffer(uint8_t* buf);
+		virtual void unpack_from_buffer(uint8_t* buf);
 };
 
 #endif

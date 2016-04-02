@@ -10,13 +10,11 @@ class release_signal: public packet {
 		release_signal();
 		release_signal(const lock_request*);
 
-		virtual void serialize(uint8_t* buf);
-		virtual void deserialize(uint8_t* serialized);
-		virtual size_t get_size();
-
-		virtual void be_handled_by(communicator*);
-
 		virtual ~release_signal();
+	protected:
+		virtual size_t calculate_size();
+		virtual void pack_into_buffer(uint8_t* buf);
+		virtual void unpack_from_buffer(uint8_t* buf);
 };
 
 #endif
