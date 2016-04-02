@@ -61,37 +61,43 @@ void communicator::handle(uint8_t* raw_message, uint16_t tag) {
 			lock_request payload;
 			message.payload = &payload;
 			message.deserialize(raw_message);
-
+			handle(&message);
 			break;
 		}
 		case MESSAGE_TAG::LOCK_RESPONSE: {
 			lock_response payload;
 			message.payload = &payload;
 			message.deserialize(raw_message);
+			handle(&message);
 			break;
 		}
 		case MESSAGE_TAG::RELEASE_SIGNAL: {
 			release_signal payload;
 			message.payload = &payload;
 			message.deserialize(raw_message);
+			handle(&message);
 			break;
 		}
 		case MESSAGE_TAG::WAIT_SIGNAL: {
 			wait_signal payload;
 			message.payload = &payload;
 			message.deserialize(raw_message);
+			handle(&message);
 			break;
 		}
 		case MESSAGE_TAG::WAKE_SIGNAL: {
 			wake_signal payload;
 			message.payload = &payload;
 			message.deserialize(raw_message);
+			handle(&message);
 			break;
 		}
 		default: throw invalid_message_exception("Not recognized message arrived");
-			
 	}
-	//message->deserialize(serialized_message);
+}
+
+void communicator::handle(frame* message) {
+			
 }
 
 void communicator::handle(lock_request* request) {

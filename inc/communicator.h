@@ -68,6 +68,7 @@ class communicator {
 		void wake_one_in_section(uint16_t critical_section_id);
 
 		void handle(uint8_t* raw_message, uint16_t tag);
+		void handle(frame* message);
 };
 
 #endif
