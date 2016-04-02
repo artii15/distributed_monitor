@@ -29,17 +29,16 @@ void mpi_communicator::send_message(frame* message, uint32_t recipient_id) {
 	MPI_Send(serialized_message, message_size, MPI_BYTE, recipient_id, message->tag, mpi_comm);
 }
 
-frame* mpi_communicator::receive_message() {
+void mpi_communicator::receive_message(uint8_t** raw_message, uint16_t* tag) {
 	MPI_Status status;
 	MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, mpi_comm, &status);
 
 	int message_size;
 	MPI_Get_count(&status, MPI_BYTE, &message_size);
-	uint8_t serialized_message[message_size];
 
-	MPI_Recv(serialized_message, message_size, MPI_BYTE, status.MPI_SOURCE, status.MPI_TAG, mpi_comm, MPI_STATUS_IGNORE);
-
-	return unpack(serialized_message, status.MPI_TAG);
+	*tag = status.MPI_TAG;
+	*raw_message = (uint8_t*)malloc(message_size*sizeof(uint8_t));
+	MPI_Recv(*raw_message, message_size, MPI_BYTE, status.MPI_SOURCE, status.MPI_TAG, mpi_comm, MPI_STATUS_IGNORE);
 }
 
 frame* mpi_communicator::unpack(uint8_t* serialized_message, int tag) {

@@ -1,6 +1,8 @@
 #include "../inc/communicator.h"
+#include "../inc/exceptions/invalid_message_exception.h"
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -35,16 +37,61 @@ void communicator::request_critical_section_access(uint16_t critical_section_id,
 
 void communicator::listen() {
 	while(enabled) {
-		frame* message = receive_message();
+		uint8_t* raw_message; uint16_t tag;
+		receive_message(&raw_message, &tag);
 
+		handle(raw_message, tag);
+		free(raw_message);
+
+/*
 		pthread_mutex_lock(&internal_state_mutex);
 
 		time = ((message->time > time) ? message->time : time) + 1;
 		message->payload->be_handled_by(this);
-		delete message;
 
 		pthread_mutex_unlock(&internal_state_mutex);
+*/
 	}
+}
+
+void communicator::handle(uint8_t* raw_message, uint16_t tag) {
+	frame message;
+	switch(tag) {
+		case MESSAGE_TAG::LOCK_REQUEST: {
+			lock_request payload;
+			message.payload = &payload;
+			message.deserialize(raw_message);
+
+			break;
+		}
+		case MESSAGE_TAG::LOCK_RESPONSE: {
+			lock_response payload;
+			message.payload = &payload;
+			message.deserialize(raw_message);
+			break;
+		}
+		case MESSAGE_TAG::RELEASE_SIGNAL: {
+			release_signal payload;
+			message.payload = &payload;
+			message.deserialize(raw_message);
+			break;
+		}
+		case MESSAGE_TAG::WAIT_SIGNAL: {
+			wait_signal payload;
+			message.payload = &payload;
+			message.deserialize(raw_message);
+			break;
+		}
+		case MESSAGE_TAG::WAKE_SIGNAL: {
+			wake_signal payload;
+			message.payload = &payload;
+			message.deserialize(raw_message);
+			break;
+		}
+		default: throw invalid_message_exception("Not recognized message arrived");
+			
+	}
+	//message->deserialize(serialized_message);
 }
 
 void communicator::handle(lock_request* request) {

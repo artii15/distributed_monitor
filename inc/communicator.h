@@ -46,7 +46,7 @@ class communicator {
 		virtual ~communicator();
 
 	protected:
-		virtual frame* receive_message() = 0;
+		virtual void receive_message(uint8_t** raw_message, uint16_t* tag) = 0;
 
 		uint32_t process_id;
 		unsigned int number_of_processes;
@@ -66,6 +66,8 @@ class communicator {
 		void request_critical_section_access(uint16_t critical_section_id, pthread_mutex_t* mutex);
 		void try_to_enter(uint16_t critical_section_id);
 		void wake_one_in_section(uint16_t critical_section_id);
+
+		void handle(uint8_t* raw_message, uint16_t tag);
 };
 
 #endif
