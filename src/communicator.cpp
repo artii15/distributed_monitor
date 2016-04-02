@@ -97,7 +97,7 @@ void communicator::handle(uint8_t* raw_message, uint16_t tag) {
 }
 
 void communicator::handle(frame* message) {
-			
+				
 }
 
 void communicator::handle(lock_request* request) {
