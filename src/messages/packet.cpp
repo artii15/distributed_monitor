@@ -1,5 +1,15 @@
 #include "../../inc/messages/packet.h"
 
+packet::packet() {
+	tag = 0;
+	time = 0;
+}
+
+packet::packet(uint16_t tag, uint32_t time) {
+	this->tag = tag;
+	this->time = time;
+}
+
 void packet::serialize(uint8_t* buf) {
 	uint8_t* seek = buf;	
 	

@@ -9,6 +9,9 @@ class packet {
 		uint16_t tag;
 		uint32_t time;
 
+		packet();
+		packet(uint16_t tag, uint32_t time);
+
 		virtual void serialize(uint8_t* buf);
 		virtual void deserialize(uint8_t* buf);
 		virtual size_t get_size();

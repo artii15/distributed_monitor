@@ -18,7 +18,6 @@ void synchronizer::on_message(packet* message) {
 	}
 }
 
-/*
 void synchronizer::handle(lock_request* request) {
 	lock_requests[request->critical_section_id].insert(*request);
 
@@ -26,7 +25,7 @@ void synchronizer::handle(lock_request* request) {
 
 	lock_response response(request, answer);
 
-	++time;
+	++process.time;
 	frame message(time, MESSAGE_TAG::LOCK_RESPONSE, &response);
 	send_message(&message, request->process_id);
 

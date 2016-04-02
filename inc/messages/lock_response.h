@@ -10,7 +10,7 @@ class lock_response: public packet {
 		lock_request answer;
 
 		lock_response();
-		lock_response(const lock_request* confirmed_request, const lock_request* answer);
+		lock_response(uint16_t tag, uint32_t time, const lock_request* confirmed_request, const lock_request* answer);
 
 		virtual ~lock_response();
 	protected:
