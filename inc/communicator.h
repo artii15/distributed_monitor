@@ -7,7 +7,6 @@
 #include "messages/release_signal.h"
 #include "messages/wait_signal.h"
 #include "messages/wake_signal.h"
-#include "request_descriptor.h"
 #include "monitor.h"
 #include <pthread.h>
 #include <map>

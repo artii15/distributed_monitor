@@ -9,7 +9,7 @@ mpi_communicator::mpi_communicator(uint32_t process_id, unsigned int number_of_p
 	this->mpi_comm = *mpi_comm;
 }
 
-void mpi_communicator::broadcast_message(frame* message) {
+void mpi_communicator::broadcast_message(packet* message) {
 	size_t message_size = message->get_size();
 	uint8_t serialized_message[message_size];
 	message->serialize(serialized_message);
@@ -21,7 +21,7 @@ void mpi_communicator::broadcast_message(frame* message) {
 	}
 }
 
-void mpi_communicator::send_message(frame* message, uint32_t recipient_id) {
+void mpi_communicator::send_message(packet* message, uint32_t recipient_id) {
 	size_t message_size = message->get_size();
 	uint8_t serialized_message[message_size];
 	message->serialize(serialized_message);

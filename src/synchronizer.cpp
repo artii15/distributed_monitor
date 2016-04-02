@@ -6,13 +6,15 @@ synchronizer::synchronizer(communicator* comm, process_descriptor* process) {
 	this->process = process;
 }
 
-void synchronizer::on_message(frame* message) {
+void synchronizer::on_message(packet* message) {
 	switch(message->tag) {
+		/*
 		case MESSAGE_TAG::LOCK_REQUEST: message->payload = new lock_request(); break;
 		case MESSAGE_TAG::LOCK_RESPONSE: message->payload = new lock_response(); break;
 		case MESSAGE_TAG::RELEASE_SIGNAL: message->payload = new release_signal(); break;
 		case MESSAGE_TAG::WAIT_SIGNAL: message->payload = new wait_signal(); break;
 		case MESSAGE_TAG::WAKE_SIGNAL: message->payload = new wake_signal(); break;
+		*/
 	}
 }
 

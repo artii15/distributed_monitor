@@ -17,7 +17,7 @@
 class synchronizer: public message_listener {
 	public:
 		synchronizer(communicator*, process_descriptor*);
-		virtual void on_message(frame*);
+		virtual void on_message(packet*);
 	
 	private:
 		communicator* comm;
