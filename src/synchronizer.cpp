@@ -49,15 +49,12 @@ void synchronizer::try_to_enter(uint16_t critical_section_id) {
 	}
 }
 
-/*
 void synchronizer::handle(release_signal* signal) {
 	lock_request* released_request = &signal->released_request;
 
 	lock_requests[released_request->critical_section_id].erase(*released_request);
 
 	try_to_enter(released_request->critical_section_id);
-
-	delete signal;
 }
 
 void synchronizer::handle(wait_signal* signal) {
@@ -68,8 +65,6 @@ void synchronizer::handle(wait_signal* signal) {
 	wait_signals[critical_section_id].insert(*signal);
 
 	try_to_enter(critical_section_id);
-
-	delete signal;
 }
 
 void synchronizer::handle(wake_signal* signal) {
@@ -88,6 +83,4 @@ void synchronizer::handle(wake_signal* signal) {
 	}
 
 	wait_signals[critical_section_id].erase(*signal_to_release);
-	delete signal;
 }
-*/
