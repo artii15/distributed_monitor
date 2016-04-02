@@ -29,16 +29,27 @@ void synchronizer::handle(lock_request* request) {
 	send_message(&response, request->process_id);
 }
 
-/*
 void synchronizer::handle(lock_response* response) {
 	++(&requests_descriptors[response->confirmed_request])->number_of_confirmations;
 	lock_requests[response->answer.critical_section_id].insert(response->answer);
 
 	try_to_enter(response->answer.critical_section_id);
-
-	delete response;
 }
 
+void synchronizer::try_to_enter(uint16_t critical_section_id) {
+	map<uint16_t, const lock_request*>::iterator own_requests_iterator = own_requests.find(critical_section_id);
+	if(own_requests_iterator != own_requests.end()) {
+		const lock_request* own_request = own_requests_iterator->second;
+		request_descriptor* descriptor = &requests_descriptors[*own_request];
+
+		if(descriptor->number_of_confirmations == number_of_processes && *lock_requests[critical_section_id].begin() == *own_request) {
+			pthread_mutex_unlock(descriptor->mutex);
+			requests_descriptors.erase(*own_request);
+		}
+	}
+}
+
+/*
 void synchronizer::handle(release_signal* signal) {
 	lock_request* released_request = &signal->released_request;
 
