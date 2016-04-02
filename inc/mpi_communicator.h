@@ -12,7 +12,7 @@ class mpi_communicator: public communicator {
 	protected:
 		virtual void broadcast_message(packet* message);
 		virtual void send_message(packet* message, uint32_t recipient_id);
-		virtual void receive_message(uint8_t** raw_message, uint16_t* tag);
+		virtual void receive_message();
 
 	private:
 		MPI_Comm mpi_comm;

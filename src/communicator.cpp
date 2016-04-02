@@ -37,12 +37,7 @@ void communicator::request_critical_section_access(uint16_t critical_section_id,
 
 void communicator::listen() {
 	while(enabled) {
-		uint8_t* raw_message; uint16_t tag;
-		receive_message(&raw_message, &tag);
-
-		handle(raw_message, tag);
-		free(raw_message);
-
+		receive_message();
 /*
 		pthread_mutex_lock(&internal_state_mutex);
 
@@ -55,17 +50,16 @@ void communicator::listen() {
 }
 
 void communicator::handle(uint8_t* raw_message, uint16_t tag) {
-	frame message;
+/*
 	switch(tag) {
 		case MESSAGE_TAG::LOCK_REQUEST: {
-			lock_request payload;
-			message.payload = &payload;
+			lock_request message;
 			message.deserialize(raw_message);
 			handle(&message);
 			break;
 		}
 		case MESSAGE_TAG::LOCK_RESPONSE: {
-			lock_response payload;
+			lock_response message;
 			message.payload = &payload;
 			message.deserialize(raw_message);
 			handle(&message);
@@ -94,17 +88,16 @@ void communicator::handle(uint8_t* raw_message, uint16_t tag) {
 		}
 		default: throw invalid_message_exception("Not recognized message arrived");
 	}
+*/
 }
 
-void communicator::handle(frame* message) {
+void communicator::handle(packet* message) {
 				
 }
 
 void communicator::send_release_signal(uint16_t critical_section_id) {
 	pthread_mutex_lock(&internal_state_mutex);
 	const lock_request* request_to_release = own_requests[critical_section_id];
-
-	printf("Process: %d, Time: %d, Leaving section %d\n", process_id, time, request_to_release->critical_section_id);
 
 	++time;
 	release_signal request_release_signal(request_to_release);
@@ -121,8 +114,6 @@ void communicator::send_wait_signal(uint16_t critical_section_id, pthread_mutex_
 	pthread_mutex_lock(&internal_state_mutex);
 
 	++time;
-	printf("Process: %d, Time: %d, Waiting in section %d\n", process_id, time, critical_section_id);
-
 	const lock_request* request_to_remove = own_requests[critical_section_id];
 
 	wait_signal signal(request_to_remove);

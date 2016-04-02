@@ -32,14 +32,11 @@ class communicator {
 		virtual ~communicator();
 
 	protected:
-		virtual void receive_message(uint8_t** raw_message, uint16_t* tag) = 0;
+		virtual void receive_message() = 0;
+		void handle(uint8_t* raw_message, uint16_t tag);
 
 		uint32_t process_id;
 		unsigned int number_of_processes;
-
-	private:
-		void handle(uint8_t* raw_message, uint16_t tag);
-		void handle(packet* message);
 };
 
 #endif
