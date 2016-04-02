@@ -10,6 +10,7 @@ class process_descriptor {
 
 		uint32_t id;
 		uint16_t time;
+		unsigned int number_of_processes;
 		pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 };
 

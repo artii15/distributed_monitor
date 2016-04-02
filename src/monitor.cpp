@@ -25,7 +25,7 @@ void monitor::lock() {
 	pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
 	pthread_mutex_lock(&mutex);
 	
-	comm->send_lock_request(critical_section_id, &mutex);
+	//comm->send_lock_request(critical_section_id, &mutex);
 
 	pthread_mutex_lock(&mutex);
 	pthread_mutex_unlock(&mutex);
@@ -34,14 +34,14 @@ void monitor::lock() {
 }
 
 void monitor::unlock() {
-	comm->send_release_signal(critical_section_id);
+	//comm->send_release_signal(critical_section_id);
 }
 
 void monitor::wait() {
 	pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 	pthread_mutex_lock(&mutex);
 
-	comm->send_wait_signal(critical_section_id, &mutex);
+	//comm->send_wait_signal(critical_section_id, &mutex);
 
 	pthread_mutex_lock(&mutex);
 	pthread_mutex_unlock(&mutex);
@@ -50,9 +50,9 @@ void monitor::wait() {
 }
 
 void monitor::notify() {
-	comm->send_wake_signal(critical_section_id);
+	//comm->send_wake_signal(critical_section_id);
 }
 
 void monitor::notify_all() {
-	comm->send_wake_all_signal(critical_section_id);
+	//comm->send_wake_all_signal(critical_section_id);
 }
