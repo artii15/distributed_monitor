@@ -23,15 +23,13 @@ void synchronizer::handle(lock_request* request) {
 
 	const lock_request* answer = (own_requests.find(request->critical_section_id) == own_requests.end()) ? request : own_requests[request->critical_section_id];
 
-	lock_response response(request, answer);
-
 	++process.time;
-	frame message(time, MESSAGE_TAG::LOCK_RESPONSE, &response);
-	send_message(&message, request->process_id);
+	lock_response response(MESSAGE_TAG::LOCK_RESPONSE, process.time, request, answer);
 
-	delete request;
+	send_message(&response, request->process_id);
 }
 
+/*
 void synchronizer::handle(lock_response* response) {
 	++(&requests_descriptors[response->confirmed_request])->number_of_confirmations;
 	lock_requests[response->answer.critical_section_id].insert(response->answer);
