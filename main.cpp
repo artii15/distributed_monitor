@@ -57,8 +57,8 @@ int main(int argc, char** argv) {
 	pthread_t listening_thread;
 	pthread_create(&listening_thread, NULL, listening_task, NULL);
 
-	monitor m(comm, 1);
-	m.call(test);
+	//monitor m(comm, 1);
+	//m.call(test);
 
 	pthread_join(listening_thread, NULL);
 

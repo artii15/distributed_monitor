@@ -14,6 +14,7 @@
 #include "communicator.h"
 #include "process_descriptor.h"
 
+class communicator;
 class synchronizer: public message_listener {
 	public:
 		synchronizer(communicator*, process_descriptor*);

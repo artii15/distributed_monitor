@@ -4,8 +4,8 @@
 
 using namespace std;
 
-monitor::monitor(communicator* comm, uint16_t critical_section_id) {
-	this->comm = comm;
+monitor::monitor(synchronizer* synchronizator, uint16_t critical_section_id) {
+	this->synchronizator = synchronizator;
 	this->critical_section_id = critical_section_id;
 }
 
