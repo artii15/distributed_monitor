@@ -22,6 +22,8 @@ class communicator {
 		virtual void broadcast_message(packet* message) = 0;
 		virtual void send_message(packet* message, uint32_t recipient_id) = 0;
 
+		void register_message_handler(uint16_t tag, message_handler* handler);
+
 		virtual ~communicator();
 
 	protected:

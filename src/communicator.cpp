@@ -15,6 +15,10 @@ void communicator::listen() {
 	}
 }
 
+void communicator::register_message_handler(uint16_t tag, message_handler* handler) {
+	messages_handlers[tag] = handler;
+}
+
 void communicator::handle(uint8_t* raw_message, uint16_t tag) {
 	map<uint16_t, message_handler*>::iterator handlers_iterator = messages_handlers.find(tag);
 	if(handlers_iterator == messages_handlers.end()) {
