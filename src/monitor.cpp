@@ -1,6 +1,5 @@
 #include "../inc/monitor.h"
 #include <pthread.h>
-#include <iostream>
 
 using namespace std;
 
