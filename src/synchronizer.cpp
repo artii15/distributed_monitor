@@ -1,5 +1,4 @@
 #include "../inc/synchronizer.h"
-#include <stdio.h>
 
 using namespace std;
 
@@ -8,7 +7,7 @@ synchronizer::synchronizer(communicator* comm, process_descriptor* process) {
 	this->process = process;
 }
 
-void handle(uint8_t* raw_message, uint16_t tag) {
+void synchronizer::handle(uint8_t* raw_message, uint16_t tag) {
 	switch(tag) {
 		/*
 		case MESSAGE_TAG::LOCK_REQUEST: message->payload = new lock_request(); break;

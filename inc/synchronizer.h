@@ -14,11 +14,11 @@
 #include "communicator.h"
 #include "process_descriptor.h"
 
-class communicator;
 class synchronizer: public message_handler {
 	public:
 		synchronizer(communicator*, process_descriptor*);
-		void handle(uint8_t* raw_message, uint16_t tag);
+
+		virtual void handle(uint8_t* raw_message, uint16_t tag);
 
 		void wake_all_in_section(uint16_t critical_section_id);
 		void wake_one_in_section(uint16_t critical_section_id);
