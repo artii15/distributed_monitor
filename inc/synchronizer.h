@@ -19,6 +19,9 @@ class synchronizer: public message_listener {
 	public:
 		synchronizer(communicator*, process_descriptor*);
 		virtual void on_message(packet*);
+
+		void wake_all_in_section(uint16_t critical_section_id);
+		void wake_one_in_section(uint16_t critical_section_id);
 	
 	private:
 		communicator* comm;

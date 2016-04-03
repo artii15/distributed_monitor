@@ -54,5 +54,5 @@ void monitor::notify() {
 }
 
 void monitor::notify_all() {
-	//comm->send_wake_all_signal(critical_section_id);
+	synchronizator->wake_all_in_section(critical_section_id);
 }

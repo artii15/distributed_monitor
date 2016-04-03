@@ -129,27 +129,6 @@ void communicator::send_wake_signal(uint16_t critical_section_id) {
 	pthread_mutex_unlock(&internal_state_mutex);
 }
 
-void communicator::send_wake_all_signal(uint16_t critical_section_id) {
-	pthread_mutex_lock(&internal_state_mutex);
-
-	while(!wait_signals[critical_section_id].empty()) {
-		++time;
-		wake_one_in_section(critical_section_id);
-	}
-
-	pthread_mutex_unlock(&internal_state_mutex);
-}
-
-void communicator::wake_one_in_section(uint16_t critical_section_id) {
-	const wait_signal* signal_to_remove = &*wait_signals[critical_section_id].begin();
-	wake_signal	signal(signal_to_remove);
-			
-	frame message(time, MESSAGE_TAG::WAKE_SIGNAL, &signal);
-	broadcast_message(&message);
-
-	wait_signals[critical_section_id].erase(*signal_to_remove);
-}
-
 */
 
 communicator::~communicator() {}

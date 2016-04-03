@@ -97,3 +97,19 @@ void synchronizer::request_critical_section_access(uint16_t critical_section_id,
 	++process->time;
 	comm->broadcast_message(&request);
 }
+
+void synchronizer::wake_all_in_section(uint16_t critical_section_id) {
+	while(!wait_signals[critical_section_id].empty()) {
+		++process->time;
+		wake_one_in_section(critical_section_id);
+	}
+}
+
+void synchronizer::wake_one_in_section(uint16_t critical_section_id) {
+	const wait_signal* signal_to_remove = &*wait_signals[critical_section_id].begin();
+	wake_signal	signal(signal_to_remove);
+			
+	comm->broadcast_message(&signal);
+
+	wait_signals[critical_section_id].erase(*signal_to_remove);
+}
