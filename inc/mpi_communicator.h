@@ -7,7 +7,7 @@
 
 class mpi_communicator: public communicator {
 	public:
-		mpi_communicator(uint32_t process_id, unsigned int number_of_processes, MPI_Comm* mpi_comm);
+		mpi_communicator(const environment_descriptor* env, MPI_Comm* mpi_comm);
 
 	protected:
 		virtual void broadcast_message(packet* message);

@@ -3,6 +3,7 @@
 
 #include "messages/packet.h"
 #include "message_handler.h"
+#include "environment_descriptor.h"
 #include <map>
 
 typedef struct MESSAGE_TAG {
@@ -16,7 +17,7 @@ typedef struct MESSAGE_TAG {
 class communicator {
 	public:
 		bool enabled;
-		communicator(uint32_t process_id, unsigned int number_of_processes);
+		communicator(const environment_descriptor* env);
 
 		virtual void listen();
 		virtual void broadcast_message(packet* message) = 0;
@@ -30,8 +31,7 @@ class communicator {
 		virtual void receive_message() = 0;
 		void handle(uint8_t* raw_message, uint16_t tag);
 
-		uint32_t process_id;
-		unsigned int number_of_processes;
+		const environment_descriptor* env;
 	private:
 		std::map<uint16_t, message_handler*> messages_handlers;
 };

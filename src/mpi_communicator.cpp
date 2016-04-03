@@ -1,11 +1,9 @@
 #include "../inc/mpi_communicator.h"
-#include "../inc/exceptions/invalid_message_exception.h"
 #include <mpi.h>
-#include <stdlib.h>
 
 using namespace std;
 
-mpi_communicator::mpi_communicator(uint32_t process_id, unsigned int number_of_processes, MPI_Comm* mpi_comm): communicator(process_id, number_of_processes) {
+mpi_communicator::mpi_communicator(const environment_descriptor* env, MPI_Comm* mpi_comm): communicator(env) {
 	this->mpi_comm = *mpi_comm;
 }
 
@@ -14,8 +12,8 @@ void mpi_communicator::broadcast_message(packet* message) {
 	uint8_t serialized_message[message_size];
 	message->serialize(serialized_message);
 
-	for(unsigned int process_id = 0; process_id < number_of_processes; ++process_id) {
-		if(process_id != this->process_id) {
+	for(unsigned int process_id = 0; process_id < env->number_of_processes; ++process_id) {
+		if(process_id != env->process_id) {
 			MPI_Send(serialized_message, message_size, MPI_BYTE, process_id, message->tag, mpi_comm);
 		}
 	}

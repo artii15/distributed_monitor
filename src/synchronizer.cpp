@@ -2,12 +2,14 @@
 
 using namespace std;
 
-synchronizer::synchronizer(communicator* comm, process_descriptor* process) {
+synchronizer::synchronizer(communicator* comm, const environment_descriptor* env) {
 	this->comm = comm;
-	this->process = process;
+	this->env = env;
+	this->time = 0;
 }
 
 void synchronizer::handle(uint8_t* raw_message, uint16_t tag) {
+	pthread_mutex_lock(&internal_state_mutex);
 	switch(tag) {
 		case MESSAGE_TAG::LOCK_REQUEST: {
 			lock_request request(raw_message);
@@ -35,6 +37,7 @@ void synchronizer::handle(uint8_t* raw_message, uint16_t tag) {
 			break;
 		}
 	}
+	pthread_mutex_unlock(&internal_state_mutex);
 }
 
 void synchronizer::handle(lock_request* request) {
@@ -42,8 +45,8 @@ void synchronizer::handle(lock_request* request) {
 
 	const lock_request* answer = (own_requests.find(request->critical_section_id) == own_requests.end()) ? request : own_requests[request->critical_section_id];
 
-	++process->time;
-	lock_response response(MESSAGE_TAG::LOCK_RESPONSE, process->time, request, answer);
+	++time;
+	lock_response response(MESSAGE_TAG::LOCK_RESPONSE, time, request, answer);
 
 	comm->send_message(&response, request->process_id);
 }
@@ -97,7 +100,7 @@ void synchronizer::try_to_enter(uint16_t critical_section_id) {
 		const lock_request* own_request = own_requests_iterator->second;
 		request_descriptor* descriptor = &requests_descriptors[*own_request];
 
-		if(descriptor->number_of_confirmations == process->number_of_processes && *lock_requests[critical_section_id].begin() == *own_request) {
+		if(descriptor->number_of_confirmations == env->number_of_processes && *lock_requests[critical_section_id].begin() == *own_request) {
 			pthread_mutex_unlock(descriptor->mutex);
 			requests_descriptors.erase(*own_request);
 		}
@@ -105,19 +108,19 @@ void synchronizer::try_to_enter(uint16_t critical_section_id) {
 }
 
 void synchronizer::request_critical_section_access(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
-	lock_request request(process->id, process->time, critical_section_id);
+	lock_request request(env->process_id, time, critical_section_id);
 	requests_descriptors[request] = request_descriptor(waiting_process_mutex, 1);
 
 	lock_requests[critical_section_id].insert(request);
 	own_requests[critical_section_id] = &*lock_requests[critical_section_id].find(request);
 
-	++process->time;
+	++time;
 	comm->broadcast_message(&request);
 }
 
 void synchronizer::wake_all_in_section(uint16_t critical_section_id) {
 	while(!wait_signals[critical_section_id].empty()) {
-		++process->time;
+		++time;
 		wake_one_in_section(critical_section_id);
 	}
 }
@@ -132,7 +135,7 @@ void synchronizer::wake_one_in_section(uint16_t critical_section_id) {
 }
 
 void synchronizer::wait_in_section(uint16_t critical_section_id, pthread_mutex_t* mutex) {
-	++process->time;
+	++time;
 	const lock_request* request_to_remove = own_requests[critical_section_id];
 
 	wait_signal signal(request_to_remove);
@@ -149,7 +152,7 @@ void synchronizer::wait_in_section(uint16_t critical_section_id, pthread_mutex_t
 void synchronizer::release_section(uint16_t critical_section_id) {
 	const lock_request* request_to_release = own_requests[critical_section_id];
 
-	++process->time;
+	++time;
 	release_signal request_release_signal(request_to_release);
 	comm->broadcast_message(&request_release_signal);
 

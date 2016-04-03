@@ -3,9 +3,8 @@
 
 using namespace std;
 
-communicator::communicator(uint32_t process_id, unsigned int number_of_processes) {
-	this->process_id = process_id;
-	this->number_of_processes = number_of_processes;
+communicator::communicator(const environment_descriptor* env) {
+	this->env = env;
 	enabled = true;
 }
 
