@@ -113,3 +113,18 @@ void synchronizer::wake_one_in_section(uint16_t critical_section_id) {
 
 	wait_signals[critical_section_id].erase(*signal_to_remove);
 }
+
+void synchronizer::wait_in_section(uint16_t critical_section_id, pthread_mutex_t* mutex) {
+	++process->time;
+	const lock_request* request_to_remove = own_requests[critical_section_id];
+
+	wait_signal signal(request_to_remove);
+	wait_signals[critical_section_id].insert(signal);
+	wait_signals_mutexes[signal] = mutex;
+	own_wait_signals[critical_section_id] = &*wait_signals[critical_section_id].find(signal);
+
+	comm->broadcast_message(&signal);
+
+	lock_requests[critical_section_id].erase(*request_to_remove);
+	own_requests.erase(critical_section_id);
+}

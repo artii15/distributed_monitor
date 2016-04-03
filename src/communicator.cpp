@@ -98,26 +98,6 @@ void communicator::send_release_signal(uint16_t critical_section_id) {
 	pthread_mutex_unlock(&internal_state_mutex);
 }
 
-void communicator::send_wait_signal(uint16_t critical_section_id, pthread_mutex_t* mutex) {
-	pthread_mutex_lock(&internal_state_mutex);
-
-	++time;
-	const lock_request* request_to_remove = own_requests[critical_section_id];
-
-	wait_signal signal(request_to_remove);
-	wait_signals[critical_section_id].insert(signal);
-	wait_signals_mutexes[signal] = mutex;
-	own_wait_signals[critical_section_id] = &*wait_signals[critical_section_id].find(signal);
-
-	frame message(time, MESSAGE_TAG::WAIT_SIGNAL, &signal);
-	broadcast_message(&message);
-
-	lock_requests[critical_section_id].erase(*request_to_remove);
-	own_requests.erase(critical_section_id);
-
-	pthread_mutex_unlock(&internal_state_mutex);
-}
-
 */
 
 communicator::~communicator() {}

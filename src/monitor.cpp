@@ -41,7 +41,7 @@ void monitor::wait() {
 	pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 	pthread_mutex_lock(&mutex);
 
-	//comm->send_wait_signal(critical_section_id, &mutex);
+	synchronizator->wait_in_section(critical_section_id, &mutex);
 
 	pthread_mutex_lock(&mutex);
 	pthread_mutex_unlock(&mutex);
