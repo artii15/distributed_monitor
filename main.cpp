@@ -50,8 +50,9 @@ int main(int argc, char** argv) {
 
 	MPI_Comm duplicated_world_comm;
 	MPI_Comm_dup(MPI_COMM_WORLD, &duplicated_world_comm);
-
-	mpi_communicator mpi_comm(world_rank, world_size, &duplicated_world_comm);
+	
+	environment_descriptor env = { .process_id = (uint32_t)world_rank, .number_of_processes = (uint32_t)world_size };
+	mpi_communicator mpi_comm(&env, &duplicated_world_comm);
 	comm = &mpi_comm;
 
 	pthread_t listening_thread;
