@@ -1,5 +1,5 @@
 #include "../../inc/synchronizer/synchronizer.h"
-#include "../../inc/messages_types.h"
+#include "../../inc/messages_tags.h"
 
 using namespace std;
 

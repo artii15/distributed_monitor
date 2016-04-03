@@ -1,5 +1,5 @@
-#ifndef MESSAGES_TYPES_H
-#define MESSAGES_TYPES_H
+#ifndef MESSAGES_TAGS_H
+#define MESSAGES_TAGS_H
 
 typedef struct MESSAGE_TAG {
 	const static uint16_t LOCK_REQUEST = 1;
