@@ -10,33 +10,40 @@ synchronizer::synchronizer(communicator* comm, const environment_descriptor* env
 
 void synchronizer::handle(uint8_t* raw_message, uint16_t tag) {
 	pthread_mutex_lock(&internal_state_mutex);
+	uint32_t message_time = 0;
 	switch(tag) {
 		case MESSAGE_TAG::LOCK_REQUEST: {
 			lock_request request(raw_message);
+			message_time = request.time;
 			handle(&request);
 			break;
 		}
 		case MESSAGE_TAG::LOCK_RESPONSE: {
 			lock_response response(raw_message);
+			message_time = response.time;
 			handle(&response);
 			break;
 		}
 		case MESSAGE_TAG::RELEASE_SIGNAL: {
 			release_signal signal(raw_message);
+			message_time = signal.time;
 			handle(&signal);
 			break;
 		}
 		case MESSAGE_TAG::WAIT_SIGNAL: {
 			wait_signal signal(raw_message);
+			message_time = signal.time;
 			handle(&signal);
 			break;
 		}
 		case MESSAGE_TAG::WAKE_SIGNAL: {
 			wake_signal signal(raw_message);
+			message_time = signal.time;
 			handle(&signal);
 			break;
 		}
 	}
+	time = ((message_time > time) ? message_time : time) + 1;
 	pthread_mutex_unlock(&internal_state_mutex);
 }
 
