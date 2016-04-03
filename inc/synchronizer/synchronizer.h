@@ -44,6 +44,8 @@ class synchronizer: public message_handler {
 		void request_section_lock(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex);
 		void notify_one_process(uint16_t critical_section_id);
 
+		void synchronize_time(const synchronization_message* message);
+
 		void handle(lock_request* request);
 		void handle(lock_response* response);
 		void handle(release_signal* signal);
