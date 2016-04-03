@@ -2,6 +2,10 @@
 
 release_signal::release_signal() {}
 
+release_signal::release_signal(uint8_t* buf) {
+	deserialize(buf);
+}
+
 release_signal::release_signal(const lock_request* released_request) {
 	this->released_request = *released_request;
 }

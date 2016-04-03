@@ -2,6 +2,10 @@
 
 wait_signal::wait_signal() {}
 
+wait_signal::wait_signal(uint8_t* buf) {
+	deserialize(buf);
+}
+
 wait_signal::wait_signal(const lock_request* request_to_remove) {
 	this->request_to_remove = *request_to_remove;
 }

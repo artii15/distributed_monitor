@@ -8,6 +8,7 @@ class wake_signal: public packet {
 		wait_signal signal_to_release;
 
 		wake_signal();
+		wake_signal(uint8_t* buf);
 		wake_signal(const wait_signal*);
 
 		virtual ~wake_signal();

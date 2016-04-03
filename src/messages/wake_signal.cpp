@@ -2,6 +2,10 @@
 
 wake_signal::wake_signal() {}
 
+wake_signal::wake_signal(uint8_t* buf) {
+	deserialize(buf);
+}
+
 wake_signal::wake_signal(const wait_signal* signal_to_release) {
 	this->signal_to_release = *signal_to_release;
 }

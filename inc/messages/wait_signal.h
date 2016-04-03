@@ -8,6 +8,7 @@ class wait_signal: public packet {
 		lock_request request_to_remove;
 
 		wait_signal();
+		wait_signal(uint8_t* buf);
 		wait_signal(const lock_request*);
 
 		bool operator>(const wait_signal& signal) const;

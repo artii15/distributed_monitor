@@ -20,45 +20,6 @@ void communicator::listen() {
 
 void communicator::handle(uint8_t* raw_message, uint16_t tag) {
 	messages_handlers[tag]->handle(raw_message, tag);
-/*
-	switch(tag) {
-		case MESSAGE_TAG::LOCK_REQUEST: {
-			lock_request message;
-			message.deserialize(raw_message);
-			handle(&message);
-			break;
-		}
-		case MESSAGE_TAG::LOCK_RESPONSE: {
-			lock_response message;
-			message.payload = &payload;
-			message.deserialize(raw_message);
-			handle(&message);
-			break;
-		}
-		case MESSAGE_TAG::RELEASE_SIGNAL: {
-			release_signal payload;
-			message.payload = &payload;
-			message.deserialize(raw_message);
-			handle(&message);
-			break;
-		}
-		case MESSAGE_TAG::WAIT_SIGNAL: {
-			wait_signal payload;
-			message.payload = &payload;
-			message.deserialize(raw_message);
-			handle(&message);
-			break;
-		}
-		case MESSAGE_TAG::WAKE_SIGNAL: {
-			wake_signal payload;
-			message.payload = &payload;
-			message.deserialize(raw_message);
-			handle(&message);
-			break;
-		}
-		default: throw invalid_message_exception("Not recognized message arrived");
-	}
-*/
 }
 
 communicator::~communicator() {}

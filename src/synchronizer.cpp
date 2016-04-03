@@ -9,13 +9,31 @@ synchronizer::synchronizer(communicator* comm, process_descriptor* process) {
 
 void synchronizer::handle(uint8_t* raw_message, uint16_t tag) {
 	switch(tag) {
-		/*
-		case MESSAGE_TAG::LOCK_REQUEST: message->payload = new lock_request(); break;
-		case MESSAGE_TAG::LOCK_RESPONSE: message->payload = new lock_response(); break;
-		case MESSAGE_TAG::RELEASE_SIGNAL: message->payload = new release_signal(); break;
-		case MESSAGE_TAG::WAIT_SIGNAL: message->payload = new wait_signal(); break;
-		case MESSAGE_TAG::WAKE_SIGNAL: message->payload = new wake_signal(); break;
-		*/
+		case MESSAGE_TAG::LOCK_REQUEST: {
+			lock_request request(raw_message);
+			handle(&request);
+			break;
+		}
+		case MESSAGE_TAG::LOCK_RESPONSE: {
+			lock_response response(raw_message);
+			handle(&response);
+			break;
+		}
+		case MESSAGE_TAG::RELEASE_SIGNAL: {
+			release_signal signal(raw_message);
+			handle(&signal);
+			break;
+		}
+		case MESSAGE_TAG::WAIT_SIGNAL: {
+			wait_signal signal(raw_message);
+			handle(&signal);
+			break;
+		}
+		case MESSAGE_TAG::WAKE_SIGNAL: {
+			wake_signal signal(raw_message);
+			handle(&signal);
+			break;
+		}
 	}
 }
 

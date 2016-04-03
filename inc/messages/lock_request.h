@@ -10,6 +10,7 @@ class lock_request: public packet {
 		uint16_t critical_section_id;
 
 		lock_request();
+		lock_request(uint8_t* buf);
 		lock_request(uint32_t process_id, uint32_t creation_time, uint16_t critical_section_id);
 
 		bool operator>(const lock_request& request) const;

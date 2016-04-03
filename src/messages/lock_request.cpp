@@ -7,6 +7,10 @@ lock_request::lock_request() {
 	critical_section_id = 0;
 }
 
+lock_request::lock_request(uint8_t* buf) {
+	deserialize(buf);
+}
+
 lock_request::lock_request(uint32_t process_id, uint32_t creation_time, uint16_t critical_section_id) {
 	this->process_id = process_id;
 	this->creation_time = creation_time;

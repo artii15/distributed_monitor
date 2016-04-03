@@ -7,6 +7,10 @@ lock_response::lock_response(uint16_t tag, uint32_t time, const lock_request* co
 	this->answer = *answer;
 }
 
+lock_response::lock_response(uint8_t* buf) {
+	deserialize(buf);
+}
+
 void lock_response::serialize_members(uint8_t* buf) {
 	uint8_t* seek = buf;
 	confirmed_request.serialize(seek);
