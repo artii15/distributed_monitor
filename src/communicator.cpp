@@ -1,8 +1,5 @@
 #include "../inc/communicator.h"
 #include "../inc/exceptions/invalid_message_exception.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
 
 using namespace std;
 
@@ -19,7 +16,13 @@ void communicator::listen() {
 }
 
 void communicator::handle(uint8_t* raw_message, uint16_t tag) {
-	messages_handlers[tag]->handle(raw_message, tag);
+	map<uint16_t, message_handler*>::iterator handlers_iterator = messages_handlers.find(tag);
+	if(handlers_iterator == messages_handlers.end()) {
+		throw invalid_message_exception("Received message with unknown tag");
+	}
+	else {
+		handlers_iterator->second->handle(raw_message, tag);
+	}
 }
 
 communicator::~communicator() {}
