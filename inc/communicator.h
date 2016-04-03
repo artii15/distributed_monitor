@@ -2,15 +2,8 @@
 #define COMMUNICATOR_H
 
 #include "messages/packet.h"
-#include "messages/lock_request.h"
-#include "messages/lock_response.h"
-#include "messages/release_signal.h"
-#include "messages/wait_signal.h"
-#include "messages/wake_signal.h"
-#include "monitor.h"
-#include <pthread.h>
+#include "message_handler.h"
 #include <map>
-#include <set>
 
 typedef struct MESSAGE_TAG {
 	const static uint16_t LOCK_REQUEST = 1;
@@ -34,10 +27,11 @@ class communicator {
 	protected:
 		virtual void receive_message() = 0;
 		void handle(uint8_t* raw_message, uint16_t tag);
-		void handle(packet* message);
 
 		uint32_t process_id;
 		unsigned int number_of_processes;
+	private:
+		std::map<uint16_t, message_handler*> messages_handlers;
 };
 
 #endif

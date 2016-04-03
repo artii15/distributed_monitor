@@ -8,8 +8,8 @@ synchronizer::synchronizer(communicator* comm, process_descriptor* process) {
 	this->process = process;
 }
 
-void synchronizer::on_message(packet* message) {
-	switch(message->tag) {
+void handle(uint8_t* raw_message, uint16_t tag) {
+	switch(tag) {
 		/*
 		case MESSAGE_TAG::LOCK_REQUEST: message->payload = new lock_request(); break;
 		case MESSAGE_TAG::LOCK_RESPONSE: message->payload = new lock_response(); break;

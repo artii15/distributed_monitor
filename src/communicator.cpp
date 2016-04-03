@@ -15,18 +15,11 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 void communicator::listen() {
 	while(enabled) {
 		receive_message();
-/*
-		pthread_mutex_lock(&internal_state_mutex);
-
-		time = ((message->time > time) ? message->time : time) + 1;
-		message->payload->be_handled_by(this);
-
-		pthread_mutex_unlock(&internal_state_mutex);
-*/
 	}
 }
 
 void communicator::handle(uint8_t* raw_message, uint16_t tag) {
+	messages_handlers[tag]->handle(raw_message, tag);
 /*
 	switch(tag) {
 		case MESSAGE_TAG::LOCK_REQUEST: {
@@ -66,10 +59,6 @@ void communicator::handle(uint8_t* raw_message, uint16_t tag) {
 		default: throw invalid_message_exception("Not recognized message arrived");
 	}
 */
-}
-
-void communicator::handle(packet* message) {
-				
 }
 
 communicator::~communicator() {}

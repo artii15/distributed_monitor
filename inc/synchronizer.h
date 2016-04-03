@@ -5,7 +5,7 @@
 #include <set>
 #include <pthread.h>
 #include "request_descriptor.h"
-#include "message_listener.h"
+#include "message_handler.h"
 #include "messages/lock_request.h"
 #include "messages/lock_response.h"
 #include "messages/release_signal.h"
@@ -15,10 +15,10 @@
 #include "process_descriptor.h"
 
 class communicator;
-class synchronizer: public message_listener {
+class synchronizer: public message_handler {
 	public:
 		synchronizer(communicator*, process_descriptor*);
-		virtual void on_message(packet*);
+		void handle(uint8_t* raw_message, uint16_t tag);
 
 		void wake_all_in_section(uint16_t critical_section_id);
 		void wake_one_in_section(uint16_t critical_section_id);
