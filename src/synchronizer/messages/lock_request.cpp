@@ -31,10 +31,6 @@ void lock_request::serialize_synchronization_members(uint8_t* buf) {
 	memcpy(seek, &process_id, sizeof(process_id));
 	seek += sizeof(process_id);
 
-	uint32_t creation_time = htonl(this->creation_time);
-	memcpy(seek, &creation_time, sizeof(creation_time));
-	seek += sizeof(creation_time);
-
 	uint16_t critical_section_id = htons(this->critical_section_id);
 	memcpy(seek, &critical_section_id, sizeof(critical_section_id));
 }
@@ -47,18 +43,13 @@ void lock_request::deserialize_synchronization_members(uint8_t* serialized) {
 	this->process_id = ntohl(process_id);
 	seek += sizeof(process_id);
 
-	uint32_t creation_time;
-	memcpy(&creation_time, seek, sizeof(creation_time));
-	this->creation_time = ntohl(creation_time);
-	seek += sizeof(creation_time);
-
 	uint16_t critical_section_id;
 	memcpy(&critical_section_id, seek, sizeof(critical_section_id));
 	this->critical_section_id = ntohs(critical_section_id);
 }
 
 size_t lock_request::calculate_synchronization_members_size() {
-	return sizeof(process_id) + sizeof(creation_time) + sizeof(critical_section_id);
+	return sizeof(process_id) + sizeof(critical_section_id);
 }
 
 lock_request::~lock_request() {}

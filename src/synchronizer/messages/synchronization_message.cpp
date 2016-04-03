@@ -1,4 +1,5 @@
-#include "../../../synchronizer/messages/synchronization_message.h"
+#include "../../../inc/synchronizer/messages/synchronization_message.h"
+#include <string.h>
 
 synchronization_message::synchronization_message() {}
 synchronization_message::synchronization_message(uint16_t tag, uint32_t time): packet(tag) {
@@ -21,7 +22,7 @@ void synchronization_message::deserialize_members(uint8_t* buf) {
 	uint32_t time;
 	memcpy(&time, seek, sizeof(time));
 	this->time = ntohl(time);
-	seek += sizeof(process_id);
+	seek += sizeof(time);
 
 	deserialize_synchronization_members(seek);
 }

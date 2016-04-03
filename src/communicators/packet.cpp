@@ -1,14 +1,10 @@
 #include "../../inc/communicators/packet.h"
 #include <string.h>
 
-packet::packet() {
-	tag = 0;
-	time = 0;
-}
+packet::packet() {}
 
-packet::packet(uint16_t tag, uint32_t time) {
+packet::packet(uint16_t tag) {
 	this->tag = tag;
-	this->time = time;
 }
 
 void packet::serialize(uint8_t* buf) {
@@ -17,10 +13,6 @@ void packet::serialize(uint8_t* buf) {
 	uint16_t tag= htons(this->tag);
 	memcpy(seek, &tag, sizeof(tag));
 	seek += sizeof(tag);
-
-	uint32_t time = htonl(this->time);
-	memcpy(seek, &time, sizeof(time));
-	seek += sizeof(time);
 
 	serialize_members(seek);
 }
@@ -33,14 +25,9 @@ void packet::deserialize(uint8_t* buf) {
 	this->tag = ntohs(tag);
 	seek += sizeof(tag);
 
-	uint32_t time;
-	memcpy(&time, seek, sizeof(time));
-	this->time = ntohl(time);
-	seek += sizeof(time);
-
 	deserialize_members(seek);
 }
 
 size_t packet::get_size() {
-	return sizeof(tag) + sizeof(time) + calculate_members_size();
+	return sizeof(tag) + calculate_members_size();
 }
