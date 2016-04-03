@@ -94,7 +94,7 @@ void synchronizer::handle(wake_signal* signal) {
 		pthread_mutex_t* wait_signal_mutex = wait_signals_mutexes[*signal_to_release];
 		wait_signals_mutexes.erase(*signal_to_release);
 
-		request_critical_section_access(critical_section_id, wait_signal_mutex);
+		lock_section(critical_section_id, wait_signal_mutex);
 	}
 
 	wait_signals[critical_section_id].erase(*signal_to_release);
@@ -111,16 +111,6 @@ void synchronizer::try_to_enter(uint16_t critical_section_id) {
 			requests_descriptors.erase(*own_request);
 		}
 	}
-}
-
-void synchronizer::request_critical_section_access(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
-	lock_request request(env->process_id, ++time, critical_section_id);
-	requests_descriptors[request] = request_descriptor(waiting_process_mutex, 1);
-
-	lock_requests[critical_section_id].insert(request);
-	own_requests[critical_section_id] = &*lock_requests[critical_section_id].find(request);
-
-	comm->broadcast_message(&request);
 }
 
 void synchronizer::wake_all_in_section(uint16_t critical_section_id) {
@@ -163,5 +153,11 @@ void synchronizer::release_section(uint16_t critical_section_id) {
 }
 
 void synchronizer::lock_section(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
-	request_critical_section_access(critical_section_id, waiting_process_mutex);
+	lock_request request(env->process_id, ++time, critical_section_id);
+	requests_descriptors[request] = request_descriptor(waiting_process_mutex, 1);
+
+	lock_requests[critical_section_id].insert(request);
+	own_requests[critical_section_id] = &*lock_requests[critical_section_id].find(request);
+
+	comm->broadcast_message(&request);
 }
