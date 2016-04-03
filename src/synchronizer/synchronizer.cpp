@@ -2,8 +2,22 @@
 
 using namespace std;
 
+typedef struct MESSAGE_TAG {
+	const static uint16_t LOCK_REQUEST = 1;
+	const static uint16_t LOCK_RESPONSE = 2;
+	const static uint16_t RELEASE_SIGNAL = 3;
+	const static uint16_t WAIT_SIGNAL = 4;
+	const static uint16_t WAKE_SIGNAL = 5;
+} MESSAGE_TAG;
+
 synchronizer::synchronizer(communicator* comm, const environment_descriptor* env) {
 	this->comm = comm;
+	comm->register_message_handler(MESSAGE_TAG::LOCK_REQUEST, this);
+	comm->register_message_handler(MESSAGE_TAG::LOCK_RESPONSE, this);
+	comm->register_message_handler(MESSAGE_TAG::RELEASE_SIGNAL, this);
+	comm->register_message_handler(MESSAGE_TAG::WAIT_SIGNAL, this);
+	comm->register_message_handler(MESSAGE_TAG::WAKE_SIGNAL, this);
+
 	this->env = env;
 	this->time = 0;
 }

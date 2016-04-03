@@ -1,5 +1,6 @@
 #include "inc/monitor.h"
 #include "inc/communicators/mpi_communicator.h"
+#include "inc/synchronizer/synchronizer.h"
 #include <mpi.h>
 #include <pthread.h>
 #include <stdio.h>
@@ -41,8 +42,8 @@ int main(int argc, char** argv) {
 		MPI_Abort(MPI_COMM_WORLD, THREADING_NOT_SUPPORTED);
 	}
 
-	int world_rank;
-	MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
 	int world_size;
 	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
@@ -50,9 +51,11 @@ int main(int argc, char** argv) {
 	MPI_Comm duplicated_world_comm;
 	MPI_Comm_dup(MPI_COMM_WORLD, &duplicated_world_comm);
 	
-	environment_descriptor env = { .process_id = (uint32_t)world_rank, .number_of_processes = (uint32_t)world_size };
+	environment_descriptor env = { .process_id = (uint32_t)rank, .number_of_processes = (uint32_t)world_size };
 	mpi_communicator mpi_comm(&env, &duplicated_world_comm);
 	comm = &mpi_comm;
+	synchronizer synchronizator(comm, &env);
+
 
 	pthread_t listening_thread;
 	pthread_create(&listening_thread, NULL, listening_task, NULL);
