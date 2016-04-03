@@ -10,11 +10,11 @@ class wake_signal: public packet {
 		wake_signal();
 		wake_signal(const wait_signal*);
 
-		virtual size_t calculate_size();
-		virtual void pack_into_buffer(uint8_t* buf);
-		virtual void unpack_from_buffer(uint8_t* buf);
-
 		virtual ~wake_signal();
+	protected:
+		virtual void serialize_members(uint8_t* buf);
+		virtual void deserialize_members(uint8_t* buf);
+		virtual size_t calculate_members_size();
 };
 
 #endif

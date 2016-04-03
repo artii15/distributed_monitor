@@ -7,24 +7,24 @@ lock_response::lock_response(uint16_t tag, uint32_t time, const lock_request* co
 	this->answer = *answer;
 }
 
-void lock_response::pack_into_buffer(uint8_t* buf) {
+void lock_response::serialize_members(uint8_t* buf) {
 	uint8_t* seek = buf;
-	confirmed_request.pack_into_buffer(seek);
+	confirmed_request.serialize(seek);
 
-	seek += confirmed_request.calculate_size();
-	answer.pack_into_buffer(seek);
+	seek += confirmed_request.get_size();
+	answer.serialize(seek);
 }
 
-void lock_response::unpack_from_buffer(uint8_t* serialized) {
+void lock_response::deserialize_members(uint8_t* serialized) {
 	uint8_t* seek = serialized;
-	confirmed_request.unpack_from_buffer(seek);
+	confirmed_request.deserialize(seek);
 
-	seek += confirmed_request.calculate_size();
-	answer.unpack_from_buffer(seek);
+	seek += confirmed_request.get_size();
+	answer.deserialize(seek);
 }
 
-size_t lock_response::calculate_size() {
-	return confirmed_request.calculate_size() + answer.calculate_size();
+size_t lock_response::calculate_members_size() {
+	return confirmed_request.get_size() + answer.get_size();
 }
 
 lock_response::~lock_response() {}

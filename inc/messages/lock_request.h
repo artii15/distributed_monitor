@@ -18,10 +18,9 @@ class lock_request: public packet {
 
 		virtual ~lock_request();
 	protected:
-		virtual size_t calculate_size();
-		virtual void pack_into_buffer(uint8_t* buf);
-		virtual void unpack_from_buffer(uint8_t* buf);
-
+		virtual void serialize_members(uint8_t* buf);
+		virtual void deserialize_members(uint8_t* buf);
+		virtual size_t calculate_members_size();
 };
 
 #endif

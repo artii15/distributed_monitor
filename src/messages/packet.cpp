@@ -1,4 +1,5 @@
 #include "../../inc/messages/packet.h"
+#include <string.h>
 
 packet::packet() {
 	tag = 0;
@@ -21,7 +22,7 @@ void packet::serialize(uint8_t* buf) {
 	memcpy(seek, &time, sizeof(time));
 	seek += sizeof(time);
 
-	pack_into_buffer(seek);
+	serialize_members(seek);
 }
 
 void packet::deserialize(uint8_t* buf) {
@@ -37,9 +38,9 @@ void packet::deserialize(uint8_t* buf) {
 	this->time = ntohl(time);
 	seek += sizeof(time);
 
-	unpack_from_buffer(seek);
+	deserialize_members(seek);
 }
 
 size_t packet::get_size() {
-	return sizeof(tag) + sizeof(time) + calculate_size();
+	return sizeof(tag) + sizeof(time) + calculate_members_size();
 }

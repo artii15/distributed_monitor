@@ -6,16 +6,16 @@ wait_signal::wait_signal(const lock_request* request_to_remove) {
 	this->request_to_remove = *request_to_remove;
 }
 
-void wait_signal::pack_into_buffer(uint8_t* buf) {
-	request_to_remove.pack_into_buffer(buf);
+void wait_signal::serialize_members(uint8_t* buf) {
+	request_to_remove.serialize(buf);
 }
 
-void wait_signal::unpack_from_buffer(uint8_t* serialized) {
-	request_to_remove.unpack_from_buffer(serialized);
+void wait_signal::deserialize_members(uint8_t* serialized) {
+	request_to_remove.deserialize(serialized);
 }
 
-size_t wait_signal::calculate_size() {
-	return request_to_remove.calculate_size();
+size_t wait_signal::calculate_members_size() {
+	return request_to_remove.get_size();
 }
 
 bool wait_signal::operator>(const wait_signal& signal) const {

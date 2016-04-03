@@ -81,7 +81,7 @@ void synchronizer::handle(wake_signal* signal) {
 		pthread_mutex_t* wait_signal_mutex = wait_signals_mutexes[*signal_to_release];
 		wait_signals_mutexes.erase(*signal_to_release);
 
-		request_critical_section_access(critical_section_id, wait_signal_mutex);
+		//request_critical_section_access(critical_section_id, wait_signal_mutex);
 	}
 
 	wait_signals[critical_section_id].erase(*signal_to_release);
