@@ -32,6 +32,7 @@ class synchronizer: public message_listener {
 		std::map<uint16_t, const wait_signal*> own_wait_signals;
 
 		void try_to_enter(uint16_t critical_section_id);
+		void request_critical_section_access(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex);
 
 		void handle(lock_request* request);
 		void handle(lock_response* response);

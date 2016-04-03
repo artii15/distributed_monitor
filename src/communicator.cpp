@@ -22,22 +22,6 @@ void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex
 }
 */
 
-/*
-void communicator::request_critical_section_access(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
-	printf("Process: %d, Time: %d, Trying to enter section %d\n", process_id, time, critical_section_id);
-
-	lock_request request(process_id, time, critical_section_id);
-	requests_descriptors[request] = request_descriptor(waiting_process_mutex, 1);
-
-	lock_requests[critical_section_id].insert(request);
-	own_requests[critical_section_id] = &*lock_requests[critical_section_id].find(request);
-
-	++time;
-	frame message(time, MESSAGE_TAG::LOCK_REQUEST, &request);
-	broadcast_message(&message);
-}
-*/
-
 void communicator::listen() {
 	while(enabled) {
 		receive_message();
