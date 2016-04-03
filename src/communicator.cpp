@@ -12,16 +12,6 @@ communicator::communicator(uint32_t process_id, unsigned int number_of_processes
 	enabled = true;
 }
 
-/*
-void communicator::send_lock_request(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
-	pthread_mutex_lock(&internal_state_mutex);
-
-	request_critical_section_access(critical_section_id, waiting_process_mutex);
-
-	pthread_mutex_unlock(&internal_state_mutex);
-}
-*/
-
 void communicator::listen() {
 	while(enabled) {
 		receive_message();
@@ -81,23 +71,5 @@ void communicator::handle(uint8_t* raw_message, uint16_t tag) {
 void communicator::handle(packet* message) {
 				
 }
-
-/*
-void communicator::send_release_signal(uint16_t critical_section_id) {
-	pthread_mutex_lock(&internal_state_mutex);
-	const lock_request* request_to_release = own_requests[critical_section_id];
-
-	++time;
-	release_signal request_release_signal(request_to_release);
-	frame message(time, MESSAGE_TAG::RELEASE_SIGNAL, &request_release_signal);
-	broadcast_message(&message);
-
-	own_requests.erase(critical_section_id);
-	lock_requests[critical_section_id].erase(*request_to_release);
-
-	pthread_mutex_unlock(&internal_state_mutex);
-}
-
-*/
 
 communicator::~communicator() {}

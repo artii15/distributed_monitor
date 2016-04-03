@@ -139,3 +139,7 @@ void synchronizer::release_section(uint16_t critical_section_id) {
 	own_requests.erase(critical_section_id);
 	lock_requests[critical_section_id].erase(*request_to_release);
 }
+
+void synchronizer::lock_section(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
+	request_critical_section_access(critical_section_id, waiting_process_mutex);
+}

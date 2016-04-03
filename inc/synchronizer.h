@@ -24,6 +24,7 @@ class synchronizer: public message_listener {
 		void wake_one_in_section(uint16_t critical_section_id);
 		void wait_in_section(uint16_t critical_section_id, pthread_mutex_t* mutex);
 		void release_section(uint16_t critical_section_id);
+		void lock_section(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex);
 	
 	private:
 		communicator* comm;
