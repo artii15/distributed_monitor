@@ -41,6 +41,8 @@ class synchronizer: public message_handler {
 		std::map<uint16_t, const wait_signal*> own_wait_signals;
 
 		void try_to_enter(uint16_t critical_section_id);
+		void request_section_lock(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex);
+		void notify_one_process(uint16_t critical_section_id);
 
 		void handle(lock_request* request);
 		void handle(lock_response* response);
