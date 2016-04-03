@@ -1,7 +1,7 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
-#include "synchronizer.h"
+#include "synchronizer/synchronizer.h"
 #include "action.h"
 
 class action;

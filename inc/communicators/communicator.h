@@ -1,9 +1,9 @@
 #ifndef COMMUNICATOR_H
 #define COMMUNICATOR_H
 
-#include "messages/packet.h"
+#include "packet.h"
 #include "message_handler.h"
-#include "environment_descriptor.h"
+#include "../environment_descriptor.h"
 #include <map>
 
 typedef struct MESSAGE_TAG {

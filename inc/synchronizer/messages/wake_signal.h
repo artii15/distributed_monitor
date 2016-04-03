@@ -2,6 +2,7 @@
 #define WAKE_SIGNAL_H
 
 #include "wait_signal.h"
+#include "../../communicators/packet.h"
 
 class wake_signal: public packet {
 	public:

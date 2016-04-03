@@ -1,4 +1,4 @@
-#include "../../inc/messages/lock_request.h"
+#include "../../../inc/synchronizer/messages/lock_request.h"
 #include <string.h>
 
 lock_request::lock_request() {

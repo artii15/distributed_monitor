@@ -1,4 +1,4 @@
-#include "../../inc/messages/packet.h"
+#include "../../inc/communicators/packet.h"
 #include <string.h>
 
 packet::packet() {

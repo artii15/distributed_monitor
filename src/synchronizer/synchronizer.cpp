@@ -1,4 +1,4 @@
-#include "../inc/synchronizer.h"
+#include "../../inc/synchronizer/synchronizer.h"
 
 using namespace std;
 
@@ -113,6 +113,26 @@ void synchronizer::try_to_enter(uint16_t critical_section_id) {
 	}
 }
 
+void synchronizer::lock_section(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
+	lock_request request(env->process_id, ++time, critical_section_id);
+	requests_descriptors[request] = request_descriptor(waiting_process_mutex, 1);
+
+	lock_requests[critical_section_id].insert(request);
+	own_requests[critical_section_id] = &*lock_requests[critical_section_id].find(request);
+
+	comm->broadcast_message(&request);
+}
+
+void synchronizer::release_section(uint16_t critical_section_id) {
+	const lock_request* request_to_release = own_requests[critical_section_id];
+
+	release_signal request_release_signal(request_to_release);
+	comm->broadcast_message(&request_release_signal);
+
+	own_requests.erase(critical_section_id);
+	lock_requests[critical_section_id].erase(*request_to_release);
+}
+
 void synchronizer::wake_all_in_section(uint16_t critical_section_id) {
 	while(!wait_signals[critical_section_id].empty()) {
 		wake_one_in_section(critical_section_id);
@@ -140,24 +160,4 @@ void synchronizer::wait_in_section(uint16_t critical_section_id, pthread_mutex_t
 
 	lock_requests[critical_section_id].erase(*request_to_remove);
 	own_requests.erase(critical_section_id);
-}
-
-void synchronizer::release_section(uint16_t critical_section_id) {
-	const lock_request* request_to_release = own_requests[critical_section_id];
-
-	release_signal request_release_signal(request_to_release);
-	comm->broadcast_message(&request_release_signal);
-
-	own_requests.erase(critical_section_id);
-	lock_requests[critical_section_id].erase(*request_to_release);
-}
-
-void synchronizer::lock_section(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex) {
-	lock_request request(env->process_id, ++time, critical_section_id);
-	requests_descriptors[request] = request_descriptor(waiting_process_mutex, 1);
-
-	lock_requests[critical_section_id].insert(request);
-	own_requests[critical_section_id] = &*lock_requests[critical_section_id].find(request);
-
-	comm->broadcast_message(&request);
 }

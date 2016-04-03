@@ -1,4 +1,4 @@
-#include "../../inc/messages/wake_signal.h"
+#include "../../../inc/synchronizer/messages/wake_signal.h"
 
 wake_signal::wake_signal() {}
 

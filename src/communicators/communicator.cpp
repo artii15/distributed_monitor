@@ -1,5 +1,5 @@
-#include "../inc/communicator.h"
-#include "../inc/exceptions/invalid_message_exception.h"
+#include "../../inc/communicators/communicator.h"
+#include "../../inc/exceptions/invalid_message_exception.h"
 
 using namespace std;
 

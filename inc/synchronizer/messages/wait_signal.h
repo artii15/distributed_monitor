@@ -2,6 +2,7 @@
 #define WAIT_SIGNAL_H
 
 #include "lock_request.h"
+#include "../../communicators/packet.h"
 
 class wait_signal: public packet {
 	public:

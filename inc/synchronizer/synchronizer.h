@@ -4,15 +4,15 @@
 #include <map>
 #include <set>
 #include <pthread.h>
-#include "environment_descriptor.h"
 #include "request_descriptor.h"
-#include "message_handler.h"
 #include "messages/lock_request.h"
 #include "messages/lock_response.h"
 #include "messages/release_signal.h"
 #include "messages/wait_signal.h"
 #include "messages/wake_signal.h"
-#include "communicator.h"
+#include "../environment_descriptor.h"
+#include "../communicators/communicator.h"
+#include "../communicators/message_handler.h"
 
 class synchronizer: public message_handler {
 	public:
@@ -20,11 +20,11 @@ class synchronizer: public message_handler {
 
 		virtual void handle(uint8_t* raw_message, uint16_t tag);
 
+		void lock_section(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex);
+		void release_section(uint16_t critical_section_id);
 		void wake_all_in_section(uint16_t critical_section_id);
 		void wake_one_in_section(uint16_t critical_section_id);
 		void wait_in_section(uint16_t critical_section_id, pthread_mutex_t* mutex);
-		void release_section(uint16_t critical_section_id);
-		void lock_section(uint16_t critical_section_id, pthread_mutex_t* waiting_process_mutex);
 	
 	private:
 		communicator* comm;

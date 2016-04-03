@@ -1,4 +1,4 @@
-#include "../../inc/messages/lock_response.h"
+#include "../../../inc/synchronizer/messages/lock_response.h"
 
 lock_response::lock_response() {}
 

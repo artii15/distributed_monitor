@@ -2,6 +2,7 @@
 #define RELEASE_SIGNAL_H
 
 #include "lock_request.h"
+#include "../../communicators/packet.h"
 
 class release_signal: public packet {
 	public:

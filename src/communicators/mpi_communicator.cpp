@@ -1,4 +1,4 @@
-#include "../inc/mpi_communicator.h"
+#include "../../inc/communicators/mpi_communicator.h"
 #include <mpi.h>
 
 using namespace std;

@@ -1,7 +1,7 @@
 #ifndef LOCK_REQUEST_H
 #define LOCK_REQUEST_H
 
-#include "packet.h"
+#include "../../communicators/packet.h"
 
 class lock_request: public packet {
 	public:

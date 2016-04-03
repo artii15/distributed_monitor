@@ -1,4 +1,4 @@
-#include "../inc/request_descriptor.h"
+#include "../../inc/synchronizer/request_descriptor.h"
 
 request_descriptor::request_descriptor() {
 	this->mutex = NULL;

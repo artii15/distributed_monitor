@@ -2,7 +2,7 @@
 #define MPI_COMMUNICATOR_H
 
 #include "communicator.h"
-#include "messages/packet.h"
+#include "packet.h"
 #include <mpi.h>
 
 class mpi_communicator: public communicator {

@@ -1,4 +1,4 @@
-#include "../../inc/messages/wait_signal.h"
+#include "../../../inc/synchronizer/messages/wait_signal.h"
 
 wait_signal::wait_signal() {}
 

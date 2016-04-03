@@ -1,4 +1,4 @@
-#include "../../inc/messages/release_signal.h"
+#include "../../../inc/synchronizer/messages/release_signal.h"
 
 release_signal::release_signal() {}
 
