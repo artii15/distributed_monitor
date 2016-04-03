@@ -1,35 +1,30 @@
 #include "../../../inc/synchronizer/messages/lock_request.h"
 #include <string.h>
 
-lock_request::lock_request() {
-	process_id = 0;
-	creation_time = 0;
-	critical_section_id = 0;
-}
+lock_request::lock_request() {}
 
 lock_request::lock_request(uint8_t* buf) {
 	deserialize(buf);
 }
 
-lock_request::lock_request(uint32_t process_id, uint32_t creation_time, uint16_t critical_section_id) {
+lock_request::lock_request(uint16_t tag, uint32_t time, uint32_t process_id, uint16_t critical_section_id): synchronization_message(tag, time) {
 	this->process_id = process_id;
-	this->creation_time = creation_time;
 	this->critical_section_id = critical_section_id;
 }
 
 bool lock_request::operator>(const lock_request& request) const {
-	return creation_time > request.creation_time || (creation_time == request.creation_time && process_id > request.process_id);
+	return time > request.time || (time == request.time && process_id > request.process_id);
 }
 
 bool lock_request::operator==(const lock_request& request) const {
-	return creation_time == request.creation_time && process_id == request.process_id;
+	return time == request.time && process_id == request.process_id;
 }
 
 bool lock_request::operator<(const lock_request& request) const {
 	return !(*this == request || *this > request);
 }
 
-void lock_request::serialize_members(uint8_t* buf) {
+void lock_request::serialize_synchronization_members(uint8_t* buf) {
 	uint8_t* seek = buf;
 	
 	uint32_t process_id = htonl(this->process_id);
@@ -44,7 +39,7 @@ void lock_request::serialize_members(uint8_t* buf) {
 	memcpy(seek, &critical_section_id, sizeof(critical_section_id));
 }
 
-void lock_request::deserialize_members(uint8_t* serialized) {
+void lock_request::deserialize_synchronization_members(uint8_t* serialized) {
 	uint8_t* seek = serialized;
 
 	uint32_t process_id;
@@ -62,7 +57,7 @@ void lock_request::deserialize_members(uint8_t* serialized) {
 	this->critical_section_id = ntohs(critical_section_id);
 }
 
-size_t lock_request::calculate_members_size() {
+size_t lock_request::calculate_synchronization_members_size() {
 	return sizeof(process_id) + sizeof(creation_time) + sizeof(critical_section_id);
 }
 

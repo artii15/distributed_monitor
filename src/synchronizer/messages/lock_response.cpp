@@ -2,7 +2,7 @@
 
 lock_response::lock_response() {}
 
-lock_response::lock_response(uint16_t tag, uint32_t time, const lock_request* confirmed_request, const lock_request* answer): packet(tag, time) {
+lock_response::lock_response(uint16_t tag, uint32_t time, const lock_request* confirmed_request, const lock_request* answer): synchronization_message(tag, time) {
 	this->confirmed_request = *confirmed_request;
 	this->answer = *answer;
 }
@@ -11,7 +11,7 @@ lock_response::lock_response(uint8_t* buf) {
 	deserialize(buf);
 }
 
-void lock_response::serialize_members(uint8_t* buf) {
+void lock_response::serialize_synchronization_members(uint8_t* buf) {
 	uint8_t* seek = buf;
 	confirmed_request.serialize(seek);
 
@@ -19,7 +19,7 @@ void lock_response::serialize_members(uint8_t* buf) {
 	answer.serialize(seek);
 }
 
-void lock_response::deserialize_members(uint8_t* serialized) {
+void lock_response::deserialize_synchronization_members(uint8_t* serialized) {
 	uint8_t* seek = serialized;
 	confirmed_request.deserialize(seek);
 
@@ -27,7 +27,7 @@ void lock_response::deserialize_members(uint8_t* serialized) {
 	answer.deserialize(seek);
 }
 
-size_t lock_response::calculate_members_size() {
+size_t lock_response::calculate_synchronization_members_size() {
 	return confirmed_request.get_size() + answer.get_size();
 }
 

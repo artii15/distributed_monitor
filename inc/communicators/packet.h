@@ -7,10 +7,9 @@
 class packet {
 	public:
 		uint16_t tag;
-		uint32_t time;
 
 		packet();
-		packet(uint16_t tag, uint32_t time);
+		packet(uint16_t tag);
 
 		void serialize(uint8_t* buf);
 		void deserialize(uint8_t* buf);

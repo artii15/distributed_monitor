@@ -1,10 +1,9 @@
 #ifndef LOCK_RESPONSE_H
 #define LOCK_RESPONSE_H
 
-#include "../../communicators/packet.h"
 #include "lock_request.h"
 
-class lock_response: public packet {
+class lock_response: public synchronization_message {
 	public:
 		lock_request confirmed_request;
 		lock_request answer;
@@ -15,9 +14,9 @@ class lock_response: public packet {
 
 		virtual ~lock_response();
 	protected:
-		virtual void serialize_members(uint8_t* buf);
-		virtual void deserialize_members(uint8_t* buf);
-		virtual size_t calculate_members_size();
+		virtual void serialize_synchronization_members(uint8_t* buf);
+		virtual void deserialize_synchronization_members(uint8_t* buf);
+		virtual size_t calculate_synchronization_members_size();
 };
 
 #endif
