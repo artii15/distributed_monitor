@@ -34,7 +34,7 @@ void monitor::lock() {
 }
 
 void monitor::unlock() {
-	//comm->send_release_signal(critical_section_id);
+	synchronizator->release_section(critical_section_id);
 }
 
 void monitor::wait() {

@@ -128,3 +128,14 @@ void synchronizer::wait_in_section(uint16_t critical_section_id, pthread_mutex_t
 	lock_requests[critical_section_id].erase(*request_to_remove);
 	own_requests.erase(critical_section_id);
 }
+
+void synchronizer::release_section(uint16_t critical_section_id) {
+	const lock_request* request_to_release = own_requests[critical_section_id];
+
+	++process->time;
+	release_signal request_release_signal(request_to_release);
+	comm->broadcast_message(&request_release_signal);
+
+	own_requests.erase(critical_section_id);
+	lock_requests[critical_section_id].erase(*request_to_release);
+}
