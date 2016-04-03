@@ -118,17 +118,6 @@ void communicator::send_wait_signal(uint16_t critical_section_id, pthread_mutex_
 	pthread_mutex_unlock(&internal_state_mutex);
 }
 
-void communicator::send_wake_signal(uint16_t critical_section_id) {
-	pthread_mutex_lock(&internal_state_mutex);
-
-	if(!wait_signals[critical_section_id].empty()) {
-		++time;
-		wake_one_in_section(critical_section_id);
-	}
-
-	pthread_mutex_unlock(&internal_state_mutex);
-}
-
 */
 
 communicator::~communicator() {}

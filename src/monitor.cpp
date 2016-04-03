@@ -50,7 +50,7 @@ void monitor::wait() {
 }
 
 void monitor::notify() {
-	//comm->send_wake_signal(critical_section_id);
+	synchronizator->wake_one_in_section(critical_section_id);
 }
 
 void monitor::notify_all() {
