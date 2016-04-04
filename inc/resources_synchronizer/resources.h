@@ -6,9 +6,10 @@
 class resources: public serializable {
 	public:
 		uint32_t version;
+		uint16_t critical_section_id;
 
 		resources();
-		resources(uint32_t version);
+		resources(uint16_t critical_section_id, uint32_t version);
 
 		virtual void update(uint8_t* raw_resource, uint32_t version) = 0;
 

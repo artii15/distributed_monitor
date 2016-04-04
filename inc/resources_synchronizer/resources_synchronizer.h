@@ -5,6 +5,8 @@
 #include <map>
 
 class resources_synchronizer {
+	public:
+		void register_resources(resources*);
 	private:
 		std::map<uint16_t, resources*> sections_resources;
 };
