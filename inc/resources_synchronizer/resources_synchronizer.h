@@ -8,6 +8,7 @@
 class resources_synchronizer {
 	public:
 		void register_resources(resources*);
+		resources* acquire(uint16_t critical_section_id);
 	private:
 		std::map<uint16_t, resources*> sections_resources;
 		pthread_mutex_t internal_state_mutex = PTHREAD_MUTEX_INITIALIZER;
