@@ -17,7 +17,6 @@ class resources_synchronizer {
 		communicator* comm;
 
 		std::map<uint16_t, resources*> sections_resources;
-		pthread_mutex_t internal_state_mutex = PTHREAD_MUTEX_INITIALIZER;
 };
 
 #endif
