@@ -21,7 +21,7 @@ class monitor {
 		uint16_t critical_section_id;
 
 		void lock();
-		void unlock();		
+		void unlock();
 };
 
 #endif

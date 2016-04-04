@@ -1,18 +1,18 @@
 #ifndef PACKET_H
 #define PACKET_H
 
-#include <stdint.h>
 #include <arpa/inet.h>
+#include "../serializable.h"
 
-class packet {
+class packet: public serializable {
 	public:
 		uint16_t tag;
 
 		packet();
 		packet(uint16_t tag);
 
-		void serialize(uint8_t* buf);
-		void deserialize(uint8_t* buf);
+		virtual void serialize(uint8_t* buf);
+		virtual void deserialize(uint8_t* buf);
 		size_t get_size();
 	protected:
 		virtual void serialize_members(uint8_t* buf) = 0;
