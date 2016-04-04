@@ -11,7 +11,7 @@ class resources_synchronizer {
 		resources_synchronizer(communicator*);
 
 		void register_resources(resources*);
-		resources* acquire(uint16_t critical_section_id);
+		resources* get_resource(uint16_t critical_section_id);
 		void update(uint16_t critical_section_id);
 	private:
 		communicator* comm;

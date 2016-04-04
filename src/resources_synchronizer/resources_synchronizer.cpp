@@ -8,7 +8,7 @@ void resources_synchronizer::register_resources(resources* section_resources) {
 	sections_resources[section_resources->critical_section_id] = section_resources;	
 }
 
-resources* resources_synchronizer::acquire(uint16_t critical_section_id) {
+resources* resources_synchronizer::get_resource(uint16_t critical_section_id) {
 	return sections_resources[critical_section_id];
 }
 
