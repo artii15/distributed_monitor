@@ -4,9 +4,6 @@
 #include "synchronizer/synchronizer.h"
 #include "action.h"
 
-class action;
-class synchronizer;
-
 class monitor {
 	public:
 		monitor(synchronizer* synchronizator, uint16_t critical_section_id);
