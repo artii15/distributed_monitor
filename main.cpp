@@ -54,13 +54,13 @@ int main(int argc, char** argv) {
 	environment_descriptor env = { .process_id = (uint32_t)rank, .number_of_processes = (uint32_t)world_size };
 	mpi_communicator mpi_comm(&env, &duplicated_world_comm);
 	comm = &mpi_comm;
-	synchronizer synchronizator(comm, &env);
-
+	synchronizer proc_synchronizer(comm, &env);
+	resources_synchronizer res_synchronizer(comm);
 
 	pthread_t listening_thread;
 	pthread_create(&listening_thread, NULL, listening_task, NULL);
 
-	monitor m(&synchronizator, 1);
+	monitor m(&proc_synchronizer, &res_synchronizer, 1);
 	m.call(test);
 
 	pthread_join(listening_thread, NULL);
