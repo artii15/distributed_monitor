@@ -2,8 +2,6 @@
 #include "../../inc/resources_synchronizer/messages/resources_update.h"
 #include "../../inc/messages_tags.h"
 #include "../../inc/exceptions/unknown_resource_exception.h"
-#include <stdio.h>
-#include <unistd.h>
 
 using namespace std;
 
@@ -22,7 +20,6 @@ resources* resources_synchronizer::get_resource(uint16_t critical_section_id) {
 
 void resources_synchronizer::update(uint16_t critical_section_id) {
 	resources* res = sections_resources[critical_section_id];
-	printf("trying to update resources %u, %d, %u\n", res->version, (int)res->is_dirty, res->get_size());sleep(1);
 	if(res->is_dirty) {
 		++res->version;
 		res->is_dirty = false;

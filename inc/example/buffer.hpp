@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <stdexcept>
 #include <string.h>
+#include <stdio.h>
+#include <unistd.h>
+
 #include "../resources_synchronizer/resources.h"
 
 class buffer: public resources {
@@ -59,7 +62,7 @@ class buffer: public resources {
 			memcpy(seek, &number_of_elements, sizeof(number_of_elements));
 			seek += sizeof(number_of_elements);
 
-			for(unsigned i = 0; i < buf_size; ++i) {
+			for(unsigned i = 0; i < this->buf_size; ++i) {
 				uint16_t element = htons(elements[i]);
 				memcpy(seek, &element, sizeof(element));
 				seek += sizeof(element);
