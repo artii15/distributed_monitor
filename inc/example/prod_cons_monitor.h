@@ -4,14 +4,17 @@
 #include "../monitor.h"
 #include "buffer.hpp"
 #include "producer_action.h"
+#include "consumer_action.h"
 
 class prod_cons_monitor: public monitor {
 	public:
 		prod_cons_monitor(synchronizer* processes_synchronizer, resources_synchronizer* res_synchronizer, buffer<uint8_t>* buf);
 
 		void produce_element();
+		void consume_element();
 	private:
 		producer_action prod_action;
+		consumer_action cons_action;
 };
 
 #endif
