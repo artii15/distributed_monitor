@@ -38,7 +38,7 @@ void resources::deserialize(uint8_t* buf) {
 }
 
 size_t resources::get_size() {
-	return sizeof(version) + calculate_resources_members_size();
+	return sizeof(version) + sizeof(critical_section_id) + calculate_resources_members_size();
 }
 
 void resources::update(uint8_t* raw_resource) {
