@@ -10,7 +10,7 @@ packet::packet(uint16_t tag) {
 void packet::serialize(uint8_t* buf) {
 	uint8_t* seek = buf;	
 	
-	uint16_t tag= htons(this->tag);
+	uint16_t tag = htons(this->tag);
 	memcpy(seek, &tag, sizeof(tag));
 	seek += sizeof(tag);
 

@@ -7,6 +7,7 @@ typedef struct MESSAGE_TAG {
 	const static uint16_t RELEASE_SIGNAL = 3;
 	const static uint16_t WAIT_SIGNAL = 4;
 	const static uint16_t WAKE_SIGNAL = 5;
+	const static uint16_t RESOURCES_UPDATE = 6;
 } MESSAGE_TAG;
 
 #endif

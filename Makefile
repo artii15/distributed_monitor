@@ -4,4 +4,5 @@ all:
 	src/synchronizer/messages/*.cpp \
 	main.cpp \
 	src/resources_synchronizer/*.cpp \
+	src/resources_synchronizer/messages/*.cpp \
 	-o main -lpthread

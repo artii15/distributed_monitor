@@ -7,6 +7,7 @@ class resources: public serializable {
 	public:
 		uint32_t version;
 		uint16_t critical_section_id;
+		bool is_dirty;
 
 		resources();
 		resources(uint16_t critical_section_id, uint32_t version);

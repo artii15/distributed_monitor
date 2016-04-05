@@ -6,6 +6,7 @@ resources::resources() {}
 resources::resources(uint16_t critical_section_id, uint32_t version) {
 	this->critical_section_id = critical_section_id;
 	this->version = version;
+	is_dirty = false;
 }
 
 void resources::serialize(uint8_t* buf) {
