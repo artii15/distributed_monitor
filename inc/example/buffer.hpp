@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <stdexcept>
 #include <string.h>
-#include <stdio.h>
-#include <unistd.h>
 
 #include "../resources_synchronizer/resources.h"
 
