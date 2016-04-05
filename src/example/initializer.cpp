@@ -1,8 +1,13 @@
 #include "../../inc/example/initializer.h"
+#include "../../inc/example/buffer.hpp"
+#include "../../inc/example/prod_cons_monitor.h"
+#include "../../inc/example/producer.h"
+#include "../../inc/example/consumer.h"
 #include <stdexcept>
 #include <pthread.h>
 
 #define THREADING_NOT_SUPPORTED 1
+#define BUFSIZE 10
 
 void* initializer::listening_task(void *arg) {
 	communicator* comm = (communicator*)arg;
@@ -37,8 +42,14 @@ void initializer::start() {
 	synchronizer proc_synchronizer(&comm, &env);
 	resources_synchronizer res_synchronizer(&comm);
 
+	buffer<uint8_t> buf(BUFSIZE);
+
+	prod_cons_monitor mon(&proc_synchronizer, &res_synchronizer, &buf);
+
 	pthread_t listening_thread;
 	pthread_create(&listening_thread, NULL, &initializer::listening_task, (void*)&comm);
+
+	
 
 	pthread_join(listening_thread, NULL);
 }
