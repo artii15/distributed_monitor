@@ -12,7 +12,7 @@ class resources: public serializable {
 		resources();
 		resources(uint16_t critical_section_id, uint32_t version);
 
-		virtual void update(uint8_t* raw_resource) = 0;
+		void update(uint8_t* raw_resource);
 
 		virtual void serialize(uint8_t* buf);
 		virtual void deserialize(uint8_t* buf);

@@ -44,3 +44,12 @@ void resources::deserialize(uint8_t* buf) {
 size_t resources::get_size() {
 	return sizeof(version) + calculate_resources_members_size();
 }
+
+void resources::update(uint8_t* raw_resource) {
+	uint32_t version;
+	memcpy(&version, raw_resource + sizeof(critical_section_id), sizeof(version));
+	
+	if(ntohl(version) > this->version) {
+		deserialize(raw_resource);
+	}
+}
