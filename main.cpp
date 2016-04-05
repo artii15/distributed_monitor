@@ -19,22 +19,6 @@ void* listening_task(void* args) {
 	pthread_exit(NULL);
 }
 
-void test(monitor* m) {
-	int rank;
-	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-	if(rank == 0) {
-		printf("I'll be waiting in a moment\n");
-		m->wait();	
-		printf("Just awaken\n");
-	}
-	else {
-		printf("I'm going to wake one of processes\n");
-		m->notify();
-		printf("Just woken one of processes\n");
-	}
-}
-
 int main(int argc, char** argv) {
 	int provided_thread_support;
 	MPI_Init_thread(NULL, NULL, MPI_THREAD_MULTIPLE, &provided_thread_support);
@@ -59,9 +43,6 @@ int main(int argc, char** argv) {
 
 	pthread_t listening_thread;
 	pthread_create(&listening_thread, NULL, listening_task, NULL);
-
-	monitor m(&proc_synchronizer, &res_synchronizer, 1);
-	m.call(test);
 
 	pthread_join(listening_thread, NULL);
 
