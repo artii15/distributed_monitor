@@ -14,7 +14,7 @@ class buffer {
 		}
 
 		~buffer() {
-
+			free(elements);
 		}
 
 		uint32_t count() {
