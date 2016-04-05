@@ -24,6 +24,16 @@ class buffer {
 		uint32_t capacity() {
 			return buf_size;
 		}
+
+		void remove_from(unsigned idx, T blank_element) {
+			elements[idx] = blank_element;
+			--number_of_elements;
+		}
+
+		void insert(unsigned idx, T element) {
+			elements[idx] = element;
+			++number_of_elements;
+		}
 	private:
 		uint32_t buf_size;
 		uint32_t number_of_elements;
