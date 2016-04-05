@@ -42,8 +42,7 @@ void initializer::start() {
 	synchronizer proc_synchronizer(&comm, &env);
 	resources_synchronizer res_synchronizer(&comm);
 
-	buffer<uint8_t> buf(BUFSIZE);
-
+	buffer buf(BUFSIZE);
 	prod_cons_monitor mon(&proc_synchronizer, &res_synchronizer, &buf);
 
 	pthread_t listening_thread;

@@ -1,6 +1,6 @@
 #include "../../inc/example/consumer_action.h"
 
-consumer_action::consumer_action(buffer<uint8_t>* buf) {
+consumer_action::consumer_action(buffer* buf) {
 	this->buf = buf;
 }
 

@@ -6,11 +6,11 @@
 
 class producer_action: public action {
 	public:
-		producer_action(buffer<uint8_t>*);
+		producer_action(buffer*);
 
 		virtual void perform(monitor*);
 	private:
-		buffer<uint8_t>* buf;
+		buffer* buf;
 };
 
 #endif

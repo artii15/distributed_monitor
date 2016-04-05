@@ -6,11 +6,11 @@
 
 class consumer_action: public action {
 	public:
-		consumer_action(buffer<uint8_t>*);
+		consumer_action(buffer*);
 
 		virtual void perform(monitor*);
 	private:
-		buffer<uint8_t>* buf;
+		buffer* buf;
 };
 
 #endif

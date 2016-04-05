@@ -1,6 +1,6 @@
 #include "../../inc/example/producer_action.h"
 
-producer_action::producer_action(buffer<uint8_t>* buf) {
+producer_action::producer_action(buffer* buf) {
 	this->buf = buf;
 }
 

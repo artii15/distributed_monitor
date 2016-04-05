@@ -8,7 +8,7 @@
 
 class prod_cons_monitor: public monitor {
 	public:
-		prod_cons_monitor(synchronizer* processes_synchronizer, resources_synchronizer* res_synchronizer, buffer<uint8_t>* buf);
+		prod_cons_monitor(synchronizer* processes_synchronizer, resources_synchronizer* res_synchronizer, buffer* buf);
 
 		void produce_element();
 		void consume_element();
