@@ -1,10 +1,6 @@
 #include "../../inc/resources_synchronizer/resources.h"
 #include <string.h>
 
-resources::resources() {
-	is_dirty = false;
-}
-
 resources::resources(uint16_t critical_section_id, uint32_t version) {
 	this->critical_section_id = critical_section_id;
 	this->version = version;

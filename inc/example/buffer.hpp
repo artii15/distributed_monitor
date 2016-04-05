@@ -30,11 +30,13 @@ class buffer: public resources {
 		void remove_from(unsigned idx, uint16_t blank_element) {
 			elements[idx] = blank_element;
 			--number_of_elements;
+			is_dirty = true;
 		}
 
 		void insert_at(unsigned idx, uint16_t element) {
 			elements[idx] = element;
 			++number_of_elements;
+			is_dirty = true;
 		}
 
 		unsigned find_index_of(uint16_t element) {
