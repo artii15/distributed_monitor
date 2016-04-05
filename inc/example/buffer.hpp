@@ -31,7 +31,7 @@ class buffer {
 			--number_of_elements;
 		}
 
-		void insert(unsigned idx, T element) {
+		void insert_at(unsigned idx, T element) {
 			elements[idx] = element;
 			++number_of_elements;
 		}

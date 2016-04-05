@@ -8,4 +8,6 @@ void producer_action::perform(monitor* mon) {
 	while(buf->count() == buf->capacity()) {
 		mon->wait();
 	}
+
+	buf->insert_at(buf->find_index_of(0), 1);
 }
