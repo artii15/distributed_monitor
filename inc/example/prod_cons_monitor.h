@@ -8,6 +8,8 @@
 class prod_cons_monitor: public monitor {
 	public:
 		prod_cons_monitor(synchronizer* processes_synchronizer, resources_synchronizer* res_synchronizer, buffer<uint8_t>* buf);
+
+		void produce_element();
 	private:
 		producer_action prod_action;
 };
