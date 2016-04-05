@@ -33,6 +33,7 @@ void resources_synchronizer::handle(uint8_t* raw_message, uint16_t tag) {
 	resources_update message;
 	message.deserialize(raw_message);
 
-	//resources* res_to_update = sections_resources[message.critical_section_id];
-	
+	resources* res_to_update = sections_resources[message.critical_section_id];
+
+	res_to_update->update(message.raw_resources);
 }
