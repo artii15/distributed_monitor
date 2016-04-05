@@ -1,4 +1,6 @@
 #include "../../inc/resources_synchronizer/resources_synchronizer.h"
+#include "../../inc/resources_synchronizer/messages/resources_update.h"
+#include "../../inc/messages_tags.h"
 
 resources_synchronizer::resources_synchronizer(communicator* comm) {
 	this->comm = comm;
@@ -17,5 +19,8 @@ void resources_synchronizer::update(uint16_t critical_section_id) {
 	if(res->is_dirty) {
 		++res->version;
 		res->is_dirty = false;
+
+		resources_update message(MESSAGE_TAG::RESOURCES_UPDATE, critical_section_id, res);
+		comm->broadcast_message(&message);
 	}
 }
