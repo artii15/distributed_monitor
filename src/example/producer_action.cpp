@@ -5,5 +5,7 @@ producer_action::producer_action(buffer<uint8_t>* buf) {
 }
 
 void producer_action::perform(monitor* mon) {
-
+	while(buf->count() == buf->capacity()) {
+		mon->wait();
+	}
 }

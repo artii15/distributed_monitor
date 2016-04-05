@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdexcept>
 
 template <class T>
 class buffer {
@@ -33,6 +34,16 @@ class buffer {
 		void insert(unsigned idx, T element) {
 			elements[idx] = element;
 			++number_of_elements;
+		}
+
+		unsigned find_index_of(T element) {
+			for(unsigned i = 0; i < buf_size; ++i) {
+				if(elements[i] == element) {
+					return i;
+				}
+			}
+
+			throw std::logic_error("element not found!");
 		}
 	private:
 		uint32_t buf_size;
