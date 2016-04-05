@@ -2,15 +2,15 @@
 #define RESOURCES_UPDATE_H
 
 #include "../../communicators/packet.h"
-#include "../../resources_synchronizer/resources.h"
 
 class resources_update: public packet {
 	public:
 		resources_update();
-		resources_update(uint16_t tag, uint16_t critical_section_id, resources* res);
+		resources_update(uint16_t tag, uint16_t critical_section_id, uint8_t* raw_resources, uint32_t raw_resources_size);
 
 		uint16_t critical_section_id;
-		resources* res;
+		uint8_t* raw_resources;
+		uint32_t raw_resources_size;
 	protected:	
 		virtual void serialize_members(uint8_t* buf);
 		virtual void deserialize_members(uint8_t* buf);

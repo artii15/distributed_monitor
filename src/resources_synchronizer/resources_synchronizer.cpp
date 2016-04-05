@@ -20,11 +20,19 @@ void resources_synchronizer::update(uint16_t critical_section_id) {
 		++res->version;
 		res->is_dirty = false;
 
-		resources_update message(MESSAGE_TAG::RESOURCES_UPDATE, critical_section_id, res);
+		uint32_t res_size = res->get_size();
+		uint8_t raw_res[res_size];
+		res->serialize(raw_res);
+		
+		resources_update message(MESSAGE_TAG::RESOURCES_UPDATE, critical_section_id, raw_res, res_size);
 		comm->broadcast_message(&message);
 	}
 }
 
 void resources_synchronizer::handle(uint8_t* raw_message, uint16_t tag) {
+	resources_update message;
+	message.deserialize(raw_message);
 
+	//resources* res_to_update = sections_resources[message.critical_section_id];
+	
 }
