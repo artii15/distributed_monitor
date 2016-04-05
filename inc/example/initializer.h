@@ -13,7 +13,7 @@ class initializer {
 
 		void start();
 
-		static void* listening_task(void* args);
+		static void* listening_task(void* arg);
 	private:
 		environment_descriptor env;
 		MPI_Comm duplicated_world_comm;

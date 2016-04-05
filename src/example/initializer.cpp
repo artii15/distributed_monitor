@@ -4,8 +4,9 @@
 
 #define THREADING_NOT_SUPPORTED 1
 
-void* initializer::listening_task(void *args) {
-	//comm->listen();	
+void* initializer::listening_task(void *arg) {
+	communicator* comm = (communicator*)arg;
+	comm->listen();	
 
 	pthread_exit(NULL);
 }
@@ -31,13 +32,13 @@ initializer::initializer() {
 }
 
 void initializer::start() {
-	mpi_communicator mpi_comm(&env, &duplicated_world_comm);
+	mpi_communicator comm(&env, &duplicated_world_comm);
 
-	synchronizer proc_synchronizer(&mpi_comm, &env);
-	resources_synchronizer res_synchronizer(&mpi_comm);
+	synchronizer proc_synchronizer(&comm, &env);
+	resources_synchronizer res_synchronizer(&comm);
 
 	pthread_t listening_thread;
-	pthread_create(&listening_thread, NULL, &initializer::listening_task, NULL);
+	pthread_create(&listening_thread, NULL, &initializer::listening_task, (void*)&comm);
 
 	pthread_join(listening_thread, NULL);
 }
