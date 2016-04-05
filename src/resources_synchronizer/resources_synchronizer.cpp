@@ -7,6 +7,7 @@ using namespace std;
 
 resources_synchronizer::resources_synchronizer(communicator* comm) {
 	this->comm = comm;
+	comm->register_message_handler(MESSAGE_TAG::RESOURCES_UPDATE, this);
 }
 
 void resources_synchronizer::register_resources(resources* res) {
