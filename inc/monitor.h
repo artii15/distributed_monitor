@@ -5,6 +5,8 @@
 #include "resources_synchronizer/resources_synchronizer.h"
 #include "action.h"
 
+class action;
+
 class monitor {
 	public:
 		monitor(synchronizer* processes_synchronizer, resources_synchronizer* res_synchronizer, uint16_t critical_section_id);
