@@ -49,7 +49,14 @@ void initializer::start() {
 	pthread_t listening_thread;
 	pthread_create(&listening_thread, NULL, &initializer::listening_task, (void*)&comm);
 
-	
+	if(env.process_id == 0) {
+		producer producer_task(&mon);
+		producer_task.run();
+	}
+	else {
+		consumer consumer_task(&mon);
+		consumer_task.run();
+	}
 
 	pthread_join(listening_thread, NULL);
 }
