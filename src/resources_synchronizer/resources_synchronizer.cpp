@@ -24,3 +24,7 @@ void resources_synchronizer::update(uint16_t critical_section_id) {
 		comm->broadcast_message(&message);
 	}
 }
+
+void resources_synchronizer::handle(uint8_t* raw_message, uint16_t tag) {
+
+}
