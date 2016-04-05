@@ -2,8 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-producer::producer(buffer<uint8_t>* buf, prod_cons_monitor* mon) {
-	this->buf = buf;
+producer::producer(prod_cons_monitor* mon) {
 	this->mon = mon;
 }
 

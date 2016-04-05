@@ -2,8 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-consumer::consumer(buffer<uint8_t>* buf, prod_cons_monitor* mon) {
-	this->buf = buf;
+consumer::consumer(prod_cons_monitor* mon) {
 	this->mon = mon;
 }
 
