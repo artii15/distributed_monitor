@@ -1,12 +1,12 @@
-#ifndef PRODUCER_H
-#define PRODUCER_H
+#ifndef CONSUMER_H
+#define CONSUMER_H
 
 #include "prod_cons_monitor.h"
 #include "buffer.hpp"
 
-class producer {
+class consumer {
 	public:
-		producer(buffer<uint8_t>*, prod_cons_monitor*);
+		consumer(buffer<uint8_t>*, prod_cons_monitor*);
 		void run();
 	private:
 		buffer<uint8_t>* buf;
