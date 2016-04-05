@@ -9,7 +9,7 @@
 
 class buffer: public resources {
 	public:
-		buffer(uint32_t buf_size) {
+		buffer(uint32_t buf_size): resources(1, 1) {
 			this->buf_size = buf_size;
 			number_of_elements = 0;
 			elements = (uint16_t*)calloc(buf_size, sizeof(uint16_t));
