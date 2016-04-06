@@ -1,6 +1,9 @@
 #include "../../inc/example/consumer_action.h"
 #include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string>
+#include <sstream>
 
 consumer_action::consumer_action(buffer* buf) {
 	this->buf = buf;
@@ -12,4 +15,14 @@ void consumer_action::perform(monitor* mon) {
 	}
 
 	buf->remove_from(buf->find_index_of(1), 0);
+
+	std::ostringstream ss;
+	ss << "Consumer buffer state:";
+
+	unsigned buf_size = buf->capacity();
+	for(unsigned i = 0; i < buf_size; ++i) {
+		ss << ' ' << buf->read_element(i);
+	}
+
+	printf("%s\n", ss.str().c_str());
 }
