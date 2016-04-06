@@ -1,4 +1,6 @@
 #include "../../inc/example/consumer_action.h"
+#include <unistd.h>
+#include <stdlib.h>
 
 consumer_action::consumer_action(buffer* buf) {
 	this->buf = buf;

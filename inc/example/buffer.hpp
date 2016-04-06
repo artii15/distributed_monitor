@@ -28,6 +28,10 @@ class buffer: public resources {
 			return buf_size;
 		}
 
+		uint16_t read_element(unsigned idx) {
+			return elements[idx];
+		}
+
 		void remove_from(unsigned idx, uint16_t blank_element) {
 			elements[idx] = blank_element;
 			--number_of_elements;
