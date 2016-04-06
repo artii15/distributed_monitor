@@ -9,6 +9,6 @@ producer::producer(prod_cons_monitor* mon) {
 void producer::run() {
 	while(1) {
 		mon->produce_element();
-		usleep(rand()%3000000);
+		//usleep(rand()%3000000);
 	}
 }

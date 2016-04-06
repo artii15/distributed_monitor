@@ -35,4 +35,6 @@ void producer_action::perform(monitor* mon) {
 	}
 
 	printf("%s\n", ss.str().c_str());
+
+	mon->notify();
 }
