@@ -45,7 +45,7 @@ void initializer::start() {
 	buffer buf(BUFSIZE);
 	res_synchronizer.register_resources(&buf);
 
-	prod_cons_monitor mon(&proc_synchronizer, &res_synchronizer, &buf);
+	prod_cons_monitor mon(&proc_synchronizer, &res_synchronizer, &buf, env.process_id);
 
 	pthread_t listening_thread;
 	pthread_create(&listening_thread, NULL, &initializer::listening_task, (void*)&comm);
