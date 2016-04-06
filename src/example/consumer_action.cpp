@@ -17,7 +17,7 @@ void consumer_action::perform(monitor* mon) {
 	unsigned buf_size = buf->capacity();
 
 	std::ostringstream ss1;
-	ss1 << "Consumer buffer state: version " << buf->version;
+	ss1 << "Consumer buffer state: version " << buf->version << " count " << buf->count();
 
 	for(unsigned i = 0; i < buf_size; ++i) {
 		ss1 << ' ' << buf->read_element(i);
@@ -28,7 +28,7 @@ void consumer_action::perform(monitor* mon) {
 	buf->remove_from(buf->find_index_of(1), 0);
 
 	std::ostringstream ss;
-	ss << "Consumer buffer state: version " << buf->version;
+	ss << "Consumer buffer state: version " << buf->version << " count " << buf->count();
 
 	for(unsigned i = 0; i < buf_size; ++i) {
 		ss << ' ' << buf->read_element(i);

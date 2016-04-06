@@ -17,7 +17,7 @@ void producer_action::perform(monitor* mon) {
 	unsigned buf_size = buf->capacity();
 
 	std::ostringstream ss1;
-	ss1 << "Producer buffer state: version " << buf->version;
+	ss1 << "Producer buffer state: version " << buf->version << " count " << buf->count();
 
 	for(unsigned i = 0; i < buf_size; ++i) {
 		ss1 << ' ' << buf->read_element(i);
@@ -28,7 +28,7 @@ void producer_action::perform(monitor* mon) {
 	buf->insert_at(buf->find_index_of(0), 1);
 
 	std::ostringstream ss;
-	ss << "Producer buffer state: version " << buf->version;
+	ss << "Producer buffer state: version " << buf->version << " count " << buf->count();
 
 	for(unsigned i = 0; i < buf_size; ++i) {
 		ss << ' ' << buf->read_element(i);
