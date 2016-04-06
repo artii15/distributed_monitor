@@ -14,12 +14,22 @@ void consumer_action::perform(monitor* mon) {
 		mon->wait();
 	}
 
+	unsigned buf_size = buf->capacity();
+
+	std::ostringstream ss1;
+	ss1 << "Consumer buffer state: version " << buf->version;
+
+	for(unsigned i = 0; i < buf_size; ++i) {
+		ss1 << ' ' << buf->read_element(i);
+	}
+
+	printf("%s\n", ss1.str().c_str());
+
 	buf->remove_from(buf->find_index_of(1), 0);
 
 	std::ostringstream ss;
-	ss << "Consumer buffer state:";
+	ss << "Consumer buffer state: version " << buf->version;
 
-	unsigned buf_size = buf->capacity();
 	for(unsigned i = 0; i < buf_size; ++i) {
 		ss << ' ' << buf->read_element(i);
 	}

@@ -14,12 +14,22 @@ void producer_action::perform(monitor* mon) {
 		mon->wait();
 	}
 
+	unsigned buf_size = buf->capacity();
+
+	std::ostringstream ss1;
+	ss1 << "Producer buffer state: version " << buf->version;
+
+	for(unsigned i = 0; i < buf_size; ++i) {
+		ss1 << ' ' << buf->read_element(i);
+	}
+
+	printf("%s\n", ss1.str().c_str());
+
 	buf->insert_at(buf->find_index_of(0), 1);
 
 	std::ostringstream ss;
-	ss << "Producer buffer state:";
+	ss << "Producer buffer state: version " << buf->version;
 
-	unsigned buf_size = buf->capacity();
 	for(unsigned i = 0; i < buf_size; ++i) {
 		ss << ' ' << buf->read_element(i);
 	}
