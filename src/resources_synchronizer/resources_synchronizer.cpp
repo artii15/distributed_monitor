@@ -3,9 +3,6 @@
 #include "../../inc/messages_tags.h"
 #include "../../inc/exceptions/unknown_resource_exception.h"
 
-#include <stdio.h>
-#include <unistd.h>
-
 using namespace std;
 
 resources_synchronizer::resources_synchronizer(communicator* comm) {
@@ -48,7 +45,6 @@ void resources_synchronizer::handle(uint8_t* raw_message, uint16_t tag) {
 		throw unknown_resource_exception("Not registered resource update arrived");
 	}
 	else {
-		printf("message %u %u\n", message.critical_section_id, message.raw_resources_size);sleep(1);
 		res_to_update->second->update(message.raw_resources);
 	}
 }
