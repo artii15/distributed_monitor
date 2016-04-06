@@ -3,6 +3,9 @@
 #include "../../inc/messages_tags.h"
 #include "../../inc/exceptions/unknown_resource_exception.h"
 
+#include <stdio.h>
+#include <unistd.h>
+
 using namespace std;
 
 resources_synchronizer::resources_synchronizer(communicator* comm) {
@@ -27,7 +30,7 @@ void resources_synchronizer::update(uint16_t critical_section_id) {
 		uint32_t res_size = res->get_size();
 		uint8_t raw_res[res_size];
 		res->serialize(raw_res);
-		
+
 		resources_update message(MESSAGE_TAG::RESOURCES_UPDATE, critical_section_id, raw_res, res_size);
 		comm->broadcast_message(&message);
 	}
@@ -35,6 +38,8 @@ void resources_synchronizer::update(uint16_t critical_section_id) {
 
 void resources_synchronizer::handle(uint8_t* raw_message, uint16_t tag) {
 	resources_update message;
+	uint8_t raw_resources_buf[resources_update::read_resources_size(raw_message)];
+	message.raw_resources = raw_resources_buf;
 	message.deserialize(raw_message);
 
 	map<uint16_t, resources*>::iterator res_to_update = sections_resources.find(message.critical_section_id);
@@ -43,6 +48,7 @@ void resources_synchronizer::handle(uint8_t* raw_message, uint16_t tag) {
 		throw unknown_resource_exception("Not registered resource update arrived");
 	}
 	else {
+		printf("message %u %u\n", message.critical_section_id, message.raw_resources_size);sleep(1);
 		res_to_update->second->update(message.raw_resources);
 	}
 }

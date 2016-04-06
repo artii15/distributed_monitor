@@ -11,6 +11,8 @@ class resources_update: public packet {
 		uint16_t critical_section_id;
 		uint8_t* raw_resources;
 		uint32_t raw_resources_size;
+
+		static uint32_t read_resources_size(uint8_t* raw_message);
 	protected:	
 		virtual void serialize_members(uint8_t* buf);
 		virtual void deserialize_members(uint8_t* buf);

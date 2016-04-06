@@ -1,6 +1,15 @@
 #include "../../../inc/resources_synchronizer/messages/resources_update.h"
 #include <string.h>
 
+uint32_t resources_update::read_resources_size(uint8_t* raw_message) {
+	uint8_t* seek = raw_message + sizeof(critical_section_id);
+
+	uint32_t raw_resources_size;
+	memcpy(&raw_resources_size, seek, sizeof(raw_resources_size));
+
+	return ntohl(raw_resources_size);
+}
+
 resources_update::resources_update() {}
 resources_update::resources_update(uint16_t tag, uint16_t critical_section_id, uint8_t* raw_resources, uint32_t raw_resources_size): packet(tag) {
 	this->critical_section_id = critical_section_id;
