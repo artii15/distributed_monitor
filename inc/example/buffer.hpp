@@ -60,7 +60,7 @@ class buffer: public resources {
 			memcpy(seek, &buf_size, sizeof(buf_size));
 			seek += sizeof(buf_size);
 
-			uint32_t number_of_elements = htonl(number_of_elements);
+			uint32_t number_of_elements = htonl(this->number_of_elements);
 			memcpy(seek, &number_of_elements, sizeof(number_of_elements));
 			seek += sizeof(number_of_elements);
 
