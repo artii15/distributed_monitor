@@ -35,7 +35,5 @@ Klasa ta jest odpowiedzialna za obsługę komunkatów zawierających zaktualizow
 Celem tej klasy jest odbieranie komunikatów od innych procesów. Odebrane komunikaty przekazywane są do obiektów takich jak `synchronizer`, czy `resources_synchronizer`. Pozwala ona także na wysyłanie komunikatów. Część metod tej klasy, to metody czysto wirtualne. Klasa ta pozwala także uniezależnić główne komponenty projektu od konkretnego mechanizmu dostarczającego wiadomości, pozostawiając ostateczny wybór użytkownikowi tej biblioteki. W źródłach projektu dostarczyłem klasę `mpi_communicator` implementującą metody czysto wirtualne za pomocą biblioteki MPI. Jednak nic nie stoi na przeszkodzie, by programista korzystający ze stworzonej przeze mnie biblioteki utworzył własną klasę dziedziczącą po klasie `communicator` i wykorzystał inny mechanizm niż MPI. 
 W tym miejscu chciałbym jeszcze zaznaczyć, że do poprawnego działania poszczególnych klas odpowiedzialnych za synchronizację, konieczne jest, by mechanizm który chce wykorzystać programista zapewniał kanały FIFO.
 
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+### resources ###
+Klasa ta służy do opakowania zasobów chronionych monitorem. Klasy dziedziczące po `resources` powinny implementować metody do serializacji własynch pól, dodanych przez programistę. Powinny one także ustawiać flagę `is_dirty` określającą, czy zasoby zostały zmodyfikowane. Na potstawie tej flage `resources_synchronizer` decyduje czy konieczne jest przesłanie zaktualizowanej wersji zasobów.
