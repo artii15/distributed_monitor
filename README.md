@@ -12,7 +12,7 @@ By skompilować projekt należy wywołać polecenie `make`. Do uruchamiania prog
 Chcąc pokazać w jaki sposób można wykorzystać stworzony przeze mnie monitor zaimplementowałem bardzo proste rozwiązanie problemu producenta i konsumenta, dlatego najlepiej uruchamiać program dostępny w tym repozytorium dla co najmniej dwóch procesów.
 Chciałbym też zaznaczyć, że w prezentowanym przykładzie moim celem było wyłącznie pokazanie jednego ze sposobów wykorzystania stworzonego przeze mnie monitora i zdaję sobie sprawę, że do tego przykładu można wprowadzić pewne optymalizacje.
 
-## Komponenty projektu ##
+## Główne komponenty projektu ##
 
 ### monitor ###
 Z punktu widzenia użytkownika stworzonej przeze mnie biblioteki, najważniejszą klasą jest `monitor`. Za jego pomocą programista może bezpośrednio usypiać proces lub budzić pozostałe oraz wykonywać akcje wymagające wyłączngo dostępu do zasobów. 
