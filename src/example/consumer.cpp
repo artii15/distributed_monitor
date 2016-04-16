@@ -9,6 +9,6 @@ consumer::consumer(prod_cons_monitor* mon) {
 void consumer::run() {
 	while(1) {
 		mon->consume_element();
-		//usleep(rand()%3000000);
+		usleep(rand()%300000);
 	}
 }

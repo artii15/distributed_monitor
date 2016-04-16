@@ -5,8 +5,9 @@
 #include <string>
 #include <sstream>
 
-producer_action::producer_action(buffer* buf) {
+producer_action::producer_action(buffer* buf, uint32_t producer_id) {
 	this->buf = buf;
+	this->producer_id = producer_id;
 }
 
 void producer_action::perform(monitor* mon) {
@@ -16,14 +17,14 @@ void producer_action::perform(monitor* mon) {
 
 	unsigned buf_size = buf->capacity();
 
-	std::ostringstream ss1;
-	ss1 << "Producer 0 buffer state: version " << buf->version << " count " << buf->count();
+	std::ostringstream status;
+	status << "Producer " << producer_id << " buffer version: " << buf->version << ", elements count: " << buf->count() << ", content: ";
 
 	for(unsigned i = 0; i < buf_size; ++i) {
-		ss1 << ' ' << buf->read_element(i);
+		status << ' ' << buf->read_element(i);
 	}
 
-	printf("%s\n", ss1.str().c_str());
+	printf("%s\n", status.str().c_str());
 
 	buf->insert_at(buf->find_index_of(0), 1);
 

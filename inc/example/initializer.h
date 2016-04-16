@@ -9,9 +9,9 @@
 class initializer {
 	public:
 		initializer();
-		void finish();
 
 		void start();
+		void finish();
 
 		static void* listening_task(void* arg);
 	private:

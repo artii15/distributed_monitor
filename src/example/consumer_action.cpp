@@ -5,9 +5,9 @@
 #include <string>
 #include <sstream>
 
-consumer_action::consumer_action(buffer* buf, uint32_t id) {
+consumer_action::consumer_action(buffer* buf, uint32_t consumer_id) {
 	this->buf = buf;
-	this->id = id;
+	this->consumer_id = consumer_id;
 }
 
 void consumer_action::perform(monitor* mon) {
@@ -17,14 +17,14 @@ void consumer_action::perform(monitor* mon) {
 
 	unsigned buf_size = buf->capacity();
 
-	std::ostringstream ss1;
-	ss1 << "Consumer " << this->id << " buffer state: version " << buf->version << " count " << buf->count();
+	std::ostringstream status;
+	status << "Consumer " << consumer_id << " buffer version: " << buf->version << ", elements count: " << buf->count() << ", content: ";
 
 	for(unsigned i = 0; i < buf_size; ++i) {
-		ss1 << ' ' << buf->read_element(i);
+		status << ' ' << buf->read_element(i);
 	}
 
-	printf("%s\n", ss1.str().c_str());
+	printf("%s\n", status.str().c_str());
 
 	buf->remove_from(buf->find_index_of(1), 0);
 
