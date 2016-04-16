@@ -1,6 +1,6 @@
-# README #
+# Monitor dla środowisk rozproszonych (in Polish) #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Monitor mający na celu ułatwienie synchronizacji procesów oraz współdzielenia zasobów w środowisku rozproszonym.
 
 ### What is this repository for? ###
 
