@@ -9,8 +9,10 @@
 
 By skompilować projekt należy wywołać polecenie `make`. Do uruchamiania programu można skorzystać z komendy `mpiexec` lub `mpirun`. 
 
-Chcąc pokazać w jaki sposób można wykorzystać stworzony przeze mnie monitor zaimplementowałem bardzo proste rozwiązanie problemu producenta i konsumenta, dlatego najlepiej uruchamiać program dostępny w tym repozytorium dla co najmniej dwóch procesów.
+Chcąc pokazać w jaki sposób można wykorzystać stworzony przeze mnie monitor, zaimplementowałem bardzo proste rozwiązanie problemu producenta i konsumenta, dlatego najlepiej przykład ten uruchamiać dla co najmniej dwóch procesów.
 Chciałbym też zaznaczyć, że w prezentowanym przykładzie moim celem było wyłącznie pokazanie jednego ze sposobów wykorzystania stworzonego przeze mnie monitora i zdaję sobie sprawę, że do tego przykładu można wprowadzić pewne optymalizacje.
+
+Kod z przykładowym zastosowaniem monitora znajduje się w katalogach `inc/example` oraz `src/example` 
 
 ## Główne komponenty projektu ##
 
