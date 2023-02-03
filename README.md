@@ -38,4 +38,4 @@ Celem tej klasy jest odbieranie komunikatów od innych procesów. Odebrane komun
 W tym miejscu chciałbym jeszcze zaznaczyć, że do poprawnego działania poszczególnych klas odpowiedzialnych za synchronizację, konieczne jest, by mechanizm który chce wykorzystać programista zapewniał kanały FIFO.
 
 ### resources ###
-Klasa ta służy do opakowania zasobów chronionych monitorem. Klasy dziedziczące po `resources` powinny implementować metody do serializacji własynch pól, dodanych przez programistę. Powinny one także ustawiać flagę `is_dirty` określającą, czy zasoby zostały zmodyfikowane. Na potstawie tej flage `resources_synchronizer` decyduje czy konieczne jest przesłanie zaktualizowanej wersji zasobów.
+Klasa ta służy do opakowania zasobów chronionych monitorem. Klasy dziedziczące po `resources` powinny implementować metody do serializacji własynch pól, dodanych przez programistę. Powinny one także ustawiać flagę `is_dirty` określającą, czy zasoby zostały zmodyfikowane. Na potstawie tej flagi `resources_synchronizer` decyduje czy konieczne jest przesłanie zaktualizowanej wersji zasobów.
